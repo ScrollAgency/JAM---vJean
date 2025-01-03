@@ -1,6 +1,8 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import { AuthButton } from "./components/AuthButton";
 import { AuthForm } from "./components/AuthForm";
+import TextInput from "@/components/text-input";
+
 
 
 export const PLASMIC = initPlasmicLoader({
@@ -17,3 +19,26 @@ export const PLASMIC = initPlasmicLoader({
 
 PLASMIC.substituteComponent(AuthButton, "AuthButton");
 PLASMIC.substituteComponent(AuthForm, "AuthForm");
+PLASMIC.registerComponent(TextInput, {
+  name: "TextInput",
+  props: {
+    Label: "string",
+    Placeholder: "string",
+    error: "boolean",
+    disabled: "boolean",
+    icon: "imageUrl",
+    type: {
+      type: "choice",
+      defaultValue: "email",
+      options: ["email", "password", "text", "number", "tel"],
+      required: false,
+    },
+  },
+  figmaPropsTransform(props) {
+    return {
+      Label: props["_TextInputBase.Label"],
+      Placeholder: props["_TextInputBase.Placeholder"],
+    };
+  },
+  importPath: "@/components/text-input",
+});
