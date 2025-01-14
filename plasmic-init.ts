@@ -11,6 +11,18 @@ import ProgressBar from "./components/ProgressBar";
 import Switch from "./components/Switch";
 import TextLink from "./components/TextLink";
 import ButtonWalk from "./components/ButtonWalk";
+import PhoneSelector from "./components/PhoneSelector/PhoneSelector";
+//Supabase
+import {
+  SupabaseProvider,
+  SupabaseProviderMeta,
+  SupabaseUserGlobalContext,
+  SupabaseUserGlobalContextMeta,
+  SupabaseUppyUploader,
+  SupabaseUppyUploaderMeta,
+  SupabaseStorageGetSignedUrl,
+  SupabaseStorageGetSignedUrlMeta,
+} from "plasmic-supabase"
 
 
 export const PLASMIC = initPlasmicLoader({
@@ -20,10 +32,17 @@ export const PLASMIC = initPlasmicLoader({
       token: "MbfTgnLngWKW6r2sjjKszD0QR0IEyjlKb6jfrxGaXXvu2ahBO3RaSu8TdfJCVSazD06yVW3tXJeOldNd0kw"  // API token for that project
     }
   ],
-  // Fetches the latest revisions, whether or not they were unpublished!
   // Disable for production to ensure you render only published changes.
   preview: true,
 })
+
+//Register global context
+PLASMIC.registerGlobalContext(SupabaseUserGlobalContext, SupabaseUserGlobalContextMeta)
+
+//Register components
+PLASMIC.registerComponent(SupabaseProvider, SupabaseProviderMeta);
+PLASMIC.registerComponent(SupabaseUppyUploader, SupabaseUppyUploaderMeta);
+PLASMIC.registerComponent(SupabaseStorageGetSignedUrl, SupabaseStorageGetSignedUrlMeta);
 
 PLASMIC.substituteComponent(AuthButton, "AuthButton");
 PLASMIC.substituteComponent(AuthForm, "AuthForm");
@@ -33,23 +52,19 @@ PLASMIC.registerComponent(TextInput, {
   props: {
     Label: "string",
     Placeholder: "string",
-    error: "boolean",
-    disabled: "boolean",
-    icon: "imageUrl",
-    type: {
+    Required: "boolean",
+    Type: {
       type: "choice",
-      defaultValue: "email",
-      options: ["email", "password", "text", "number", "tel"],
-      required: false,
+      options: ["Default", "Leading Text", "TextArea", "Password", "Phone"],
+      defaultValue: "Default",
     },
+    Destructive: "boolean",
+    disabled: "boolean",
+    iconImage: "string",
+    prefixedText: "string",
+    Hint: "string",
+    className: "string",
   },
-  figmaPropsTransform(props) {
-    return {
-      Label: props["_TextInputBase.Label"],
-      Placeholder: props["_TextInputBase.Placeholder"],
-    };
-  },
-  importPath: "@/components/text-input",
 });
 //Registering the Icons component (which contains all the icons)
 Object.keys(Icons).forEach((iconName) => {
@@ -63,23 +78,16 @@ Object.keys(Icons).forEach((iconName) => {
 PLASMIC.registerComponent(Button, {
   name: "Button",
   props: {
-    children: "string",
-    variant: {
+    icon: {
       type: "choice",
-      defaultValue: "primary",
-      options: ["primary", "secondary"],
+      defaultValue: "none",
+      options: ["start", "none", "end"],
       required: false,
     },
-    size: {
-      type: "choice",
-      defaultValue: "medium",
-      options: ["small", "medium", "large"],
-      required: false,
-    },
-    disabled: "boolean",
-    loading: "boolean",
+    iconImage: "imageUrl",
+    label: "string",
   },
-  importPath: "./components/button",
+  importPath: "./components/Button",
 });
 //Registering the CheckBox component
 PLASMIC.registerComponent(CheckBox, {
@@ -135,6 +143,10 @@ PLASMIC.registerComponent(Switch, {
 PLASMIC.registerComponent(TextLink, {
   name: "TextLink",
   props: {
+    redirect: {
+      type: "string",
+      defaultValue: "",
+    },
     label: "string",
     size: {
       type: "choice",
@@ -159,6 +171,7 @@ PLASMIC.registerComponent(TextLink, {
 PLASMIC.registerComponent(ButtonWalk, {
   name: "ButtonWalk",
   props: {
+    label: "string",
     variant: {
       type: "choice",
       defaultValue: "active",
@@ -184,3 +197,12 @@ PLASMIC.registerComponent(ButtonWalk, {
   },
   importPath: "./components/ButtonWalk",
 });
+//Registering the PhoneSelector component
+PLASMIC.registerComponent(PhoneSelector, {
+  name: "_DropdownBase",
+  props: {},
+  importPath: "./components/PhoneSelector/PhoneSelector",
+});
+
+import PrimaryButton from "./components/Button";
+//Registering the PrimaryButton component

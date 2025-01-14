@@ -1,28 +1,29 @@
-import React, { ButtonHTMLAttributes, useEffect } from "react";
-import Icons from "./icons";
+import React, { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 
 type HTMLButtonProps = Pick<ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "disabled">;
 
 interface ButtonProps extends HTMLButtonProps {
-  label: string;
-  size?: "Small" | "Large";
-  icon?: "Start" | "End" | "None" | "Only";
-  iconUrl?: string;
-  variant?: "Primary" | "Secondary";
+  label?: string;
+  icon?: "start" | "end" | "only" | "none";
   desctructive?: boolean;
+  variant?: "Primary" | "Secondary";
+  iconImage?: string;
+  className?: string; // Ajout de la propriété className
+  backgroundColor?: "BAFE68" | "FFFFFF";
 }
 
 const Button = ({
-  label = "Label",
-  icon = "None",
+  label = "label",
+  icon = "none",
   desctructive = false,
-  size = "Small",
   variant = "Primary",
   disabled,
   onClick,
-  iconUrl,
+  iconImage,
+  className, // Ajout de la propriété className
+  backgroundColor,
 }: ButtonProps) => {
   const variants = cva(
     `flex w-full justify-center items-center shrink-0 rounded-2xl transition-all outline-none gap-3
@@ -30,118 +31,46 @@ const Button = ({
     `,
     {
       variants: {
-        variant: {
-          Primary: "bg-lime-300 enabled:hover:bg-lime-400",
-          Secondary: "bg-white border-[1px] border-solid border-lime-300 enabled:hover:bg-[#F7FFD5]",
-        },
-        size: {
-          Small: "px-2.5 py-3",
-          Large: "p-3.5",
-        },
-        icon: {
-          Start: "",
-          End: "",
-          Only: "",
-          None: "",
-        },
         desctructive: {
-          true: "",
-          false: "",
+          true: "bg-red-500 text-white",
+          false: "bg-blue-500 text-white",
+        },
+        variant: {
+          Primary: "bg-lime-500 text-white",
+          Secondary: "bg-lime-500 text-white",
         },
       },
       compoundVariants: [
         {
-          size: "Small",
-          icon: "Only",
-          className: "size-12",
-        },
-        {
-          size: "Large",
-          icon: "Only",
-          className: "size-[61px]",
+          desctructive: true,
+          variant: "Primary",
+          className: "bg-red-500 text-white",
         },
         {
           desctructive: false,
-          className: "focus:shadow-[0_0_0_4px_#E8FFCC]",
-        },
-        {
-          desctructive: true,
-          className: "focus:shadow-[0_0_0_4px_#D92D20]",
-        },
-        {
-          variant: "Primary",
-          desctructive: true,
-          className: "bg-error-600 enabled:hover:bg-error-700",
-        },
-        {
           variant: "Secondary",
-          desctructive: true,
-          className: "bg-error-50 enabled:hover:bg-error-100 outline-none border-[1px] border-solid border-error-700",
+          className: "bg-gray-500 text-white",
         },
       ],
     }
   );
 
-  const textVariants = cva("font-bold transition-all text-pine-500 uppercase", {
-    variants: {
-      variant: {
-        Primary: "",
-        Secondary: "",
-      },
-      size: {
-        Small: "text-sm",
-        Large: "text-base",
-      },
-      desctructive: {
-        true: "",
-        false: "",
-      },
-    },
-    compoundVariants: [
-      {
-        variant: "Primary",
-        desctructive: true,
-        className: "text-white",
-      },
-      {
-        variant: "Secondary",
-        desctructive: false,
-        className: "enabled:group-hover:text-lime-800",
-      },
-      {
-        variant: "Secondary",
-        desctructive: true,
-        className: "text-error-700",
-      },
-    ],
-    defaultVariants: {
-      variant: "Primary",
-      size: "Small",
-      desctructive: false,
-    },
-  });
-
-  useEffect(() => {
-    console.log("Button rendered");
-    console.log(iconUrl);
-  });
-
   return (
     <button
-      // data-type={type}
-      // disabled={state == "Disabled"}
-      // className={style.button}
-      disabled={disabled}
-      className={cn(variants({ variant, size, icon, desctructive }))}
       onClick={onClick}
+      disabled={disabled}
+      className={cn(variants({ desctructive, variant }), className)}
     >
-      {(icon == "Start" || icon == "Only") && <Icons.arrow />}
-      {icon != "Only" && (
-        <span aria-disabled={disabled} className={cn(textVariants({ variant, size, desctructive }))}>
-          {label}
-        </span>
+      {icon === "start" && iconImage && (
+        <img src={iconImage} alt="Icon" className="icon-start w-5" />
       )}
-      {icon == "End" && <Icons.arrow />}
+      <span>{label}</span>
+      {icon === "end" && iconImage && (
+        <img src={iconImage} alt="Icon" className="icon-end w-5" />
+      )}
+      {icon === "only" && iconImage && (
+        <img src={iconImage} alt="Icon" />
+      )}
     </button>
   );
 };

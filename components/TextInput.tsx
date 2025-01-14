@@ -1,11 +1,11 @@
 import React, { PropsWithChildren, useState } from "react";
-import Icons from "./Icons";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import "tailwindcss/tailwind.css";
+import Icons from "@/components/Icons";
 
 interface TextInputProps extends PropsWithChildren {
-  Type?: "Default" | "Leading Text" | "TextArea";
+  Type?: "Default" | "Leading Text" | "TextArea" | "Password" | "Phone";
   Label?: string;
   Placeholder?: string;
   Hint?: string;
@@ -13,22 +13,24 @@ interface TextInputProps extends PropsWithChildren {
   Destructive?: boolean;
   disabled?: boolean;
   iconImage?: string;
+  className?: string; // Ajout de la prop className
 }
 
 const TextInput = ({
   Placeholder = "Placeholder",
-  Label,
+  Label = "Label",
   Type = "Default",
   Destructive,
   disabled,
   iconImage,
   prefixedText,
   Hint,
+  className, // Ajout de la prop className
 }: TextInputProps) => {
   const [focus, setFocus] = useState(false);
 
   const inputVariant = cva(
-    "flex border border-solid w-full border-grey-500 transition-all bg-white rounded-2xl items-center",
+    "flex w-full transition-all bg-white rounded-2xl items-center",
     {
       variants: {
         Destructive: {
@@ -55,6 +57,23 @@ const TextInput = ({
     }
   );
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const charCode = event.charCode;
+    // Autoriser uniquement les chiffres, les espaces et les caractères spéciaux
+    if (
+      !(
+        (charCode >= 48 && charCode <= 57) || // Chiffres
+        charCode === 32 || // Espace
+        charCode === 43 || // +
+        charCode === 45 || // -
+        charCode === 40 || // (
+        charCode === 41 // )
+      )
+    ) {
+      event.preventDefault();
+    }
+  };
+
   return (
     <div className="flex flex-col w-full gap-[6px] min-w-[320px]">
       <label className="text-black text-lg leading-5 font-medium">{Label}</label>
@@ -62,25 +81,46 @@ const TextInput = ({
         {prefixedText && <span className="text-black text-base font-normal pl-[26px]">{prefixedText}</span>}
         {iconImage && (
           <span className="pl-[14px]">
-            <Icons.arrow />
+            <Icons.file className="h-6 w-6 text-pine-500" />
           </span>
         )}
-        {Type == "Default" && (
+        {Type === "Default" && (
           <input
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}
-            type={Type}
+            type="text"
             placeholder={Placeholder}
-            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none text-black`}
+            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`} // Ajout de className
             disabled={disabled}
           />
         )}
-        {Type == "TextArea" && (
+        {Type === "TextArea" && (
           <textarea
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}
             placeholder={Placeholder}
-            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none min-h-32`}
+            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none min-h-32 ${className}`} // Ajout de className
+            disabled={disabled}
+          />
+        )}
+        {Type === "Phone" && (
+          <input
+            onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)}
+            type="tel"
+            placeholder="+33 6 12 34 56 78"
+            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
+            disabled={disabled}
+            onKeyPress={handleKeyPress} // Ajout de l'événement onKeyPress
+          />
+        )}
+        {Type === "Password" && (
+          <input
+            onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)}
+            type="password"
+            placeholder={Placeholder}
+            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
             disabled={disabled}
           />
         )}
