@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import React from "react";
-import Icons from "./icons";
+import Icons from "./Icons";
 
 interface CheckboxProps {
   checked?: boolean;
@@ -16,7 +16,7 @@ const Checkbox = ({ checked, type = "Checkbox", disabled }: CheckboxProps) => {
       variants: {
         type: {
           Checkbox: "rounded-md checked:border-[#002400] focus:outline-none checked:bg-white",
-          "Check circle": "rounded-[10px] checked:bg-[#002400] checked:border-transparent",
+          "Check circle": "rounded-[100px] checked:bg-[#002400] checked:border-transparent",
         },
       },
       defaultVariants: {

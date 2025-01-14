@@ -1,5 +1,5 @@
 import React from "react";
-import Icons from "./icons";
+import Icons from "./Icons";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +9,7 @@ interface JobCardProps {
   city: string;
   companyName: string;
   logo: string;
+  tags?: string[];
 }
 
 const JobCard = ({ state, title, city, companyName, logo }: JobCardProps) => {

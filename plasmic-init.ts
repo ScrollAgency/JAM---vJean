@@ -1,12 +1,17 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import { AuthButton } from "./components/AuthButton";
 import { AuthForm } from "./components/AuthForm";
-import TextInput from "./components/text-input";
-import Icons from "./components/icons";
-import Button from "./components/button";
+import TextInput from "./components/TextInput";
+import Icons from "./components/Icons";
+import Button from "./components/Button";
 import CheckBox from "./components/CheckBox";
 import FileUploader from "./components/FileUploader";
-import JobCard from "./components/JobCard";
+import CardJob from "./components/JobCard";
+import ProgressBar from "./components/ProgressBar";
+import Switch from "./components/Switch";
+import TextLink from "./components/TextLink";
+import ButtonWalk from "./components/ButtonWalk";
+
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -97,20 +102,85 @@ PLASMIC.registerComponent(FileUploader, {
   props: {},
   importPath: "./components/FileUploader",
 });
-//Registering the JobCard component
-PLASMIC.registerComponent(JobCard, {
-  name: "JobCard",
+//Registering the CardJob component
+PLASMIC.registerComponent(CardJob, {
+  name: "CardJob",
   props: {
-    state: {
-      type: "choice",
-      defaultValue: "default",
-      options: ["default", "liked", "applied", "new", "lastMin"],
-      required: false,
-    },
     title: "string",
-    city: "string",
-    companyName: "string",
-    logo: "imageUrl",
+    description: "string",
+    location: "string",
+    date: "string",
+    time: "string",
+    icon: "imageUrl",
   },
   importPath: "./components/JobCard",
+});
+//Registering the progress bar component
+PLASMIC.registerComponent(ProgressBar, {
+  name: "ProgressBar",
+  props: {
+    progress: "number",
+  },
+  importPath: "./components/ProgressBar",
+});
+//Registering the Switch
+PLASMIC.registerComponent(Switch, {
+  name: "Switch",
+  props: {
+    disabled: "boolean",
+  },
+  importPath: "./components/Switch",
+});
+//Registering the TextLink component
+PLASMIC.registerComponent(TextLink, {
+  name: "TextLink",
+  props: {
+    label: "string",
+    size: {
+      type: "choice",
+      defaultValue: "Small",
+      options: ["Small", "Large"],
+      required: false,
+    },
+    icon: {
+      type: "choice",
+      defaultValue: "None",
+      options: ["Start", "None", "End"],
+      required: false,
+    },
+    destructive: "boolean",
+    uppercase: "boolean",
+    iconImage: "imageUrl",
+    disabled: "boolean",
+  },
+  importPath: "./components/TextLink",
+});
+//Registering the ButtonWalk component
+PLASMIC.registerComponent(ButtonWalk, {
+  name: "ButtonWalk",
+  props: {
+    variant: {
+      type: "choice",
+      defaultValue: "active",
+      options: ["active", "inactive", "disabled"],
+      required: false,
+    },
+    size: {
+      type: "choice",
+      defaultValue: "medium",
+      options: ["small", "medium", "large"],
+      required: false,
+    },
+    icon: {
+      type: "choice",
+      defaultValue: "none",
+      options: ["start", "none", "end"],
+      required: false,
+    },
+    destructive: "boolean",
+    uppercase: "boolean",
+    iconImage: "imageUrl",
+    disabled: "boolean",
+  },
+  importPath: "./components/ButtonWalk",
 });

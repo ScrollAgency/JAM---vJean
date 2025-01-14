@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, useState } from "react";
-import Icons from "./icons";
+import Icons from "./Icons";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import "tailwindcss/tailwind.css";
 
 interface TextInputProps extends PropsWithChildren {
   Type?: "Default" | "Leading Text" | "TextArea";

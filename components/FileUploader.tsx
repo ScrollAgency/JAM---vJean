@@ -1,10 +1,10 @@
 import { cn, fileSize } from "@/lib/utils";
 import React, { useState } from "react";
-import Icons from "./icons";
-import ProgressBar from "./progress-bar";
+import Icons from "./Icons";
+import ProgressBar from "./ProgressBar";
 
 const FileUploader = () => {
-  const [file, setFile] = useState<File | null>(new File([""], "ddddddqsdqsqsdqsdqsdqsdd.pdf"));
+  const [file, setFile] = useState<File | null>(new File([""], "TestFichier.pdf"));
   const [progress, setProgress] = useState<number>(100);
   const [error, setError] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
@@ -13,7 +13,7 @@ const FileUploader = () => {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="flex w-[312px] h-[136px] bg-[#F4F4F4] rounded-2xl relative"
+      className="flex w-[312px] h-[136px] bg-[#F4F4F4] rounded-2xl relative transition duration-500"
     >
       {file && (
         <div
@@ -34,15 +34,15 @@ const FileUploader = () => {
               <div className="flex justify-center items-center size-full bg-pine-500 rounded-2xl">
                 <div className="flex items-center justify-center gap-2 self-stretch text-white">
                   <Icons.file />
-                  <p className="max-w-[12.5rem]">{file.name}</p>
+                  <p className="max-w-[12.5rem] text-center">{file.name}</p>
                 </div>
               </div>
             </>
           ) : (
             <>
-              <div className="flex justify-center items-center w-[312px] h-[136px] bg-[#F4F4F4] rounded-2xl">
-                <div className="size-full flex p-[34px_24px] justify-center items-start gap-[10px] shrink-0 rounded-2xl border border-solid border-grey-500">
-                  <Icons.file />
+              <div className="flex justify-center items-center w-[312px] h-[136px] bg-[#F4F4F4] rounded-2xl transition duration-500 ">
+                <div className="size-full flex p-[34px_24px] justify-center items-start gap-[10px] shrink-0 rounded-2xl border border-solid border-grey-500 bg-white">
+                  <Icons.file className="bg-white" />
                   <div className="flex items-start gap-4 flex-[1_0_0] self-stretch">
                     <div className="flex flex-col items-start gap-1 flex-[1_0_0]">
                       <div className="flex flex-col items-start self-stretch">
@@ -69,7 +69,7 @@ const FileUploader = () => {
       ) : (
         <div
           className={cn(
-            "flex flex-col cursor-pointer justify-center transition-all items-center shrink-0 border border-grey-500 h-full w-full rounded-2xl hover:border hover:border-pine-500 hover:border-dashed hover:bg-lime-50"
+            "flex flex-col cursor-pointer justify-center transition-all items-center shrink-0 border border-grey-500 h-full w-full rounded-2xl hover:border hover:border-pine-500 hover:border-dashed hover:bg-lime-50 transition duration-500"
           )}
           onClick={() => {
             const input = document.createElement("input");
