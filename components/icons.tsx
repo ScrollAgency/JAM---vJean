@@ -12,11 +12,11 @@ const Icons = {
   arrow: () => (
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="28" height="28" rx="14" fill="white" />
-      <path d="M5.64014 14.0322L8.8438 14.0322L21.3381 14.0322" stroke="black" stroke-width="1.60183" />
+      <path d="M5.64014 14.0322L8.8438 14.0322L21.3381 14.0322" stroke="black" strokeWidth="1.60183" />
       <path
         d="M15.3794 20.9521L16.374 19.3147C17.4464 17.5492 18.9296 16.0691 20.6974 15.0006L21.8429 14.3081C22.0498 14.1831 22.0489 13.8828 21.8414 13.7589L20.7574 13.1117C18.9512 12.0334 17.4382 10.527 16.3521 8.72554L15.3794 7.11233"
         stroke="black"
-        stroke-width="1.60183"
+        strokeWidth="1.60183"
       />
     </svg>
   ),
@@ -32,9 +32,9 @@ const Icons = {
       <path
         d="M11.6673 3.5L5.25065 9.91667L2.33398 7"
         stroke={color || "#002400"}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   ),
@@ -140,7 +140,11 @@ const Icons = {
       </g>
     </svg>
   ),
-
+  ChevronDown: () => (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 7.5L10 12.5L15 7.5" stroke="black" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  ),
 };
 
 export default Icons;

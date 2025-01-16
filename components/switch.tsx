@@ -27,7 +27,10 @@ const Switch = ({ disabled }: SwitchProps) => {
   );
 
   return (
-    <div aria-disabled={disabled} className={`relative inline-flex items-center w-[44px] h-[24px] disabled:opacity-50`}>
+    <div
+      aria-disabled={disabled}
+      className={`relative inline-flex items-center w-[44px] h-[24px] disabled:opacity-50`}
+    >
       <input
         className="hidden"
         onFocus={() => setFocus(true)}

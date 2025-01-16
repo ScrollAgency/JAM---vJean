@@ -12,8 +12,8 @@ interface TextInputProps extends PropsWithChildren {
   prefixedText?: string;
   Destructive?: boolean;
   disabled?: boolean;
-  iconImage?: string;
-  className?: string; // Ajout de la prop className
+  iconUrl?: string;
+  className?: string;
 }
 
 const TextInput = ({
@@ -22,10 +22,10 @@ const TextInput = ({
   Type = "Default",
   Destructive,
   disabled,
-  iconImage,
+  iconUrl,
   prefixedText,
   Hint,
-  className, // Ajout de la prop className
+  className,
 }: TextInputProps) => {
   const [focus, setFocus] = useState(false);
 
@@ -34,7 +34,7 @@ const TextInput = ({
     {
       variants: {
         Destructive: {
-          true: "border-1 border-solid border-error-700 ",
+          true: "border-1 border-solid border-error-700",
           false: "border-1 border-solid border-pine-500",
         },
         focus: {
@@ -59,15 +59,14 @@ const TextInput = ({
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const charCode = event.charCode;
-    // Autoriser uniquement les chiffres, les espaces et les caractères spéciaux
     if (
       !(
-        (charCode >= 48 && charCode <= 57) || // Chiffres
-        charCode === 32 || // Espace
-        charCode === 43 || // +
-        charCode === 45 || // -
-        charCode === 40 || // (
-        charCode === 41 // )
+        (charCode >= 48 && charCode <= 57) ||
+        charCode === 32 ||
+        charCode === 43 ||
+        charCode === 45 ||
+        charCode === 40 ||
+        charCode === 41
       )
     ) {
       event.preventDefault();
@@ -78,10 +77,14 @@ const TextInput = ({
     <div className="flex flex-col w-full gap-[6px] min-w-[320px]">
       <label className="text-black text-lg leading-5 font-medium">{Label}</label>
       <div className={cn(inputVariant({ Destructive, focus }))}>
-        {prefixedText && <span className="text-black text-base font-normal pl-[26px]">{prefixedText}</span>}
-        {iconImage && (
+        {prefixedText && (
+          <span className="text-black text-base font-normal pl-[26px]">
+            {prefixedText}
+          </span>
+        )}
+        {iconUrl && (
           <span className="pl-[14px]">
-            <Icons.file className="h-6 w-6 text-pine-500" />
+            <img src={iconUrl} alt="icon" className="h-6 w-6" />
           </span>
         )}
         {Type === "Default" && (
@@ -90,7 +93,7 @@ const TextInput = ({
             onBlur={() => setFocus(false)}
             type="text"
             placeholder={Placeholder}
-            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`} // Ajout de className
+            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
             disabled={disabled}
           />
         )}
@@ -99,7 +102,7 @@ const TextInput = ({
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}
             placeholder={Placeholder}
-            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none min-h-32 ${className}`} // Ajout de className
+            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none min-h-32 ${className}`}
             disabled={disabled}
           />
         )}
@@ -111,7 +114,7 @@ const TextInput = ({
             placeholder="+33 6 12 34 56 78"
             className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
             disabled={disabled}
-            onKeyPress={handleKeyPress} // Ajout de l'événement onKeyPress
+            onKeyPress={handleKeyPress}
           />
         )}
         {Type === "Password" && (
@@ -127,7 +130,11 @@ const TextInput = ({
       </div>
       <p className="text-black text-sm font-normal flex gap-1 items-center">
         {Destructive && <Icons.error />}
-        {Hint && <span className={`flex-1 text-base ${Destructive && "text-error-700"}`}>{Hint}</span>}
+        {Hint && (
+          <span className={`flex-1 text-base ${Destructive && "text-error-700"}`}>
+            {Hint}
+          </span>
+        )}
       </p>
     </div>
   );

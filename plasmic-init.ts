@@ -1,4 +1,16 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
+import {
+  SupabaseProvider,
+  SupabaseProviderMeta,
+  SupabaseUserGlobalContext,
+  SupabaseUserGlobalContextMeta,
+  SupabaseUppyUploader,
+  SupabaseUppyUploaderMeta,
+  SupabaseStorageGetSignedUrl,
+  SupabaseStorageGetSignedUrlMeta,
+} from "plasmic-supabase";
+
+// Import des composants locaux
 import { AuthButton } from "./components/AuthButton";
 import { AuthForm } from "./components/AuthForm";
 import TextInput from "./components/TextInput";
@@ -12,41 +24,33 @@ import Switch from "./components/Switch";
 import TextLink from "./components/TextLink";
 import ButtonWalk from "./components/ButtonWalk";
 import PhoneSelector from "./components/PhoneSelector/PhoneSelector";
-//Supabase
-import {
-  SupabaseProvider,
-  SupabaseProviderMeta,
-  SupabaseUserGlobalContext,
-  SupabaseUserGlobalContextMeta,
-  SupabaseUppyUploader,
-  SupabaseUppyUploaderMeta,
-  SupabaseStorageGetSignedUrl,
-  SupabaseStorageGetSignedUrlMeta,
-} from "plasmic-supabase"
+import DropDownSelector from "./components/DropDownSelector/DropDownSelector";
 
-
+// Initialisation du loader Plasmic
 export const PLASMIC = initPlasmicLoader({
   projects: [
     {
-      id: "f7DE9y7qp46fyCw5nuY8f9",  // ID of a project you are using
-      token: "MbfTgnLngWKW6r2sjjKszD0QR0IEyjlKb6jfrxGaXXvu2ahBO3RaSu8TdfJCVSazD06yVW3tXJeOldNd0kw"  // API token for that project
+      id: "f7DE9y7qp46fyCw5nuY8f9",  // ID du projet
+      token: "MbfTgnLngWKW6r2sjjKszD0QR0IEyjlKb6jfrxGaXXvu2ahBO3RaSu8TdfJCVSazD06yVW3tXJeOldNd0kw"  // Token API pour le projet
     }
   ],
-  // Disable for production to ensure you render only published changes.
+  // Désactiver pour la production afin d'assurer que seules les modifications publiées sont rendues
   preview: true,
-})
+});
 
-//Register global context
-PLASMIC.registerGlobalContext(SupabaseUserGlobalContext, SupabaseUserGlobalContextMeta)
+// Enregistrement du contexte global Supabase
+PLASMIC.registerGlobalContext(SupabaseUserGlobalContext, SupabaseUserGlobalContextMeta);
 
-//Register components
+// Enregistrement des composants Supabase
 PLASMIC.registerComponent(SupabaseProvider, SupabaseProviderMeta);
 PLASMIC.registerComponent(SupabaseUppyUploader, SupabaseUppyUploaderMeta);
 PLASMIC.registerComponent(SupabaseStorageGetSignedUrl, SupabaseStorageGetSignedUrlMeta);
 
+// Remplacement des composants
 PLASMIC.substituteComponent(AuthButton, "AuthButton");
 PLASMIC.substituteComponent(AuthForm, "AuthForm");
-//Registering the TextInput component
+
+// Enregistrement du composant TextInput avec ses propriétés
 PLASMIC.registerComponent(TextInput, {
   name: "TextInput",
   props: {
@@ -64,17 +68,20 @@ PLASMIC.registerComponent(TextInput, {
     prefixedText: "string",
     Hint: "string",
     className: "string",
+    iconUrl: "imageUrl",
   },
 });
-//Registering the Icons component (which contains all the icons)
-Object.keys(Icons).forEach((iconName) => {
-  PLASMIC.registerComponent(Icons[iconName as keyof typeof Icons], {
+
+// Enregistrement des composants Icons
+Object.entries(Icons).forEach(([iconName, iconComponent]) => {
+  PLASMIC.registerComponent(iconComponent, {
     name: `Icons_${iconName}`,
     props: {},
     importPath: "./components/icons",
   });
 });
-//Registering the CheckBox component
+
+// Enregistrement des composants Button et CheckBox
 PLASMIC.registerComponent(Button, {
   name: "Button",
   props: {
@@ -89,7 +96,7 @@ PLASMIC.registerComponent(Button, {
   },
   importPath: "./components/Button",
 });
-//Registering the CheckBox component
+
 PLASMIC.registerComponent(CheckBox, {
   name: "CheckBox",
   props: {
@@ -104,13 +111,14 @@ PLASMIC.registerComponent(CheckBox, {
   },
   importPath: "./components/CheckBox",
 });
-//Registering the FileUploader component
+
+// Enregistrement des autres composants (Uploader, CardJob, ProgressBar, Switch, etc.)
 PLASMIC.registerComponent(FileUploader, {
   name: "FileUploader",
   props: {},
   importPath: "./components/FileUploader",
 });
-//Registering the CardJob component
+
 PLASMIC.registerComponent(CardJob, {
   name: "CardJob",
   props: {
@@ -123,7 +131,7 @@ PLASMIC.registerComponent(CardJob, {
   },
   importPath: "./components/JobCard",
 });
-//Registering the progress bar component
+
 PLASMIC.registerComponent(ProgressBar, {
   name: "ProgressBar",
   props: {
@@ -131,7 +139,7 @@ PLASMIC.registerComponent(ProgressBar, {
   },
   importPath: "./components/ProgressBar",
 });
-//Registering the Switch
+
 PLASMIC.registerComponent(Switch, {
   name: "Switch",
   props: {
@@ -139,7 +147,7 @@ PLASMIC.registerComponent(Switch, {
   },
   importPath: "./components/Switch",
 });
-//Registering the TextLink component
+
 PLASMIC.registerComponent(TextLink, {
   name: "TextLink",
   props: {
@@ -167,7 +175,7 @@ PLASMIC.registerComponent(TextLink, {
   },
   importPath: "./components/TextLink",
 });
-//Registering the ButtonWalk component
+
 PLASMIC.registerComponent(ButtonWalk, {
   name: "ButtonWalk",
   props: {
@@ -197,12 +205,16 @@ PLASMIC.registerComponent(ButtonWalk, {
   },
   importPath: "./components/ButtonWalk",
 });
-//Registering the PhoneSelector component
+
 PLASMIC.registerComponent(PhoneSelector, {
-  name: "_DropdownBase",
+  name: "PhoneSelector",
   props: {},
   importPath: "./components/PhoneSelector/PhoneSelector",
 });
 
-import PrimaryButton from "./components/Button";
-//Registering the PrimaryButton component
+// Enregistrement du composant DropDownSelector
+PLASMIC.registerComponent(DropDownSelector, {
+  name: "DropDownSelector",
+  props: {},
+  importPath: "./components/DropDownSelector/DropDownSelector",
+});
