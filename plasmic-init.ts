@@ -24,7 +24,10 @@ import Switch from "./components/Switch";
 import TextLink from "./components/TextLink";
 import ButtonWalk from "./components/ButtonWalk";
 import PhoneSelector from "./components/PhoneSelector/PhoneSelector";
-import DropDownSelector from "./components/DropDownSelector/DropDownSelector";
+import Dropdown from "./components/DropDown";
+import Products from "./components/Products";
+import Option from "./components/Option";
+//import Map from "./components/Map";
 
 // Initialisation du loader Plasmic
 export const PLASMIC = initPlasmicLoader({
@@ -213,8 +216,87 @@ PLASMIC.registerComponent(PhoneSelector, {
 });
 
 // Enregistrement du composant DropDownSelector
-PLASMIC.registerComponent(DropDownSelector, {
-  name: "DropDownSelector",
-  props: {},
-  importPath: "./components/DropDownSelector/DropDownSelector",
+// Dans ton fichier d'enregistrement des composants
+
+PLASMIC.registerComponent(Dropdown, {
+  name: "Dropdown",  // Nom du composant dans Plasmic
+  props: {
+    iconeUrl: "imageUrl",  // L'URL de l'icône optionnelle
+    label: {
+      type: "string",  // Le label du select
+      defaultValue: "Choisir une option",  // Valeur par défaut du label
+    },
+    options: {
+      type: "object",  // Pour stocker une liste d'options (par exemple un tableau d'objets)
+      defaultValue: [
+        { key: "1", value: "Option 1" },
+        { key: "2", value: "Option 2" },
+        { key: "3", value: "Option 3" }
+      ]
+    },
+    children: {
+      type: "slot", // Le slot pour accepter des composants enfants (par exemple des options)
+      allowedComponents: ["Option"], // Ici, tu peux accepter des composants `Option` comme enfants
+      defaultValue: [
+        {
+          type: "component",
+          name: "Option",  // Assure-toi que `Option` est enregistré aussi dans Plasmic
+          props: {
+            value: "Option 1",
+            children: { type: "text", value: "Option 1" }
+          }
+        },
+        {
+          type: "component",
+          name: "Option",  // Assure-toi que `Option` est enregistré aussi dans Plasmic
+          props: {
+            value: "Option 2",
+            children: { type: "text", value: "Option 2" }
+          }
+        }
+      ]
+    },
+  },
+  importPath: "./components/DropDown",  // Chemin d'importation du composant DropDownSelector
 });
+
+PLASMIC.registerComponent(Option, {
+  name: "Option",
+  props: {
+    value: "string",
+    children: {
+      type: "slot",
+      defaultValue: "Option Text",
+    },
+  },
+  importPath: "./components/Option",
+});
+
+// PLASMIC.registerComponent(Map, {
+//   name: "Map",
+//   props: {
+//     apiKey: "string",
+//     width: "string",
+//     height: "string",
+//     zoom: "number",
+//     center: {
+//       type: "object",
+//       defaultValue: { lat: 0, lng: 0 }
+//     },
+//     markers: {
+//       type: "object",
+//       defaultValue: []
+//     },
+//     emplacements: {
+//       type: "object",
+//       defaultValue: []
+//     }
+//   },
+//   importPath: "./components/Map"
+// });
+
+
+
+
+
+

@@ -1,10 +1,11 @@
-import type { AppProps } from 'next/app';
-import "@uppy/core/dist/style.min.css";
-import "@uppy/dashboard/dist/style.min.css";
-import { PlasmicRootProvider, initPlasmicLoader } from "@plasmicapp/loader-nextjs";
+import { AppProps } from 'next/app';
+import '@uppy/core/dist/style.min.css';
+import '@uppy/dashboard/dist/style.min.css';
+import { PlasmicRootProvider, initPlasmicLoader } from '@plasmicapp/loader-nextjs';
 
-const PLASMIC_PROJECT_ID = "f7DE9y7qp46fyCw5nuY8f9"; // Replace with your Plasmic Project ID
-const PLASMIC_API_TOKEN = "MbfTgnLngWKW6r2sjjKszD0QR0IEyjlKb6jfrxGaXXvu2ahBO3RaSu8TdfJCVSazD06yVW3tXJeOldNd0kw"; // Replace with your Plasmic API Token
+// Charger les variables d'environnement depuis .env
+const PLASMIC_PROJECT_ID = process.env.NEXT_PUBLIC_PLASMIC_PROJECT_ID!;
+const PLASMIC_API_TOKEN = process.env.NEXT_PUBLIC_PLASMIC_API_TOKEN!;
 
 const plasmicLoader = initPlasmicLoader({
     projects: [
@@ -17,7 +18,7 @@ const plasmicLoader = initPlasmicLoader({
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
-        <PlasmicRootProvider loader={plasmicLoader}>
+        <PlasmicRootProvider loader={plasmicLoader} loadingFallback={<div>Loading...</div>}>
             <Component {...pageProps} />
         </PlasmicRootProvider>
     );
