@@ -211,7 +211,9 @@ PLASMIC.registerComponent(ButtonWalk, {
 
 PLASMIC.registerComponent(PhoneSelector, {
   name: "PhoneSelector",
-  props: {},
+  props: {
+    className: "string",
+  },
   importPath: "./components/PhoneSelector/PhoneSelector",
 });
 

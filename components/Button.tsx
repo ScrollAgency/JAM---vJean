@@ -2,54 +2,66 @@ import React, { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 
-type HTMLButtonProps = Pick<ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "disabled">;
+type HTMLButtonProps = Pick<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  "onClick" | "disabled">;
 
 interface ButtonProps extends HTMLButtonProps {
   label?: string;
   icon?: "start" | "end" | "only" | "none";
-  desctructive?: boolean;
-  variant?: "Primary" | "Secondary";
+  destructive?: boolean;
+  hierarchy?: "primary" | "secondary";
+  size?: "small" | "large";
+  state?: "default" | "hover" | "focused" | "disabled";
   iconImage?: string;
-  className?: string; // Ajout de la propriété className
-  backgroundColor?: "BAFE68" | "FFFFFF";
+  className?: string;
 }
 
 const Button = ({
-  label = "label",
+  label = "Button",
   icon = "none",
-  desctructive = false,
-  variant = "Primary",
+  destructive = false,
+  hierarchy = "primary",
+  size = "large",
+  state = "default",
   disabled,
   onClick,
   iconImage,
-  className, // Ajout de la propriété className
-  backgroundColor,
+  className,
 }: ButtonProps) => {
   const variants = cva(
-    `flex w-full justify-center items-center shrink-0 rounded-2xl transition-all outline-none gap-3
-      shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] group disabled:opacity-50
-    `,
+    "flex items-center justify-center gap-3 rounded transition-all outline-none group",
     {
       variants: {
-        desctructive: {
+        destructive: {
           true: "bg-red-500 text-white",
           false: "bg-blue-500 text-white",
         },
-        variant: {
-          Primary: "bg-lime-500 text-white",
-          Secondary: "bg-lime-500 text-white",
+        hierarchy: {
+          primary: "bg-blue-500 text-white",
+          secondary: "bg-gray-300 text-black",
+        },
+        size: {
+          small: "py-2 px-4 text-sm",
+          large: "py-3 px-6 text-lg",
+        },
+        state: {
+          default: "",
+          hover: "hover:opacity-90",
+          focused: "focus:ring-2 focus:ring-blue-500",
+          disabled: "opacity-50 cursor-not-allowed",
         },
       },
       compoundVariants: [
         {
-          desctructive: true,
-          variant: "Primary",
+          destructive: true,
+          hierarchy: "primary",
           className: "bg-red-500 text-white",
         },
         {
-          desctructive: false,
-          variant: "Secondary",
-          className: "bg-gray-500 text-white",
+          destructive: false,
+          hierarchy: "secondary",
+          className: "bg-gray-300 text-black",
         },
       ],
     }
@@ -59,17 +71,20 @@ const Button = ({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={cn(variants({ desctructive, variant }), className)}
+      className={cn(
+        variants({ destructive, hierarchy, size, state }),
+        className
+      )}
     >
       {icon === "start" && iconImage && (
-        <img src={iconImage} alt="Icon" className="icon-start w-5" />
+        <img src={iconImage} alt="Icon" className="w-5" />
       )}
-      <span>{label}</span>
+      {icon !== "only" && <span>{label}</span>}
       {icon === "end" && iconImage && (
-        <img src={iconImage} alt="Icon" className="icon-end w-5" />
+        <img src={iconImage} alt="Icon" className="w-5" />
       )}
       {icon === "only" && iconImage && (
-        <img src={iconImage} alt="Icon" />
+        <img src={iconImage} alt="Icon" className="w-5" />
       )}
     </button>
   );

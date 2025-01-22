@@ -112,7 +112,7 @@ const TextInput = ({
             onBlur={() => setFocus(false)}
             type="tel"
             placeholder="+33 6 12 34 56 78"
-            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
+            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal flex-1 p-3 outline-none ${className}`}
             disabled={disabled}
             onKeyPress={handleKeyPress}
           />
