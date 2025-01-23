@@ -27,7 +27,8 @@ import PhoneSelector from "./components/PhoneSelector/PhoneSelector";
 import Dropdown from "./components/DropDown";
 import Products from "./components/Products";
 import Option from "./components/Option";
-//import Map from "./components/Map";
+import Map from "./components/Map";
+import FooterLink from "./components/_Footer link";
 
 // Initialisation du loader Plasmic
 export const PLASMIC = initPlasmicLoader({
@@ -297,8 +298,21 @@ PLASMIC.registerComponent(Option, {
 //   importPath: "./components/Map"
 // });
 
+PLASMIC.registerComponent(Map, {
+  name: "Map",
+  props: {
+    src: "imageUrl",
+    className: "string"
+  },
+  importPath: "./components/Map"
+});
 
-
-
-
+PLASMIC.registerComponent(FooterLink, {
+  name: "_Footer link",
+  props: {
+    href: "string",
+    text: "string"
+  },
+  importPath: "./components/_Footer link"
+});
 
