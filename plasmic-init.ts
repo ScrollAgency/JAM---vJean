@@ -28,7 +28,7 @@ import Option from "./components/Option";
 import Map from "./components/Map";
 import FooterLink from "./components/Footerlink";
 import JobCard from "./components/jobCard/JobCard";
-import PlasmicSupabaseForm from "./components/PlasmicSupabaseForm";
+// import PlasmicSupabaseForm from "./components/PlasmicSupabaseForm";
 
 // Initialisation du loader Plasmic
 export const PLASMIC = initPlasmicLoader({
@@ -54,27 +54,42 @@ PLASMIC.registerComponent(SupabaseStorageGetSignedUrl, SupabaseStorageGetSignedU
 PLASMIC.substituteComponent(AuthButton, "AuthButton");
 PLASMIC.substituteComponent(AuthForm, "AuthForm");
 
+
 // Enregistrement du composant TextInput avec ses propriétés
 PLASMIC.registerComponent(TextInput, {
   name: "TextInput",
   props: {
-    Label: "string",
-    Placeholder: "string",
-    Required: "boolean",
-    Type: {
+    label: "string",
+    placeholder: "string",
+    Text: "string", // Valeur initiale du texte
+    required: "boolean",
+    type: {
       type: "choice",
-      options: ["Default", "Leading Text", "TextArea", "Password", "Phone"],
-      defaultValue: "Default",
+      options: ["default", "leadingText", "textArea", "password", "phone"],
+      defaultValue: "default",
     },
-    Destructive: "boolean",
+    destructive: "boolean",
     disabled: "boolean",
-    iconImage: "string",
+    iconImage: "imageUrl",
     prefixedText: "string",
-    Hint: "string",
+    hint: "string",
     className: "string",
     iconUrl: "imageUrl",
+    onTextChange: {
+      type: "eventHandler",
+      description: "Fonction appelée lors du changement de la case.",
+      argTypes: [
+        {
+          name: "Lieu",
+          type: "string",
+        },
+      ],
+    },
   },
+  importPath: "./components/TextInput",
 });
+
+
 
 // Enregistrement des composants Icons
 Object.entries(Icons).forEach(([iconName, iconComponent]) => {
@@ -314,24 +329,4 @@ PLASMIC.registerComponent(JobCard, {
 
 // PLASMIC.registerComponent(PlasmicSupabaseForm, {
 //   name: "PlasmicSupabaseForm",
-//   props: {
-//     children: {
-//       type: "slot",
-//       defaultValue: {
-//         type: "text",
-//         value: "Ajoutez vos champs ici",
-//       },
-//     },
-//     onSuccess: {
-//       type: "eventHandler",
-//     },
-//     onError: {
-//       type: "eventHandler",
-//     },
-//     type: {
-//       type: "choice",
-//       options: ["signup", "login"],
-//       defaultValue: "signup",
-//     },
-//   },
 // });
