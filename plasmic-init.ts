@@ -18,7 +18,6 @@ import Icons from "./components/Icons";
 import Button from "./components/Button";
 import CheckBox from "./components/CheckBox";
 import FileUploader from "./components/FileUploader";
-import CardJob from "./components/JobCard";
 import ProgressBar from "./components/ProgressBar";
 import Switch from "./components/Switch";
 import TextLink from "./components/TextLink";
@@ -27,8 +26,9 @@ import PhoneSelector from "./components/PhoneSelector/PhoneSelector";
 import Dropdown from "./components/DropDown";
 import Products from "./components/Products";
 import Option from "./components/Option";
-import Map from "./components/Map";
-import FooterLink from "./components/_Footer link";
+// import Map from "./components/Map";
+import FooterLink from "./components/Footerlink";
+import JobCard from "./components/jobCard/JobCard";
 
 // Initialisation du loader Plasmic
 export const PLASMIC = initPlasmicLoader({
@@ -121,19 +121,6 @@ PLASMIC.registerComponent(FileUploader, {
   name: "FileUploader",
   props: {},
   importPath: "./components/FileUploader",
-});
-
-PLASMIC.registerComponent(CardJob, {
-  name: "CardJob",
-  props: {
-    title: "string",
-    description: "string",
-    location: "string",
-    date: "string",
-    time: "string",
-    icon: "imageUrl",
-  },
-  importPath: "./components/JobCard",
 });
 
 PLASMIC.registerComponent(ProgressBar, {
@@ -298,21 +285,37 @@ PLASMIC.registerComponent(Option, {
 //   importPath: "./components/Map"
 // });
 
-PLASMIC.registerComponent(Map, {
-  name: "Map",
-  props: {
-    src: "imageUrl",
-    className: "string"
-  },
-  importPath: "./components/Map"
-});
-
 PLASMIC.registerComponent(FooterLink, {
-  name: "_Footer link",
+  name: "Footerlink",
   props: {
     href: "string",
     text: "string"
   },
-  importPath: "./components/_Footer link"
+  importPath: "./components/Footerlink"
+});
+
+PLASMIC.registerComponent(JobCard, {
+  name: "JobCard",
+  props: {
+    state: {
+      type: "choice",
+      defaultValue: "default",
+      options: ["default", "liked", "applied", "new", "lastMin"],
+      required: false,
+    },
+    title: "string",
+    city: "string",
+    companyName: "string",
+    logo: "imageUrl",
+    tags: {
+      type: "object",
+      defaultValue: [],
+    },
+    customIcons: {
+      type: "object",
+      defaultValue: {},
+    },
+  },
+  importPath: "./components/jobCard/JobCard"
 });
 
