@@ -24,11 +24,11 @@ import TextLink from "./components/TextLink";
 import ButtonWalk from "./components/ButtonWalk";
 import PhoneSelector from "./components/PhoneSelector/PhoneSelector";
 import Dropdown from "./components/DropDown";
-import Products from "./components/Products";
 import Option from "./components/Option";
-// import Map from "./components/Map";
+import Map from "./components/Map";
 import FooterLink from "./components/Footerlink";
 import JobCard from "./components/jobCard/JobCard";
+import PlasmicSupabaseForm from "./components/PlasmicSupabaseForm";
 
 // Initialisation du loader Plasmic
 export const PLASMIC = initPlasmicLoader({
@@ -262,28 +262,21 @@ PLASMIC.registerComponent(Option, {
   importPath: "./components/Option",
 });
 
-// PLASMIC.registerComponent(Map, {
-//   name: "Map",
-//   props: {
-//     apiKey: "string",
-//     width: "string",
-//     height: "string",
-//     zoom: "number",
-//     center: {
-//       type: "object",
-//       defaultValue: { lat: 0, lng: 0 }
-//     },
-//     markers: {
-//       type: "object",
-//       defaultValue: []
-//     },
-//     emplacements: {
-//       type: "object",
-//       defaultValue: []
-//     }
-//   },
-//   importPath: "./components/Map"
-// });
+PLASMIC.registerComponent(Map, {
+  name: "Map",
+  props: {
+    mapStyle: "string",
+    latitude: "number",
+    longitude: "number",
+    searchAddress: "string",
+    zoom: "number",
+    businesses: {
+      type: "object",
+      defaultValue: [],
+    },
+  },
+  importPath: "./components/Map",
+});
 
 PLASMIC.registerComponent(FooterLink, {
   name: "Footerlink",
@@ -319,3 +312,26 @@ PLASMIC.registerComponent(JobCard, {
   importPath: "./components/jobCard/JobCard"
 });
 
+// PLASMIC.registerComponent(PlasmicSupabaseForm, {
+//   name: "PlasmicSupabaseForm",
+//   props: {
+//     children: {
+//       type: "slot",
+//       defaultValue: {
+//         type: "text",
+//         value: "Ajoutez vos champs ici",
+//       },
+//     },
+//     onSuccess: {
+//       type: "eventHandler",
+//     },
+//     onError: {
+//       type: "eventHandler",
+//     },
+//     type: {
+//       type: "choice",
+//       options: ["signup", "login"],
+//       defaultValue: "signup",
+//     },
+//   },
+// });

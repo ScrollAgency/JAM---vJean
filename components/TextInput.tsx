@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from "react";
+import React, { PropsWithChildren, useState, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import "tailwindcss/tailwind.css";
@@ -14,6 +14,8 @@ interface TextInputProps extends PropsWithChildren {
   disabled?: boolean;
   iconUrl?: string;
   className?: string;
+  onChange?: (value: string) => void;
+  Text?: string; // Valeur initiale du texte (si elle existe)
 }
 
 const TextInput = ({
@@ -26,8 +28,22 @@ const TextInput = ({
   prefixedText,
   Hint,
   className,
+  Text = "", // Valeur initiale (peut être contrôlée par le parent)
 }: TextInputProps) => {
   const [focus, setFocus] = useState(false);
+  const [inputValue, setInputValue] = useState(Text); // Stocke la valeur de l'input
+
+  // Met à jour l'état lorsque le parent change la valeur
+  useEffect(() => {
+    setInputValue(Text);
+  }, [Text]);
+
+  // Gestion du changement de valeur dans l'input
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = event.target.value;
+    setInputValue(value); // Met à jour l'état local
+  }; // Add the closing brace here
+
 
   const inputVariant = cva(
     "flex w-full transition-all bg-white rounded-2xl items-center",
@@ -93,6 +109,8 @@ const TextInput = ({
             onBlur={() => setFocus(false)}
             type="text"
             placeholder={Placeholder}
+            value={inputValue} // Utilise la valeur de l'état
+            onChange={handleInputChange} // Gère le changement
             className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
             disabled={disabled}
           />
@@ -102,6 +120,8 @@ const TextInput = ({
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}
             placeholder={Placeholder}
+            value={inputValue} // Utilise la valeur de l'état
+            onChange={handleInputChange} // Gère le changement
             className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none min-h-32 ${className}`}
             disabled={disabled}
           />
@@ -112,6 +132,8 @@ const TextInput = ({
             onBlur={() => setFocus(false)}
             type="tel"
             placeholder="+33 6 12 34 56 78"
+            value={inputValue} // Utilise la valeur de l'état
+            onChange={handleInputChange} // Gère le changement
             className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal flex-1 p-3 outline-none ${className}`}
             disabled={disabled}
             onKeyPress={handleKeyPress}
@@ -123,6 +145,8 @@ const TextInput = ({
             onBlur={() => setFocus(false)}
             type="password"
             placeholder={Placeholder}
+            value={inputValue} // Utilise la valeur de l'état
+            onChange={handleInputChange} // Gère le changement
             className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
             disabled={disabled}
           />

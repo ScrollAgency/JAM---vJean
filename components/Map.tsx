@@ -1,49 +1,165 @@
-// import React, { useEffect, useRef, useState } from 'react';
-// import mapboxgl from 'mapbox-gl';
-// import MapboxDirections from '@mapbox/mapbox-gl-directions';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import mapboxgl from 'mapbox-gl';
 
-// mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string;
-// interface MapProps {
-//     className?: string;
-//     initialCoordinates: [number, number]; // Longitude, Latitude
-// }
+interface Business {
+    name: string;
+    latitude: number;
+    longitude: number;
+    className?: string;
+}
 
-// const Map: React.FC<MapProps> = ({ className, initialCoordinates }) => {
-//     const mapContainerRef = useRef<HTMLDivElement | null>(null);
-//     const [map, setMap] = useState<mapboxgl.Map | null>(null);
+interface MapboxMapProps {
+    mapStyle?: string;
+    latitude?: number;
+    longitude?: number;
+    zoom?: number;
+    businesses?: Business[];
+    className?: string; // Classe pour personnaliser la carte depuis Plasmic
+    searchAddress?: string; // Prop pour la recherche d'adresse
+}
 
-//     useEffect(() => {
-//         if (!mapContainerRef.current) return;
+const MapboxMap: React.FC<MapboxMapProps> = ({
+    mapStyle = "mapbox://styles/mapbox/streets-v11",
+    latitude = 37.75,
+    longitude = -122.45,
+    zoom = 9,
+    businesses = [],
+    className = '',
+    searchAddress = '', // Prop pour la recherche d'adresse
+}) => {
+    const [directions, setDirections] = useState<number | null>(null);
+    const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+    const [mapCenter, setMapCenter] = useState<[number, number]>([longitude, latitude]);
+    const mapContainerRef = useRef<HTMLDivElement>(null);
+    const mapRef = useRef<mapboxgl.Map | null>(null);
 
-//         // Initialiser la carte
-//         const mapInstance = new mapboxgl.Map({
-//             container: mapContainerRef.current,
-//             style: 'mapbox://styles/mapbox/streets-v11',
-//             center: initialCoordinates,
-//             zoom: 13,
-//         });
+    // Récupérer la position de l'utilisateur
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    setUserLocation({ latitude, longitude });
+                    setMapCenter([longitude, latitude]); // Centrer la carte sur la position de l'utilisateur
+                },
+                (error) => {
+                    console.error('Erreur de géolocalisation:', error);
+                }
+            );
+        } else {
+            console.error('La géolocalisation n\'est pas supportée par ce navigateur.');
+        }
+    }, []);
 
-//         // Ajouter les contrôles de navigation
-//         mapInstance.addControl(new mapboxgl.NavigationControl(), 'top-left');
+    // Fonction pour géocoder une adresse ou une ville
+    const geocodeAddress = async (address: string) => {
+        try {
+            const response = await fetch(
+                `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+                    address
+                )}.json?access_token=${mapboxgl.accessToken}`
+            );
+            const data = await response.json();
+            if (data.features && data.features.length > 0) {
+                const [longitude, latitude] = data.features[0].center;
+                setMapCenter([longitude, latitude]); // Mettre à jour le centre de la carte
+                return { latitude, longitude };
+            } else {
+                console.error('Aucun résultat trouvé pour cette adresse.');
+                return null;
+            }
+        } catch (error) {
+            console.error('Erreur lors du géocodage:', error);
+            return null;
+        }
+    };
 
-//         // Ajouter les contrôles de direction
-//         const directions = new MapboxDirections({
-//             accessToken: mapboxgl.accessToken,
-//             unit: 'metric',
-//             profile: 'mapbox/driving', // Par défaut, voiture. Options : 'mapbox/walking', 'mapbox/cycling', 'mapbox/transit'
-//         });
+    // Effet pour déclencher la recherche d'adresse lorsque searchAddress change
+    useEffect(() => {
+        if (searchAddress.trim()) {
+            geocodeAddress(searchAddress).then((coords) => {
+                if (coords && mapRef.current) {
+                    mapRef.current.setCenter([coords.longitude, coords.latitude]); // Centrer la carte sur l'adresse
+                }
+            });
+        }
+    }, [searchAddress]);
 
-//         mapInstance.addControl(directions, 'top-right');
+    const getDirections = useCallback(async (start: [number, number], end: [number, number], mode: string) => {
+        try {
+            const response = await fetch(
+                `https://api.mapbox.com/directions/v5/mapbox/${mode}/${start[0]},${start[1]};${end[0]},${end[1]}?access_token=${mapboxgl.accessToken}`
+            );
+            const data = await response.json();
+            return data.routes[0].duration;
+        } catch (error) {
+            console.error('Erreur lors de la récupération des directions:', error);
+            return null;
+        }
+    }, []);
 
-//         // Mettre à jour l'état avec la carte initialisée
-//         setMap(mapInstance);
+    useEffect(() => {
+        if (!mapContainerRef.current) return;
 
-//         return () => {
-//             mapInstance.remove();
-//         };
-//     }, [initialCoordinates]);
+        mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
 
-//     return <div ref={mapContainerRef} className={className} style={{ width: '100%', height: '100%' }} />;
-// };
+        const map = new mapboxgl.Map({
+            container: mapContainerRef.current,
+            style: mapStyle,
+            center: mapCenter, // Utiliser mapCenter comme centre initial
+            zoom: zoom,
+        });
 
-// export default Map;
+        mapRef.current = map;
+
+        map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+        // Ajouter un marqueur pour la position de l'utilisateur
+        if (userLocation) {
+            new mapboxgl.Marker({ color: 'blue' })
+                .setLngLat([userLocation.longitude, userLocation.latitude])
+                .setPopup(new mapboxgl.Popup().setHTML('<h3>Votre position</h3>'))
+                .addTo(map);
+        }
+
+        // Ajouter des marqueurs pour les entreprises
+        businesses.forEach((business) => {
+            const { name, latitude, longitude } = business;
+            new mapboxgl.Marker()
+                .setLngLat([longitude, latitude])
+                .setPopup(new mapboxgl.Popup().setHTML(`<h3>${name}</h3>`))
+                .addTo(map);
+        });
+
+        // Calculer les directions (optionnel)
+        const start: [number, number] = userLocation ? [userLocation.longitude, userLocation.latitude] : mapCenter;
+        const end: [number, number] = [-122.431297, 37.773972];
+
+        getDirections(start, end, 'driving').then((duration) => {
+            if (duration) {
+                console.log('Durée du trajet en voiture:', duration / 60, 'minutes');
+                setDirections(duration / 60);
+            }
+        });
+
+        return () => {
+            if (mapRef.current) {
+                mapRef.current.remove();
+                mapRef.current = null;
+            }
+        };
+    }, [mapStyle, latitude, longitude, zoom, businesses, userLocation, getDirections, mapCenter]);
+
+    return (
+        <div className={`map-container ${className}`} aria-label="Carte">
+            <div id="map" ref={mapContainerRef} className="mapbox-map" aria-label="Carte Mapbox" style={{ width: '100%', height: '500px' }}></div>
+            {directions && (
+                <div className="directions-info">
+                    <p>Durée du trajet en voiture: {directions} minutes</p>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default MapboxMap;

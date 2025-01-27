@@ -6,6 +6,7 @@ import {
   PlasmicRootProvider,
 } from "@plasmicapp/loader-nextjs";
 import type { GetStaticPaths, GetStaticProps } from "next";
+// import create client(SupabaseStorageGetSignedUrl)
 
 import Error from "next/error";
 import { useRouter } from "next/router";
