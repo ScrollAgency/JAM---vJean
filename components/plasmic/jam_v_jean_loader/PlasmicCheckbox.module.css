@@ -1,0 +1,25 @@
+.ariaCheckbox:global(.__wab_instance) {
+  object-fit: cover;
+  cursor: pointer;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+  box-sizing: border-box;
+  color: var(--token-ceD1eQOG2geq);
+  font-family: var(--token-iPHCqhfXwTyN);
+  font-size: var(--token-aRuWp9ICGc-Q);
+  line-height: var(--token-QTSTTNIaGHpG);
+  width: 100%;
+  min-width: 0;
+  column-gap: var(--token-59Hq8h0iWXrB);
+}
+.ariaCheckbox[data-disabled]:global(.__wab_instance) {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.ariaCheckbox[data-readonly]:global(.__wab_instance) {
+  cursor: default;
+  pointer-events: none;
+}
