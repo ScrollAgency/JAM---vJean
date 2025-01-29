@@ -19,7 +19,7 @@ import Button from "./components/Button";
 import CheckBox from "./components/CheckBox";
 import FileUploader from "./components/FileUploader";
 import ProgressBar from "./components/ProgressBar";
-import Switch from "./components/switch";
+import Switch from "./components/Switch";
 import TextLink from "./components/TextLink";
 import ButtonWalk from "./components/ButtonWalk";
 import PhoneSelector from "./components/PhoneSelector/PhoneSelector";
