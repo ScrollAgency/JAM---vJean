@@ -116,7 +116,6 @@ export interface DefaultTooltipProps {
   triggerAction?: "focus" | "focus and hover";
   trigger?: React.ReactNode;
   content?: React.ReactNode;
-  className?: string;
 }
 
 const $$ = {};
@@ -209,16 +208,6 @@ function PlasmicTooltip__RenderFunc(props: {
       data-plasmic-override={overrides.ariaTooltip}
       data-plasmic-root={true}
       data-plasmic-for-node={forNode}
-      className={classNames(
-        "__wab_instance",
-        projectcss.root_reset,
-        projectcss.plasmic_default_styles,
-        projectcss.plasmic_mixins,
-        projectcss.plasmic_tokens,
-        plasmic_antd_5_hostless_css.plasmic_tokens,
-        plasmic_library_tailwind_3_4_number_tokens_css.plasmic_tokens,
-        sty.ariaTooltip
-      )}
       closeDelay={args.closeDelay}
       delay={args.openDelay}
       isDisabled={args.isDisabled}
