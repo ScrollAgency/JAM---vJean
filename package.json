@@ -15,7 +15,7 @@
     "@plasmicapp/loader-react": "^1.0.373",
     "@plasmicapp/react-web": "^0.2.361",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
-    "@supabase/ssr": "^0.4.1",
+    "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.48.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -24,7 +24,7 @@
     "plasmic-supabase": "^0.4.1",
     "react": "^18",
     "react-dom": "^18",
-    "tailwind": "^4.0.0",
+    "tailwind": "^2.2.0",
     "tailwind-cn": "^1.0.2",
     "tailwind-merge": "^1.14.0"
   },
