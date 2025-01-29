@@ -103,7 +103,7 @@ export default function GlobalContextsProvider(
         antdConfigProviderProps && "themeStyles" in antdConfigProviderProps
           ? antdConfigProviderProps.themeStyles!
           : true
-          ? {
+            ? {
               fontFamily: "Inter",
               fontSize: "16px",
               fontWeight: "400",
@@ -111,7 +111,7 @@ export default function GlobalContextsProvider(
               color: "#535353",
               letterSpacing: "normal"
             }
-          : undefined
+            : undefined
       }
       wireframe={
         antdConfigProviderProps && "wireframe" in antdConfigProviderProps
@@ -123,7 +123,7 @@ export default function GlobalContextsProvider(
         {...supabaseUserGlobalContextProps}
         defaultRedirectOnLoginSuccess={
           supabaseUserGlobalContextProps &&
-          "defaultRedirectOnLoginSuccess" in supabaseUserGlobalContextProps
+            "defaultRedirectOnLoginSuccess" in supabaseUserGlobalContextProps
             ? supabaseUserGlobalContextProps.defaultRedirectOnLoginSuccess!
             : undefined
         }
