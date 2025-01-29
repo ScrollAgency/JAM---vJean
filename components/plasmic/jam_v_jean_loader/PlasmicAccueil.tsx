@@ -59,13 +59,20 @@ import {
   useGlobalActions
 } from "@plasmicapp/react-web/lib/host";
 
+import {
+  executePlasmicDataOp,
+  usePlasmicDataOp,
+  usePlasmicInvalidate
+} from "@plasmicapp/react-web/lib/data-sources";
+
 import { Button } from "../../Button"; // plasmic-import: NvY5LE-Ew6FA/codeComponent
-import { JobCard } from "../../jobCard/JobCard"; // plasmic-import: epi6kICoBl8S/codeComponent
 import { TextInput } from "../../TextInput"; // plasmic-import: vyWUomJMQins/codeComponent
 import { Dropdown } from "../../DropDown"; // plasmic-import: nH3JopN08-ry/codeComponent
 import { Option } from "../../Option"; // plasmic-import: MjV_affoGMMz/codeComponent
+import { JobCard } from "../../jobCard/JobCard"; // plasmic-import: epi6kICoBl8S/codeComponent
 import { Map } from "../../Map"; // plasmic-import: 0X49CVAH3as3/codeComponent
 import { Footerlink } from "../../Footerlink"; // plasmic-import: AsZg43QQ7RIK/codeComponent
+import { Fetcher } from "@plasmicapp/react-web/lib/data-sources";
 
 import { useScreenVariants as useScreenVariantshm8Nko4B5BDd } from "./PlasmicGlobalVariant__Screen"; // plasmic-import: HM8Nko4B5BDd/globalVariant
 
@@ -77,20 +84,6 @@ import projectcss from "./plasmic.module.css"; // plasmic-import: f7DE9y7qp46fyC
 import sty from "./PlasmicAccueil.module.css"; // plasmic-import: x8mEiwhu6Vco/css
 
 import Group2Icon from "./icons/PlasmicIcon__Group2"; // plasmic-import: EDrRfJFrGIzr/icon
-import VectorIcon from "./icons/PlasmicIcon__Vector"; // plasmic-import: LqBLaSJNIw1R/icon
-import PhCrossIcon from "./icons/PlasmicIcon__PhCross"; // plasmic-import: ZcuvSYn7hPwX/icon
-import PhClockCountdownFillIcon from "./icons/PlasmicIcon__PhClockCountdownFill"; // plasmic-import: GhtgoozaYTSb/icon
-import PhMapPinIcon from "./icons/PlasmicIcon__PhMapPin"; // plasmic-import: qK09a5jkZTuj/icon
-import Vector3Icon from "./icons/PlasmicIcon__Vector3"; // plasmic-import: jLPpM-B7M1lJ/icon
-import Vector4Icon from "./icons/PlasmicIcon__Vector4"; // plasmic-import: 1yz4nrcZZVJQ/icon
-import Vector5Icon from "./icons/PlasmicIcon__Vector5"; // plasmic-import: YAEd8oE8Xk0Q/icon
-import IconPhBriefcase2Icon from "./icons/PlasmicIcon__IconPhBriefcase2"; // plasmic-import: QT5tozis-7ZJ/icon
-import IconPhFileText2Icon from "./icons/PlasmicIcon__IconPhFileText2"; // plasmic-import: 4u827eTIHJiM/icon
-import IconPhClockCountdown2Icon from "./icons/PlasmicIcon__IconPhClockCountdown2"; // plasmic-import: MRdlkEBhDPlJ/icon
-import IconPhClock2Icon from "./icons/PlasmicIcon__IconPhClock2"; // plasmic-import: 69zPnb8kkdBe/icon
-import IconPhCoinsLight2Icon from "./icons/PlasmicIcon__IconPhCoinsLight2"; // plasmic-import: CXP7GcEs2WIt/icon
-import LikeIconIcon from "./icons/PlasmicIcon__LikeIcon"; // plasmic-import: _YvBX6QjT3en/icon
-import PhCaretDoubleLeftIcon from "./icons/PlasmicIcon__PhCaretDoubleLeft"; // plasmic-import: qQ7NvuNc52xX/icon
 import Mail2Icon from "./icons/PlasmicIcon__Mail2"; // plasmic-import: rZP3MS1dOHIL/icon
 import ZapIcon from "./icons/PlasmicIcon__Zap"; // plasmic-import: c9TD4NnDdoCa/icon
 import BarChart2Icon from "./icons/PlasmicIcon__BarChart2"; // plasmic-import: 9Oxczg72Yias/icon
@@ -139,65 +132,8 @@ export type PlasmicAccueil__OverridesType = {
   frame8?: Flex__<"div">;
   frame10?: Flex__<"div">;
   scrollBar?: Flex__<"div">;
-  mapPin?: Flex__<"div">;
-  frame11?: Flex__<"div">;
-  iconSize?: Flex__<"div">;
-  mapPin2?: Flex__<"div">;
-  frame16?: Flex__<"div">;
-  iconSize2?: Flex__<"div">;
-  phClockCountdownFill?: Flex__<"div">;
-  mapPin3?: Flex__<"div">;
-  frame17?: Flex__<"div">;
-  iconSize3?: Flex__<"div">;
-  phClockCountdownFill2?: Flex__<"div">;
-  mapPin4?: Flex__<"div">;
-  frame18?: Flex__<"div">;
-  iconSize4?: Flex__<"div">;
-  mapPin5?: Flex__<"div">;
-  frame19?: Flex__<"div">;
-  iconSize5?: Flex__<"div">;
-  phClockCountdownFill3?: Flex__<"div">;
+  jobCard?: Flex__<typeof JobCard>;
   map?: Flex__<typeof Map>;
-  mapPin6?: Flex__<"div">;
-  frame20?: Flex__<"div">;
-  iconSize6?: Flex__<"div">;
-  phClockCountdownFill4?: Flex__<"div">;
-  mapPin7?: Flex__<"div">;
-  frame21?: Flex__<"div">;
-  iconSize7?: Flex__<"div">;
-  buttonLastMin?: Flex__<"div">;
-  text2?: Flex__<"div">;
-  jobCard?: Flex__<"div">;
-  frame22?: Flex__<"div">;
-  frame23?: Flex__<"div">;
-  companyLogo?: Flex__<"div">;
-  rectangle183?: Flex__<"div">;
-  frame1437254219?: Flex__<"div">;
-  frame24?: Flex__<"div">;
-  frame25?: Flex__<"div">;
-  frame26?: Flex__<"div">;
-  paris75?: Flex__<"div">;
-  frame27?: Flex__<"div">;
-  transportationTimeLine?: Flex__<"div">;
-  transportationTime?: Flex__<"div">;
-  transportationTime2?: Flex__<"div">;
-  transportationTime3?: Flex__<"div">;
-  transportationTime4?: Flex__<"div">;
-  frame1437254218?: Flex__<"div">;
-  badgeBase?: Flex__<"div">;
-  text3?: Flex__<"div">;
-  badgeBase2?: Flex__<"div">;
-  text4?: Flex__<"div">;
-  badgeBase3?: Flex__<"div">;
-  text5?: Flex__<"div">;
-  badgeBase4?: Flex__<"div">;
-  text6?: Flex__<"div">;
-  badgeBase5?: Flex__<"div">;
-  text7?: Flex__<"div">;
-  badgeBase6?: Flex__<"div">;
-  text8?: Flex__<"div">;
-  frame28?: Flex__<"div">;
-  frame29?: Flex__<"div">;
   content?: Flex__<"div">;
   badgeGroup?: Flex__<"div">;
   message?: Flex__<"div">;
@@ -305,6 +241,9 @@ function PlasmicAccueil__RenderFunc(props: {
 
   const currentUser = useCurrentUser?.() || {};
 
+  let [$queries, setDollarQueries] = React.useState<
+    Record<string, ReturnType<typeof usePlasmicDataOp>>
+  >({});
   const stateSpecs: Parameters<typeof useDollarState>[0] = React.useMemo(
     () => [
       {
@@ -325,6 +264,12 @@ function PlasmicAccueil__RenderFunc(props: {
               throw e;
             }
           })()
+      },
+      {
+        path: "variable",
+        type: "private",
+        variableType: "text",
+        initFunc: ({ $props, $state, $queries, $ctx }) => ""
       }
     ],
     [$props, $ctx, $refs]
@@ -332,9 +277,47 @@ function PlasmicAccueil__RenderFunc(props: {
   const $state = useDollarState(stateSpecs, {
     $props,
     $ctx,
-    $queries: {},
+    $queries: $queries,
     $refs
   });
+
+  const new$Queries: Record<string, ReturnType<typeof usePlasmicDataOp>> = {
+    componentData: usePlasmicDataOp(() => {
+      return {
+        sourceId: "kVSSe8ab4TtzwRPnTeEeUp",
+        opId: "801a5603-e3bb-4b0f-8d97-1e00b2bc922e",
+        userArgs: {},
+        cacheKey: `plasmic.$.801a5603-e3bb-4b0f-8d97-1e00b2bc922e.$.`,
+        invalidatedKeys: null,
+        roleId: null
+      };
+    }),
+    getCompanyLocation: usePlasmicDataOp(() => {
+      return {
+        sourceId: "kVSSe8ab4TtzwRPnTeEeUp",
+        opId: "7c6b5ebf-7cd0-4361-9cef-06aaee625412",
+        userArgs: {},
+        cacheKey: `plasmic.$.7c6b5ebf-7cd0-4361-9cef-06aaee625412.$.`,
+        invalidatedKeys: null,
+        roleId: null
+      };
+    }),
+    getJob: usePlasmicDataOp(() => {
+      return {
+        sourceId: "kVSSe8ab4TtzwRPnTeEeUp",
+        opId: "fcaf755a-b63e-4e07-bb63-0ed2fd1dd76d",
+        userArgs: {},
+        cacheKey: `plasmic.$.fcaf755a-b63e-4e07-bb63-0ed2fd1dd76d.$.`,
+        invalidatedKeys: null,
+        roleId: null
+      };
+    })
+  };
+  if (Object.keys(new$Queries).some(k => new$Queries[k] !== $queries[k])) {
+    setDollarQueries(new$Queries);
+
+    $queries = new$Queries;
+  }
 
   const globalVariants = ensureGlobalVariants({
     screen: useScreenVariantshm8Nko4B5BDd()
@@ -506,15 +489,6 @@ function PlasmicAccueil__RenderFunc(props: {
               data-plasmic-override={overrides.frame1437254391}
               className={classNames(projectcss.all, sty.frame1437254391)}
             >
-              <div className={classNames(projectcss.all, sty.freeBox__yxfh5)}>
-                <JobCard
-                  className={classNames("__wab_instance", sty.jobCard___1Z8B)}
-                  customIcons={{}}
-                  state={"default"}
-                  tags={[]}
-                  title={"Vietnamese Interpreter"}
-                />
-              </div>
               <PlasmicImg__
                 alt={""}
                 className={classNames(sty.img__luYmr)}
@@ -559,6 +533,42 @@ function PlasmicAccueil__RenderFunc(props: {
                       data-plasmic-override={overrides.textInput}
                       className={classNames("__wab_instance", sty.textInput)}
                       iconUrl={"/plasmic/jam_v_jean_loader/images/image10.svg"}
+                      onTextChange={async Lieu => {
+                        const $steps = {};
+
+                        $steps["updateLieu"] = true
+                          ? (() => {
+                              const actionArgs = {
+                                variable: {
+                                  objRoot: $state,
+                                  variablePath: ["lieu"]
+                                },
+                                operation: 0
+                              };
+                              return (({
+                                variable,
+                                value,
+                                startIndex,
+                                deleteCount
+                              }) => {
+                                if (!variable) {
+                                  return;
+                                }
+                                const { objRoot, variablePath } = variable;
+
+                                $stateSet(objRoot, variablePath, value);
+                                return value;
+                              })?.apply(null, [actionArgs]);
+                            })()
+                          : undefined;
+                        if (
+                          $steps["updateLieu"] != null &&
+                          typeof $steps["updateLieu"] === "object" &&
+                          typeof $steps["updateLieu"].then === "function"
+                        ) {
+                          $steps["updateLieu"] = await $steps["updateLieu"];
+                        }
+                      }}
                       type={"default"}
                     />
 
@@ -569,6 +579,7 @@ function PlasmicAccueil__RenderFunc(props: {
                       iconUrl={
                         "/plasmic/jam_v_jean_loader/images/phMapPinPng.png"
                       }
+                      label={``}
                       onTextChange={async Lieu => {
                         const $steps = {};
 
@@ -580,7 +591,7 @@ function PlasmicAccueil__RenderFunc(props: {
                                   variablePath: ["lieu"]
                                 },
                                 operation: 0,
-                                value: Lieu
+                                value: VarInput
                               };
                               return (({
                                 variable,
@@ -981,31 +992,6 @@ function PlasmicAccueil__RenderFunc(props: {
                   hasGap={true}
                   className={classNames(projectcss.all, sty.frame7)}
                 >
-                  <VectorIcon
-                    className={classNames(projectcss.all, sty.svg__lsaTt)}
-                    role={"img"}
-                  />
-
-                  <VectorIcon
-                    className={classNames(projectcss.all, sty.svg__z33Q)}
-                    role={"img"}
-                  />
-
-                  <VectorIcon
-                    className={classNames(projectcss.all, sty.svg__r7P19)}
-                    role={"img"}
-                  />
-
-                  <VectorIcon
-                    className={classNames(projectcss.all, sty.svg__uEh7L)}
-                    role={"img"}
-                  />
-
-                  <VectorIcon
-                    className={classNames(projectcss.all, sty.svg__erVO)}
-                    role={"img"}
-                  />
-
                   <Stack__
                     as={"div"}
                     data-plasmic-name={"loginMobile"}
@@ -1073,417 +1059,119 @@ function PlasmicAccueil__RenderFunc(props: {
                           {"Afficher la liste des r\u00e9sultats"}
                         </div>
                       </Stack__>
+                      <div
+                        data-plasmic-name={"scrollBar"}
+                        data-plasmic-override={overrides.scrollBar}
+                        className={classNames(projectcss.all, sty.scrollBar)}
+                      />
+
+                      {(_par =>
+                        !_par ? [] : Array.isArray(_par) ? _par : [_par])(
+                        (() => {
+                          try {
+                            return $queries.getJob.data.map(
+                              job => job["title"]
+                            );
+                          } catch (e) {
+                            if (
+                              e instanceof TypeError ||
+                              e?.plasmicType === "PlasmicUndefinedDataError"
+                            ) {
+                              return [];
+                            }
+                            throw e;
+                          }
+                        })()
+                      ).map((__plasmic_item_0, __plasmic_idx_0) => {
+                        const currentItem = __plasmic_item_0;
+                        const currentIndex = __plasmic_idx_0;
+                        return (
+                          <JobCard
+                            data-plasmic-name={"jobCard"}
+                            data-plasmic-override={overrides.jobCard}
+                            city={(() => {
+                              try {
+                                return $queries.getJob.data[currentIndex][
+                                  "location"
+                                ];
+                              } catch (e) {
+                                if (
+                                  e instanceof TypeError ||
+                                  e?.plasmicType === "PlasmicUndefinedDataError"
+                                ) {
+                                  return undefined;
+                                }
+                                throw e;
+                              }
+                            })()}
+                            className={classNames(
+                              "__wab_instance",
+                              sty.jobCard
+                            )}
+                            companyName={(() => {
+                              try {
+                                return $queries.getJob.data[currentIndex][
+                                  "title"
+                                ];
+                              } catch (e) {
+                                if (
+                                  e instanceof TypeError ||
+                                  e?.plasmicType === "PlasmicUndefinedDataError"
+                                ) {
+                                  return undefined;
+                                }
+                                throw e;
+                              }
+                            })()}
+                            customIcons={{}}
+                            key={currentIndex}
+                            state={"default"}
+                            tags={[]}
+                            title={(() => {
+                              try {
+                                return $queries.getJob.data[currentIndex][
+                                  "title"
+                                ];
+                              } catch (e) {
+                                if (
+                                  e instanceof TypeError ||
+                                  e?.plasmicType === "PlasmicUndefinedDataError"
+                                ) {
+                                  return undefined;
+                                }
+                                throw e;
+                              }
+                            })()}
+                          />
+                        );
+                      })}
                     </Stack__>
-                    <div
-                      data-plasmic-name={"scrollBar"}
-                      data-plasmic-override={overrides.scrollBar}
-                      className={classNames(projectcss.all, sty.scrollBar)}
-                    />
                   </Stack__>
-                  <PlasmicImg__
-                    alt={""}
-                    className={classNames(sty.img___8CiQf)}
-                    displayHeight={"30.101394653320312px"}
-                    displayMaxHeight={"none"}
-                    displayMaxWidth={"100%"}
-                    displayMinHeight={"0"}
-                    displayMinWidth={"0"}
-                    displayWidth={"23.651330947875977px"}
-                    loading={"lazy"}
-                    src={{
-                      src: "/plasmic/jam_v_jean_loader/images/mapPin3.svg",
-                      fullWidth: 23.651330947875977,
-                      fullHeight: 30.101394653320312,
-                      aspectRatio: 0.857143
-                    }}
-                  />
-
-                  <PlasmicImg__
-                    alt={""}
-                    className={classNames(sty.img__qoAju)}
-                    displayHeight={"30.101394653320312px"}
-                    displayMaxHeight={"none"}
-                    displayMaxWidth={"100%"}
-                    displayMinHeight={"0"}
-                    displayMinWidth={"0"}
-                    displayWidth={"23.651330947875977px"}
-                    loading={"lazy"}
-                    src={{
-                      src: "/plasmic/jam_v_jean_loader/images/mapPin4.svg",
-                      fullWidth: 23.651330947875977,
-                      fullHeight: 30.101394653320312,
-                      aspectRatio: 0.857143
-                    }}
-                  />
-
-                  <div
-                    data-plasmic-name={"mapPin"}
-                    data-plasmic-override={overrides.mapPin}
-                    className={classNames(projectcss.all, sty.mapPin)}
-                  >
-                    <div
-                      data-plasmic-name={"frame11"}
-                      data-plasmic-override={overrides.frame11}
-                      className={classNames(projectcss.all, sty.frame11)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__ertzr
-                        )}
-                      >
-                        {"1750\u20ac"}
-                      </div>
-                      {false ? (
-                        <div
-                          data-plasmic-name={"iconSize"}
-                          data-plasmic-override={overrides.iconSize}
-                          className={classNames(projectcss.all, sty.iconSize)}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__blKcC
-                            )}
-                          >
-                            <PhCrossIcon
-                              className={classNames(
-                                projectcss.all,
-                                sty.svg__qOz3H
-                              )}
-                              role={"img"}
-                            />
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
-                    <PlasmicImg__
-                      alt={""}
-                      className={classNames(sty.img__z8LEk)}
-                      displayHeight={"30.101394653320312px"}
-                      displayMaxHeight={"none"}
-                      displayMaxWidth={"100%"}
-                      displayMinHeight={"0"}
-                      displayMinWidth={"0"}
-                      displayWidth={"23.651330947875977px"}
-                      loading={"lazy"}
-                      src={{
-                        src: "/plasmic/jam_v_jean_loader/images/frame4.svg",
-                        fullWidth: 23.651330947875977,
-                        fullHeight: 30.101394653320312,
-                        aspectRatio: 0.857143
-                      }}
-                    />
-                  </div>
-                  <div
-                    data-plasmic-name={"mapPin2"}
-                    data-plasmic-override={overrides.mapPin2}
-                    className={classNames(projectcss.all, sty.mapPin2)}
-                  >
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame16"}
-                      data-plasmic-override={overrides.frame16}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame16)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__wWd8C
-                        )}
-                      >
-                        {false ? (
-                          <div
-                            data-plasmic-name={"iconSize2"}
-                            data-plasmic-override={overrides.iconSize2}
-                            className={classNames(
-                              projectcss.all,
-                              sty.iconSize2
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__gSDw
-                              )}
-                            >
-                              <PhCrossIcon
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.svg___0AXZk
-                                )}
-                                role={"img"}
-                              />
-                            </div>
-                          </div>
-                        ) : null}
-                      </div>
-                      <div
-                        data-plasmic-name={"phClockCountdownFill"}
-                        data-plasmic-override={overrides.phClockCountdownFill}
-                        className={classNames(
-                          projectcss.all,
-                          sty.phClockCountdownFill
-                        )}
-                      />
-
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__qz5Oz
-                        )}
-                      >
-                        {"1750\u20ac"}
-                      </div>
-                    </Stack__>
-                    <PlasmicImg__
-                      alt={""}
-                      className={classNames(sty.img__cLaaq)}
-                      displayHeight={"31px"}
-                      displayMaxHeight={"none"}
-                      displayMaxWidth={"100%"}
-                      displayMinHeight={"0"}
-                      displayMinWidth={"0"}
-                      displayWidth={"24px"}
-                      loading={"lazy"}
-                      src={{
-                        src: "/plasmic/jam_v_jean_loader/images/subtract3.svg",
-                        fullWidth: 24,
-                        fullHeight: 31,
-                        aspectRatio: 0.774194
-                      }}
-                    />
-                  </div>
-                  <div
-                    data-plasmic-name={"mapPin3"}
-                    data-plasmic-override={overrides.mapPin3}
-                    className={classNames(projectcss.all, sty.mapPin3)}
-                  >
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame17"}
-                      data-plasmic-override={overrides.frame17}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame17)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__pQuiQ
-                        )}
-                      >
-                        {false ? (
-                          <div
-                            data-plasmic-name={"iconSize3"}
-                            data-plasmic-override={overrides.iconSize3}
-                            className={classNames(
-                              projectcss.all,
-                              sty.iconSize3
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__bqCpo
-                              )}
-                            >
-                              <PhCrossIcon
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.svg__nlNg4
-                                )}
-                                role={"img"}
-                              />
-                            </div>
-                          </div>
-                        ) : null}
-                      </div>
-                      <div
-                        data-plasmic-name={"phClockCountdownFill2"}
-                        data-plasmic-override={overrides.phClockCountdownFill2}
-                        className={classNames(
-                          projectcss.all,
-                          sty.phClockCountdownFill2
-                        )}
-                      />
-
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text___1KnoF
-                        )}
-                      >
-                        {"1750\u20ac"}
-                      </div>
-                    </Stack__>
-                    <PlasmicImg__
-                      alt={""}
-                      className={classNames(sty.img___1Dnl6)}
-                      displayHeight={"31px"}
-                      displayMaxHeight={"none"}
-                      displayMaxWidth={"100%"}
-                      displayMinHeight={"0"}
-                      displayMinWidth={"0"}
-                      displayWidth={"24px"}
-                      loading={"lazy"}
-                      src={{
-                        src: "/plasmic/jam_v_jean_loader/images/subtract4.svg",
-                        fullWidth: 24,
-                        fullHeight: 31,
-                        aspectRatio: 0.774194
-                      }}
-                    />
-                  </div>
-                  <div
-                    data-plasmic-name={"mapPin4"}
-                    data-plasmic-override={overrides.mapPin4}
-                    className={classNames(projectcss.all, sty.mapPin4)}
-                  >
-                    <div
-                      data-plasmic-name={"frame18"}
-                      data-plasmic-override={overrides.frame18}
-                      className={classNames(projectcss.all, sty.frame18)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__bIhDs
-                        )}
-                      >
-                        {"1750\u20ac"}
-                      </div>
-                      {false ? (
-                        <div
-                          data-plasmic-name={"iconSize4"}
-                          data-plasmic-override={overrides.iconSize4}
-                          className={classNames(projectcss.all, sty.iconSize4)}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__dbXyL
-                            )}
-                          >
-                            <PhCrossIcon
-                              className={classNames(
-                                projectcss.all,
-                                sty.svg___4Xbgu
-                              )}
-                              role={"img"}
-                            />
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
-                    <PlasmicImg__
-                      alt={""}
-                      className={classNames(sty.img__wb9Pj)}
-                      displayHeight={"30.101394653320312px"}
-                      displayMaxHeight={"none"}
-                      displayMaxWidth={"100%"}
-                      displayMinHeight={"0"}
-                      displayMinWidth={"0"}
-                      displayWidth={"23.651330947875977px"}
-                      loading={"lazy"}
-                      src={{
-                        src: "/plasmic/jam_v_jean_loader/images/frame5.svg",
-                        fullWidth: 23.651330947875977,
-                        fullHeight: 30.101394653320312,
-                        aspectRatio: 0.857143
-                      }}
-                    />
-                  </div>
-                  <div
-                    data-plasmic-name={"mapPin5"}
-                    data-plasmic-override={overrides.mapPin5}
-                    className={classNames(projectcss.all, sty.mapPin5)}
-                  >
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame19"}
-                      data-plasmic-override={overrides.frame19}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame19)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__wh9Nv
-                        )}
-                      >
-                        {false ? (
-                          <div
-                            data-plasmic-name={"iconSize5"}
-                            data-plasmic-override={overrides.iconSize5}
-                            className={classNames(
-                              projectcss.all,
-                              sty.iconSize5
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__tknld
-                              )}
-                            >
-                              <PhCrossIcon
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.svg__bsPp3
-                                )}
-                                role={"img"}
-                              />
-                            </div>
-                          </div>
-                        ) : null}
-                      </div>
-                      <div
-                        data-plasmic-name={"phClockCountdownFill3"}
-                        data-plasmic-override={overrides.phClockCountdownFill3}
-                        className={classNames(
-                          projectcss.all,
-                          sty.phClockCountdownFill3
-                        )}
-                      />
-
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__s7JAl
-                        )}
-                      >
-                        {"1750\u20ac"}
-                      </div>
-                    </Stack__>
-                    <PlasmicImg__
-                      alt={""}
-                      className={classNames(sty.img__esM2)}
-                      displayHeight={"31px"}
-                      displayMaxHeight={"none"}
-                      displayMaxWidth={"100%"}
-                      displayMinHeight={"0"}
-                      displayMinWidth={"0"}
-                      displayWidth={"24px"}
-                      loading={"lazy"}
-                      src={{
-                        src: "/plasmic/jam_v_jean_loader/images/vector2.svg",
-                        fullWidth: 24,
-                        fullHeight: 31,
-                        aspectRatio: 0.774194
-                      }}
-                    />
-                  </div>
                   <Map
                     data-plasmic-name={"map"}
                     data-plasmic-override={overrides.map}
-                    businesses={[]}
+                    businesses={(() => {
+                      try {
+                        return $queries.getCompanyLocation.data.map(
+                          company => ({
+                            name: company.name,
+                            location: company.location
+                          })
+                        );
+                      } catch (e) {
+                        if (
+                          e instanceof TypeError ||
+                          e?.plasmicType === "PlasmicUndefinedDataError"
+                        ) {
+                          return [];
+                        }
+                        throw e;
+                      }
+                    })()}
                     className={classNames("__wab_instance", sty.map)}
+                    mapStyle={
+                      "mapbox://styles/scroll/cm6gi9ljw003t01s36b0jfl80"
+                    }
                     searchAddress={(() => {
                       try {
                         return $state.lieu;
@@ -1497,683 +1185,9 @@ function PlasmicAccueil__RenderFunc(props: {
                         throw e;
                       }
                     })()}
-                    zoom={9}
+                    zoom={15}
                   />
-
-                  <div
-                    data-plasmic-name={"mapPin6"}
-                    data-plasmic-override={overrides.mapPin6}
-                    className={classNames(projectcss.all, sty.mapPin6)}
-                  >
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame20"}
-                      data-plasmic-override={overrides.frame20}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame20)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__h8NP8
-                        )}
-                      >
-                        {false ? (
-                          <div
-                            data-plasmic-name={"iconSize6"}
-                            data-plasmic-override={overrides.iconSize6}
-                            className={classNames(
-                              projectcss.all,
-                              sty.iconSize6
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox___4YyJk
-                              )}
-                            >
-                              <PhCrossIcon
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.svg__imrQy
-                                )}
-                                role={"img"}
-                              />
-                            </div>
-                          </div>
-                        ) : null}
-                      </div>
-                      <div
-                        data-plasmic-name={"phClockCountdownFill4"}
-                        data-plasmic-override={overrides.phClockCountdownFill4}
-                        className={classNames(
-                          projectcss.all,
-                          sty.phClockCountdownFill4
-                        )}
-                      />
-
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__gAmy
-                        )}
-                      >
-                        {"1750\u20ac"}
-                      </div>
-                    </Stack__>
-                    <PlasmicImg__
-                      alt={""}
-                      className={classNames(sty.img__ykNaf)}
-                      displayHeight={"31px"}
-                      displayMaxHeight={"none"}
-                      displayMaxWidth={"100%"}
-                      displayMinHeight={"0"}
-                      displayMinWidth={"0"}
-                      displayWidth={"24px"}
-                      loading={"lazy"}
-                      src={{
-                        src: "/plasmic/jam_v_jean_loader/images/vector2.svg",
-                        fullWidth: 24,
-                        fullHeight: 31,
-                        aspectRatio: 0.774194
-                      }}
-                    />
-                  </div>
-                  <div
-                    data-plasmic-name={"mapPin7"}
-                    data-plasmic-override={overrides.mapPin7}
-                    className={classNames(projectcss.all, sty.mapPin7)}
-                  >
-                    <div
-                      data-plasmic-name={"frame21"}
-                      data-plasmic-override={overrides.frame21}
-                      className={classNames(projectcss.all, sty.frame21)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__pwKgv
-                        )}
-                      >
-                        {"1750\u20ac"}
-                      </div>
-                      {false ? (
-                        <div
-                          data-plasmic-name={"iconSize7"}
-                          data-plasmic-override={overrides.iconSize7}
-                          className={classNames(projectcss.all, sty.iconSize7)}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__ipMyu
-                            )}
-                          >
-                            <PhCrossIcon
-                              className={classNames(
-                                projectcss.all,
-                                sty.svg__qgWff
-                              )}
-                              role={"img"}
-                            />
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
-                    <PlasmicImg__
-                      alt={""}
-                      className={classNames(sty.img__uik0B)}
-                      displayHeight={"30.101394653320312px"}
-                      displayMaxHeight={"none"}
-                      displayMaxWidth={"100%"}
-                      displayMinHeight={"0"}
-                      displayMinWidth={"0"}
-                      displayWidth={"23.651330947875977px"}
-                      loading={"lazy"}
-                      src={{
-                        src: "/plasmic/jam_v_jean_loader/images/frame6.svg",
-                        fullWidth: 23.651330947875977,
-                        fullHeight: 30.101394653320312,
-                        aspectRatio: 0.857143
-                      }}
-                    />
-                  </div>
-                  <Stack__
-                    as={"div"}
-                    data-plasmic-name={"buttonLastMin"}
-                    data-plasmic-override={overrides.buttonLastMin}
-                    hasGap={true}
-                    className={classNames(projectcss.all, sty.buttonLastMin)}
-                  >
-                    <PhClockCountdownFillIcon
-                      className={classNames(projectcss.all, sty.svg__vb13E)}
-                      role={"img"}
-                    />
-
-                    <div
-                      data-plasmic-name={"text2"}
-                      data-plasmic-override={overrides.text2}
-                      className={classNames(
-                        projectcss.all,
-                        projectcss.__wab_text,
-                        sty.text2
-                      )}
-                    >
-                      {"LAST MINUTE"}
-                    </div>
-                  </Stack__>
-                  <div
-                    data-plasmic-name={"jobCard"}
-                    data-plasmic-override={overrides.jobCard}
-                    className={classNames(projectcss.all, sty.jobCard)}
-                  >
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame22"}
-                      data-plasmic-override={overrides.frame22}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame22)}
-                    >
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame23"}
-                        data-plasmic-override={overrides.frame23}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame23)}
-                      >
-                        <div
-                          data-plasmic-name={"companyLogo"}
-                          data-plasmic-override={overrides.companyLogo}
-                          className={classNames(
-                            projectcss.all,
-                            sty.companyLogo
-                          )}
-                        >
-                          <div
-                            data-plasmic-name={"rectangle183"}
-                            data-plasmic-override={overrides.rectangle183}
-                            className={classNames(
-                              projectcss.all,
-                              sty.rectangle183
-                            )}
-                          />
-                        </div>
-                      </Stack__>
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame1437254219"}
-                        data-plasmic-override={overrides.frame1437254219}
-                        hasGap={true}
-                        className={classNames(
-                          projectcss.all,
-                          sty.frame1437254219
-                        )}
-                      >
-                        <Stack__
-                          as={"div"}
-                          data-plasmic-name={"frame24"}
-                          data-plasmic-override={overrides.frame24}
-                          hasGap={true}
-                          className={classNames(projectcss.all, sty.frame24)}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__wQqvN
-                            )}
-                          >
-                            {"Vietnamese Interpreter"}
-                          </div>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"frame25"}
-                            data-plasmic-override={overrides.frame25}
-                            hasGap={true}
-                            className={classNames(projectcss.all, sty.frame25)}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame26"}
-                              data-plasmic-override={overrides.frame26}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame26
-                              )}
-                            >
-                              <PhMapPinIcon
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.svg___0UTsU
-                                )}
-                                role={"img"}
-                              />
-
-                              <div
-                                data-plasmic-name={"paris75"}
-                                data-plasmic-override={overrides.paris75}
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.paris75
-                                )}
-                              >
-                                {"Paris (75), "}
-                              </div>
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__kas9
-                                )}
-                              >
-                                {"Impact.com"}
-                              </div>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame27"}
-                              data-plasmic-override={overrides.frame27}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame27
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"transportationTimeLine"}
-                                data-plasmic-override={
-                                  overrides.transportationTimeLine
-                                }
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.transportationTimeLine
-                                )}
-                              >
-                                <Stack__
-                                  as={"div"}
-                                  data-plasmic-name={"transportationTime"}
-                                  data-plasmic-override={
-                                    overrides.transportationTime
-                                  }
-                                  hasGap={true}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.transportationTime
-                                  )}
-                                >
-                                  <PlasmicImg__
-                                    alt={""}
-                                    className={classNames(sty.img__wtJ7F)}
-                                    displayHeight={"10px"}
-                                    displayMaxHeight={"none"}
-                                    displayMaxWidth={"100%"}
-                                    displayMinHeight={"0"}
-                                    displayMinWidth={"0"}
-                                    displayWidth={"10px"}
-                                    loading={"lazy"}
-                                    src={{
-                                      src: "/plasmic/jam_v_jean_loader/images/phCarProfile2.svg",
-                                      fullWidth: 10,
-                                      fullHeight: 10,
-                                      aspectRatio: 1
-                                    }}
-                                  />
-
-                                  <div
-                                    className={classNames(
-                                      projectcss.all,
-                                      projectcss.__wab_text,
-                                      sty.text__rwZ7
-                                    )}
-                                  >
-                                    {"12\u2019"}
-                                  </div>
-                                </Stack__>
-                                <Stack__
-                                  as={"div"}
-                                  data-plasmic-name={"transportationTime2"}
-                                  data-plasmic-override={
-                                    overrides.transportationTime2
-                                  }
-                                  hasGap={true}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.transportationTime2
-                                  )}
-                                >
-                                  <Vector3Icon
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.svg__mj4IF
-                                    )}
-                                    role={"img"}
-                                  />
-
-                                  <div
-                                    className={classNames(
-                                      projectcss.all,
-                                      projectcss.__wab_text,
-                                      sty.text__vsWld
-                                    )}
-                                  >
-                                    {"12\u2019"}
-                                  </div>
-                                </Stack__>
-                                <Stack__
-                                  as={"div"}
-                                  data-plasmic-name={"transportationTime3"}
-                                  data-plasmic-override={
-                                    overrides.transportationTime3
-                                  }
-                                  hasGap={true}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.transportationTime3
-                                  )}
-                                >
-                                  <Vector4Icon
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.svg__pWzYf
-                                    )}
-                                    role={"img"}
-                                  />
-
-                                  <div
-                                    className={classNames(
-                                      projectcss.all,
-                                      projectcss.__wab_text,
-                                      sty.text__ezE1S
-                                    )}
-                                  >
-                                    {"12\u2019"}
-                                  </div>
-                                </Stack__>
-                                <Stack__
-                                  as={"div"}
-                                  data-plasmic-name={"transportationTime4"}
-                                  data-plasmic-override={
-                                    overrides.transportationTime4
-                                  }
-                                  hasGap={true}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.transportationTime4
-                                  )}
-                                >
-                                  <Vector5Icon
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.svg__mhZ0M
-                                    )}
-                                    role={"img"}
-                                  />
-
-                                  <div
-                                    className={classNames(
-                                      projectcss.all,
-                                      projectcss.__wab_text,
-                                      sty.text__wk5Ik
-                                    )}
-                                  >
-                                    {"12\u2019"}
-                                  </div>
-                                </Stack__>
-                              </Stack__>
-                            </Stack__>
-                          </Stack__>
-                        </Stack__>
-                        <Stack__
-                          as={"div"}
-                          data-plasmic-name={"frame1437254218"}
-                          data-plasmic-override={overrides.frame1437254218}
-                          hasGap={true}
-                          className={classNames(
-                            projectcss.all,
-                            sty.frame1437254218
-                          )}
-                        >
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"badgeBase"}
-                            data-plasmic-override={overrides.badgeBase}
-                            hasGap={true}
-                            className={classNames(
-                              projectcss.all,
-                              sty.badgeBase
-                            )}
-                          >
-                            <IconPhBriefcase2Icon
-                              className={classNames(
-                                projectcss.all,
-                                sty.svg__qsb3K
-                              )}
-                              role={"img"}
-                            />
-
-                            <div
-                              data-plasmic-name={"text3"}
-                              data-plasmic-override={overrides.text3}
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text3
-                              )}
-                            >
-                              {"Traduction"}
-                            </div>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"badgeBase2"}
-                            data-plasmic-override={overrides.badgeBase2}
-                            hasGap={true}
-                            className={classNames(
-                              projectcss.all,
-                              sty.badgeBase2
-                            )}
-                          >
-                            <IconPhFileText2Icon
-                              className={classNames(
-                                projectcss.all,
-                                sty.svg__qyZop
-                              )}
-                              role={"img"}
-                            />
-
-                            <div
-                              data-plasmic-name={"text4"}
-                              data-plasmic-override={overrides.text4}
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text4
-                              )}
-                            >
-                              {"CDI"}
-                            </div>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"badgeBase3"}
-                            data-plasmic-override={overrides.badgeBase3}
-                            hasGap={true}
-                            className={classNames(
-                              projectcss.all,
-                              sty.badgeBase3
-                            )}
-                          >
-                            <IconPhClockCountdown2Icon
-                              className={classNames(
-                                projectcss.all,
-                                sty.svg___1F8Vy
-                              )}
-                              role={"img"}
-                            />
-
-                            <div
-                              data-plasmic-name={"text5"}
-                              data-plasmic-override={overrides.text5}
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text5
-                              )}
-                            >
-                              {"Imm\u00e9diat"}
-                            </div>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"badgeBase4"}
-                            data-plasmic-override={overrides.badgeBase4}
-                            hasGap={true}
-                            className={classNames(
-                              projectcss.all,
-                              sty.badgeBase4
-                            )}
-                          >
-                            <IconPhClock2Icon
-                              className={classNames(
-                                projectcss.all,
-                                sty.svg___1Vjdb
-                              )}
-                              role={"img"}
-                            />
-
-                            <div
-                              data-plasmic-name={"text6"}
-                              data-plasmic-override={overrides.text6}
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text6
-                              )}
-                            >
-                              {"25h"}
-                            </div>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"badgeBase5"}
-                            data-plasmic-override={overrides.badgeBase5}
-                            hasGap={true}
-                            className={classNames(
-                              projectcss.all,
-                              sty.badgeBase5
-                            )}
-                          >
-                            <IconPhCoinsLight2Icon
-                              className={classNames(
-                                projectcss.all,
-                                sty.svg__yaTyh
-                              )}
-                              role={"img"}
-                            />
-
-                            <div
-                              data-plasmic-name={"text7"}
-                              data-plasmic-override={overrides.text7}
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text7
-                              )}
-                            >
-                              {"2000\u20ac"}
-                            </div>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"badgeBase6"}
-                            data-plasmic-override={overrides.badgeBase6}
-                            hasGap={true}
-                            className={classNames(
-                              projectcss.all,
-                              sty.badgeBase6
-                            )}
-                          >
-                            <PlasmicImg__
-                              alt={""}
-                              className={classNames(sty.img__t4W1Z)}
-                              displayHeight={"12px"}
-                              displayMaxHeight={"none"}
-                              displayMaxWidth={"100%"}
-                              displayMinHeight={"0"}
-                              displayMinWidth={"0"}
-                              displayWidth={"12px"}
-                              loading={"lazy"}
-                              src={{
-                                src: "/plasmic/jam_v_jean_loader/images/iconPhOfficeChair3.svg",
-                                fullWidth: 12,
-                                fullHeight: 12,
-                                aspectRatio: 1
-                              }}
-                            />
-
-                            <div
-                              data-plasmic-name={"text8"}
-                              data-plasmic-override={overrides.text8}
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text8
-                              )}
-                            >
-                              {"T\u00e9l\u00e9travail 100%"}
-                            </div>
-                          </Stack__>
-                        </Stack__>
-                      </Stack__>
-                    </Stack__>
-                    <LikeIconIcon
-                      className={classNames(projectcss.all, sty.svg__hr2R)}
-                      role={"img"}
-                    />
-
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame28"}
-                      data-plasmic-override={overrides.frame28}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame28)}
-                    >
-                      <PhClockCountdownFillIcon
-                        className={classNames(projectcss.all, sty.svg__yc2Ns)}
-                        role={"img"}
-                      />
-
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__prbNd
-                        )}
-                      >
-                        {"LAST MINUTE"}
-                      </div>
-                    </Stack__>
-                  </div>
                 </Stack__>
-                <div className={classNames(projectcss.all, sty.freeBox__r1MdK)}>
-                  <div
-                    data-plasmic-name={"frame29"}
-                    data-plasmic-override={overrides.frame29}
-                    className={classNames(projectcss.all, sty.frame29)}
-                  >
-                    <PhCaretDoubleLeftIcon
-                      className={classNames(projectcss.all, sty.svg___7W4T9)}
-                      role={"img"}
-                    />
-                  </div>
-                </div>
               </Stack__>
               <Stack__
                 as={"div"}
@@ -2226,6 +1240,44 @@ function PlasmicAccueil__RenderFunc(props: {
                   </React.Fragment>
                 </div>
               </Stack__>
+              {(_par => (!_par ? [] : Array.isArray(_par) ? _par : [_par]))([
+                2, 3, 4
+              ]).map((__plasmic_item_0, __plasmic_idx_0) => {
+                const currentItem = __plasmic_item_0;
+                const currentIndex = __plasmic_idx_0;
+                return (
+                  <div
+                    className={classNames(projectcss.all, sty.freeBox__mx4Pf)}
+                    key={currentIndex}
+                  >
+                    <div
+                      className={classNames(
+                        projectcss.all,
+                        projectcss.__wab_text,
+                        sty.text__ayspk
+                      )}
+                    >
+                      <React.Fragment>
+                        {(() => {
+                          try {
+                            return $queries.getCompanyLocation.data.map(
+                              company => company.location
+                            );
+                          } catch (e) {
+                            if (
+                              e instanceof TypeError ||
+                              e?.plasmicType === "PlasmicUndefinedDataError"
+                            ) {
+                              return "";
+                            }
+                            throw e;
+                          }
+                        })()}
+                      </React.Fragment>
+                    </div>
+                  </div>
+                );
+              })}
               <Stack__
                 as={"div"}
                 data-plasmic-name={"frame6"}
@@ -2885,65 +1937,8 @@ const PlasmicDescendants = {
     "frame8",
     "frame10",
     "scrollBar",
-    "mapPin",
-    "frame11",
-    "iconSize",
-    "mapPin2",
-    "frame16",
-    "iconSize2",
-    "phClockCountdownFill",
-    "mapPin3",
-    "frame17",
-    "iconSize3",
-    "phClockCountdownFill2",
-    "mapPin4",
-    "frame18",
-    "iconSize4",
-    "mapPin5",
-    "frame19",
-    "iconSize5",
-    "phClockCountdownFill3",
-    "map",
-    "mapPin6",
-    "frame20",
-    "iconSize6",
-    "phClockCountdownFill4",
-    "mapPin7",
-    "frame21",
-    "iconSize7",
-    "buttonLastMin",
-    "text2",
     "jobCard",
-    "frame22",
-    "frame23",
-    "companyLogo",
-    "rectangle183",
-    "frame1437254219",
-    "frame24",
-    "frame25",
-    "frame26",
-    "paris75",
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4",
-    "frame1437254218",
-    "badgeBase",
-    "text3",
-    "badgeBase2",
-    "text4",
-    "badgeBase3",
-    "text5",
-    "badgeBase4",
-    "text6",
-    "badgeBase5",
-    "text7",
-    "badgeBase6",
-    "text8",
-    "frame28",
-    "frame29",
+    "map",
     "content",
     "badgeGroup",
     "message",
@@ -3037,65 +2032,8 @@ const PlasmicDescendants = {
     "frame8",
     "frame10",
     "scrollBar",
-    "mapPin",
-    "frame11",
-    "iconSize",
-    "mapPin2",
-    "frame16",
-    "iconSize2",
-    "phClockCountdownFill",
-    "mapPin3",
-    "frame17",
-    "iconSize3",
-    "phClockCountdownFill2",
-    "mapPin4",
-    "frame18",
-    "iconSize4",
-    "mapPin5",
-    "frame19",
-    "iconSize5",
-    "phClockCountdownFill3",
-    "map",
-    "mapPin6",
-    "frame20",
-    "iconSize6",
-    "phClockCountdownFill4",
-    "mapPin7",
-    "frame21",
-    "iconSize7",
-    "buttonLastMin",
-    "text2",
     "jobCard",
-    "frame22",
-    "frame23",
-    "companyLogo",
-    "rectangle183",
-    "frame1437254219",
-    "frame24",
-    "frame25",
-    "frame26",
-    "paris75",
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4",
-    "frame1437254218",
-    "badgeBase",
-    "text3",
-    "badgeBase2",
-    "text4",
-    "badgeBase3",
-    "text5",
-    "badgeBase4",
-    "text6",
-    "badgeBase5",
-    "text7",
-    "badgeBase6",
-    "text8",
-    "frame28",
-    "frame29",
+    "map",
     "content",
     "badgeGroup",
     "message",
@@ -3132,65 +2070,8 @@ const PlasmicDescendants = {
     "frame8",
     "frame10",
     "scrollBar",
-    "mapPin",
-    "frame11",
-    "iconSize",
-    "mapPin2",
-    "frame16",
-    "iconSize2",
-    "phClockCountdownFill",
-    "mapPin3",
-    "frame17",
-    "iconSize3",
-    "phClockCountdownFill2",
-    "mapPin4",
-    "frame18",
-    "iconSize4",
-    "mapPin5",
-    "frame19",
-    "iconSize5",
-    "phClockCountdownFill3",
-    "map",
-    "mapPin6",
-    "frame20",
-    "iconSize6",
-    "phClockCountdownFill4",
-    "mapPin7",
-    "frame21",
-    "iconSize7",
-    "buttonLastMin",
-    "text2",
     "jobCard",
-    "frame22",
-    "frame23",
-    "companyLogo",
-    "rectangle183",
-    "frame1437254219",
-    "frame24",
-    "frame25",
-    "frame26",
-    "paris75",
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4",
-    "frame1437254218",
-    "badgeBase",
-    "text3",
-    "badgeBase2",
-    "text4",
-    "badgeBase3",
-    "text5",
-    "badgeBase4",
-    "text6",
-    "badgeBase5",
-    "text7",
-    "badgeBase6",
-    "text8",
-    "frame28",
-    "frame29",
+    "map",
     "content",
     "badgeGroup",
     "message",
@@ -3219,65 +2100,8 @@ const PlasmicDescendants = {
     "frame8",
     "frame10",
     "scrollBar",
-    "mapPin",
-    "frame11",
-    "iconSize",
-    "mapPin2",
-    "frame16",
-    "iconSize2",
-    "phClockCountdownFill",
-    "mapPin3",
-    "frame17",
-    "iconSize3",
-    "phClockCountdownFill2",
-    "mapPin4",
-    "frame18",
-    "iconSize4",
-    "mapPin5",
-    "frame19",
-    "iconSize5",
-    "phClockCountdownFill3",
-    "map",
-    "mapPin6",
-    "frame20",
-    "iconSize6",
-    "phClockCountdownFill4",
-    "mapPin7",
-    "frame21",
-    "iconSize7",
-    "buttonLastMin",
-    "text2",
     "jobCard",
-    "frame22",
-    "frame23",
-    "companyLogo",
-    "rectangle183",
-    "frame1437254219",
-    "frame24",
-    "frame25",
-    "frame26",
-    "paris75",
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4",
-    "frame1437254218",
-    "badgeBase",
-    "text3",
-    "badgeBase2",
-    "text4",
-    "badgeBase3",
-    "text5",
-    "badgeBase4",
-    "text6",
-    "badgeBase5",
-    "text7",
-    "badgeBase6",
-    "text8",
-    "frame28",
-    "frame29"
+    "map"
   ],
   searchBar: [
     "searchBar",
@@ -3335,261 +2159,15 @@ const PlasmicDescendants = {
     "frame8",
     "frame10",
     "scrollBar",
-    "mapPin",
-    "frame11",
-    "iconSize",
-    "mapPin2",
-    "frame16",
-    "iconSize2",
-    "phClockCountdownFill",
-    "mapPin3",
-    "frame17",
-    "iconSize3",
-    "phClockCountdownFill2",
-    "mapPin4",
-    "frame18",
-    "iconSize4",
-    "mapPin5",
-    "frame19",
-    "iconSize5",
-    "phClockCountdownFill3",
-    "map",
-    "mapPin6",
-    "frame20",
-    "iconSize6",
-    "phClockCountdownFill4",
-    "mapPin7",
-    "frame21",
-    "iconSize7",
-    "buttonLastMin",
-    "text2",
     "jobCard",
-    "frame22",
-    "frame23",
-    "companyLogo",
-    "rectangle183",
-    "frame1437254219",
-    "frame24",
-    "frame25",
-    "frame26",
-    "paris75",
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4",
-    "frame1437254218",
-    "badgeBase",
-    "text3",
-    "badgeBase2",
-    "text4",
-    "badgeBase3",
-    "text5",
-    "badgeBase4",
-    "text6",
-    "badgeBase5",
-    "text7",
-    "badgeBase6",
-    "text8",
-    "frame28"
+    "map"
   ],
-  loginMobile: ["loginMobile", "frame8", "frame10", "scrollBar"],
-  frame8: ["frame8", "frame10"],
+  loginMobile: ["loginMobile", "frame8", "frame10", "scrollBar", "jobCard"],
+  frame8: ["frame8", "frame10", "scrollBar", "jobCard"],
   frame10: ["frame10"],
   scrollBar: ["scrollBar"],
-  mapPin: ["mapPin", "frame11", "iconSize"],
-  frame11: ["frame11", "iconSize"],
-  iconSize: ["iconSize"],
-  mapPin2: ["mapPin2", "frame16", "iconSize2", "phClockCountdownFill"],
-  frame16: ["frame16", "iconSize2", "phClockCountdownFill"],
-  iconSize2: ["iconSize2"],
-  phClockCountdownFill: ["phClockCountdownFill"],
-  mapPin3: ["mapPin3", "frame17", "iconSize3", "phClockCountdownFill2"],
-  frame17: ["frame17", "iconSize3", "phClockCountdownFill2"],
-  iconSize3: ["iconSize3"],
-  phClockCountdownFill2: ["phClockCountdownFill2"],
-  mapPin4: ["mapPin4", "frame18", "iconSize4"],
-  frame18: ["frame18", "iconSize4"],
-  iconSize4: ["iconSize4"],
-  mapPin5: ["mapPin5", "frame19", "iconSize5", "phClockCountdownFill3"],
-  frame19: ["frame19", "iconSize5", "phClockCountdownFill3"],
-  iconSize5: ["iconSize5"],
-  phClockCountdownFill3: ["phClockCountdownFill3"],
+  jobCard: ["jobCard"],
   map: ["map"],
-  mapPin6: ["mapPin6", "frame20", "iconSize6", "phClockCountdownFill4"],
-  frame20: ["frame20", "iconSize6", "phClockCountdownFill4"],
-  iconSize6: ["iconSize6"],
-  phClockCountdownFill4: ["phClockCountdownFill4"],
-  mapPin7: ["mapPin7", "frame21", "iconSize7"],
-  frame21: ["frame21", "iconSize7"],
-  iconSize7: ["iconSize7"],
-  buttonLastMin: ["buttonLastMin", "text2"],
-  text2: ["text2"],
-  jobCard: [
-    "jobCard",
-    "frame22",
-    "frame23",
-    "companyLogo",
-    "rectangle183",
-    "frame1437254219",
-    "frame24",
-    "frame25",
-    "frame26",
-    "paris75",
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4",
-    "frame1437254218",
-    "badgeBase",
-    "text3",
-    "badgeBase2",
-    "text4",
-    "badgeBase3",
-    "text5",
-    "badgeBase4",
-    "text6",
-    "badgeBase5",
-    "text7",
-    "badgeBase6",
-    "text8",
-    "frame28"
-  ],
-  frame22: [
-    "frame22",
-    "frame23",
-    "companyLogo",
-    "rectangle183",
-    "frame1437254219",
-    "frame24",
-    "frame25",
-    "frame26",
-    "paris75",
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4",
-    "frame1437254218",
-    "badgeBase",
-    "text3",
-    "badgeBase2",
-    "text4",
-    "badgeBase3",
-    "text5",
-    "badgeBase4",
-    "text6",
-    "badgeBase5",
-    "text7",
-    "badgeBase6",
-    "text8"
-  ],
-  frame23: ["frame23", "companyLogo", "rectangle183"],
-  companyLogo: ["companyLogo", "rectangle183"],
-  rectangle183: ["rectangle183"],
-  frame1437254219: [
-    "frame1437254219",
-    "frame24",
-    "frame25",
-    "frame26",
-    "paris75",
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4",
-    "frame1437254218",
-    "badgeBase",
-    "text3",
-    "badgeBase2",
-    "text4",
-    "badgeBase3",
-    "text5",
-    "badgeBase4",
-    "text6",
-    "badgeBase5",
-    "text7",
-    "badgeBase6",
-    "text8"
-  ],
-  frame24: [
-    "frame24",
-    "frame25",
-    "frame26",
-    "paris75",
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4"
-  ],
-  frame25: [
-    "frame25",
-    "frame26",
-    "paris75",
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4"
-  ],
-  frame26: ["frame26", "paris75"],
-  paris75: ["paris75"],
-  frame27: [
-    "frame27",
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4"
-  ],
-  transportationTimeLine: [
-    "transportationTimeLine",
-    "transportationTime",
-    "transportationTime2",
-    "transportationTime3",
-    "transportationTime4"
-  ],
-  transportationTime: ["transportationTime"],
-  transportationTime2: ["transportationTime2"],
-  transportationTime3: ["transportationTime3"],
-  transportationTime4: ["transportationTime4"],
-  frame1437254218: [
-    "frame1437254218",
-    "badgeBase",
-    "text3",
-    "badgeBase2",
-    "text4",
-    "badgeBase3",
-    "text5",
-    "badgeBase4",
-    "text6",
-    "badgeBase5",
-    "text7",
-    "badgeBase6",
-    "text8"
-  ],
-  badgeBase: ["badgeBase", "text3"],
-  text3: ["text3"],
-  badgeBase2: ["badgeBase2", "text4"],
-  text4: ["text4"],
-  badgeBase3: ["badgeBase3", "text5"],
-  text5: ["text5"],
-  badgeBase4: ["badgeBase4", "text6"],
-  text6: ["text6"],
-  badgeBase5: ["badgeBase5", "text7"],
-  text7: ["text7"],
-  badgeBase6: ["badgeBase6", "text8"],
-  text8: ["text8"],
-  frame28: ["frame28"],
-  frame29: ["frame29"],
   content: [
     "content",
     "badgeGroup",
@@ -3944,65 +2522,8 @@ type NodeDefaultElementType = {
   frame8: "div";
   frame10: "div";
   scrollBar: "div";
-  mapPin: "div";
-  frame11: "div";
-  iconSize: "div";
-  mapPin2: "div";
-  frame16: "div";
-  iconSize2: "div";
-  phClockCountdownFill: "div";
-  mapPin3: "div";
-  frame17: "div";
-  iconSize3: "div";
-  phClockCountdownFill2: "div";
-  mapPin4: "div";
-  frame18: "div";
-  iconSize4: "div";
-  mapPin5: "div";
-  frame19: "div";
-  iconSize5: "div";
-  phClockCountdownFill3: "div";
+  jobCard: typeof JobCard;
   map: typeof Map;
-  mapPin6: "div";
-  frame20: "div";
-  iconSize6: "div";
-  phClockCountdownFill4: "div";
-  mapPin7: "div";
-  frame21: "div";
-  iconSize7: "div";
-  buttonLastMin: "div";
-  text2: "div";
-  jobCard: "div";
-  frame22: "div";
-  frame23: "div";
-  companyLogo: "div";
-  rectangle183: "div";
-  frame1437254219: "div";
-  frame24: "div";
-  frame25: "div";
-  frame26: "div";
-  paris75: "div";
-  frame27: "div";
-  transportationTimeLine: "div";
-  transportationTime: "div";
-  transportationTime2: "div";
-  transportationTime3: "div";
-  transportationTime4: "div";
-  frame1437254218: "div";
-  badgeBase: "div";
-  text3: "div";
-  badgeBase2: "div";
-  text4: "div";
-  badgeBase3: "div";
-  text5: "div";
-  badgeBase4: "div";
-  text6: "div";
-  badgeBase5: "div";
-  text7: "div";
-  badgeBase6: "div";
-  text8: "div";
-  frame28: "div";
-  frame29: "div";
   content: "div";
   badgeGroup: "div";
   message: "div";
@@ -4155,65 +2676,8 @@ export const PlasmicAccueil = Object.assign(
     frame8: makeNodeComponent("frame8"),
     frame10: makeNodeComponent("frame10"),
     scrollBar: makeNodeComponent("scrollBar"),
-    mapPin: makeNodeComponent("mapPin"),
-    frame11: makeNodeComponent("frame11"),
-    iconSize: makeNodeComponent("iconSize"),
-    mapPin2: makeNodeComponent("mapPin2"),
-    frame16: makeNodeComponent("frame16"),
-    iconSize2: makeNodeComponent("iconSize2"),
-    phClockCountdownFill: makeNodeComponent("phClockCountdownFill"),
-    mapPin3: makeNodeComponent("mapPin3"),
-    frame17: makeNodeComponent("frame17"),
-    iconSize3: makeNodeComponent("iconSize3"),
-    phClockCountdownFill2: makeNodeComponent("phClockCountdownFill2"),
-    mapPin4: makeNodeComponent("mapPin4"),
-    frame18: makeNodeComponent("frame18"),
-    iconSize4: makeNodeComponent("iconSize4"),
-    mapPin5: makeNodeComponent("mapPin5"),
-    frame19: makeNodeComponent("frame19"),
-    iconSize5: makeNodeComponent("iconSize5"),
-    phClockCountdownFill3: makeNodeComponent("phClockCountdownFill3"),
-    map: makeNodeComponent("map"),
-    mapPin6: makeNodeComponent("mapPin6"),
-    frame20: makeNodeComponent("frame20"),
-    iconSize6: makeNodeComponent("iconSize6"),
-    phClockCountdownFill4: makeNodeComponent("phClockCountdownFill4"),
-    mapPin7: makeNodeComponent("mapPin7"),
-    frame21: makeNodeComponent("frame21"),
-    iconSize7: makeNodeComponent("iconSize7"),
-    buttonLastMin: makeNodeComponent("buttonLastMin"),
-    text2: makeNodeComponent("text2"),
     jobCard: makeNodeComponent("jobCard"),
-    frame22: makeNodeComponent("frame22"),
-    frame23: makeNodeComponent("frame23"),
-    companyLogo: makeNodeComponent("companyLogo"),
-    rectangle183: makeNodeComponent("rectangle183"),
-    frame1437254219: makeNodeComponent("frame1437254219"),
-    frame24: makeNodeComponent("frame24"),
-    frame25: makeNodeComponent("frame25"),
-    frame26: makeNodeComponent("frame26"),
-    paris75: makeNodeComponent("paris75"),
-    frame27: makeNodeComponent("frame27"),
-    transportationTimeLine: makeNodeComponent("transportationTimeLine"),
-    transportationTime: makeNodeComponent("transportationTime"),
-    transportationTime2: makeNodeComponent("transportationTime2"),
-    transportationTime3: makeNodeComponent("transportationTime3"),
-    transportationTime4: makeNodeComponent("transportationTime4"),
-    frame1437254218: makeNodeComponent("frame1437254218"),
-    badgeBase: makeNodeComponent("badgeBase"),
-    text3: makeNodeComponent("text3"),
-    badgeBase2: makeNodeComponent("badgeBase2"),
-    text4: makeNodeComponent("text4"),
-    badgeBase3: makeNodeComponent("badgeBase3"),
-    text5: makeNodeComponent("text5"),
-    badgeBase4: makeNodeComponent("badgeBase4"),
-    text6: makeNodeComponent("text6"),
-    badgeBase5: makeNodeComponent("badgeBase5"),
-    text7: makeNodeComponent("text7"),
-    badgeBase6: makeNodeComponent("badgeBase6"),
-    text8: makeNodeComponent("text8"),
-    frame28: makeNodeComponent("frame28"),
-    frame29: makeNodeComponent("frame29"),
+    map: makeNodeComponent("map"),
     content: makeNodeComponent("content"),
     badgeGroup: makeNodeComponent("badgeGroup"),
     message: makeNodeComponent("message"),
