@@ -3,8 +3,7 @@ import mapboxgl from 'mapbox-gl';
 
 interface Business {
     name: string;
-    latitude: number;
-    longitude: number;
+    address: string; // Change location to address
     className?: string;
 }
 
@@ -19,7 +18,7 @@ interface MapboxMapProps {
 }
 
 const MapboxMap: React.FC<MapboxMapProps> = ({
-    mapStyle = "mapbox://styles/mapbox/streets-v11",
+    mapStyle = '', // Default map style
     latitude = 37.75,
     longitude = -122.45,
     zoom = 9,
@@ -62,7 +61,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
             const data = await response.json();
             if (data.features && data.features.length > 0) {
                 const [longitude, latitude] = data.features[0].center;
-                setMapCenter([longitude, latitude]); // Mettre à jour le centre de la carte
                 return { latitude, longitude };
             } else {
                 console.error('Aucun résultat trouvé pour cette adresse.');
@@ -124,11 +122,15 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
         // Ajouter des marqueurs pour les entreprises
         businesses.forEach((business) => {
-            const { name, latitude, longitude } = business;
-            new mapboxgl.Marker()
-                .setLngLat([longitude, latitude])
-                .setPopup(new mapboxgl.Popup().setHTML(`<h3>${name}</h3>`))
-                .addTo(map);
+            const { name, address } = business;
+            geocodeAddress(address).then((coords) => {
+                if (coords) {
+                    new mapboxgl.Marker()
+                        .setLngLat([coords.longitude, coords.latitude])
+                        .setPopup(new mapboxgl.Popup().setHTML(`<h3>${name}</h3>`))
+                        .addTo(map);
+                }
+            });
         });
 
         // Calculer les directions (optionnel)
@@ -151,14 +153,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     }, [mapStyle, latitude, longitude, zoom, businesses, userLocation, getDirections, mapCenter]);
 
     return (
-        <div className={`map-container ${className}`} aria-label="Carte">
-            <div id="map" ref={mapContainerRef} className="mapbox-map" aria-label="Carte Mapbox" style={{ width: '100%', height: '500px' }}></div>
-            {directions && (
-                <div className="directions-info">
-                    <p>Durée du trajet en voiture: {directions} minutes</p>
-                </div>
-            )}
-        </div>
+        <div id="map" ref={mapContainerRef} className={`mapbox-map ${className}`} aria-label="Carte Mapbox" style={{ width: '100%', height: '100%', borderRadius: 16 }}></div>
     );
 };
 

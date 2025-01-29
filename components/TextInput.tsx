@@ -14,13 +14,13 @@ interface TextInputProps extends PropsWithChildren {
   disabled?: boolean;
   iconUrl?: string;
   className?: string;
-  onChange?: (value: string) => void;
   Text?: string; // Valeur initiale du texte (si elle existe)
+  onTextChange?: (value: string) => void; // Ajoutez cette ligne
 }
 
 const TextInput = ({
   Placeholder = "Placeholder",
-  Label = "Label",
+  Label,
   Type = "Default",
   Destructive,
   disabled,
@@ -29,6 +29,7 @@ const TextInput = ({
   Hint,
   className,
   Text = "", // Valeur initiale (peut être contrôlée par le parent)
+  onTextChange, // Ajoutez cette ligne
 }: TextInputProps) => {
   const [focus, setFocus] = useState(false);
   const [inputValue, setInputValue] = useState(Text); // Stocke la valeur de l'input
@@ -41,9 +42,11 @@ const TextInput = ({
   // Gestion du changement de valeur dans l'input
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = event.target.value;
-    setInputValue(value); // Met à jour l'état local
-  }; // Add the closing brace here
-
+    setInputValue(value);
+    if (onTextChange) {
+      onTextChange(value);
+    }
+  };
 
   const inputVariant = cva(
     "flex w-full transition-all bg-white rounded-2xl items-center",
@@ -104,52 +107,68 @@ const TextInput = ({
           </span>
         )}
         {Type === "Default" && (
-          <input
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}
-            type="text"
-            placeholder={Placeholder}
-            value={inputValue} // Utilise la valeur de l'état
-            onChange={handleInputChange} // Gère le changement
-            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
-            disabled={disabled}
-          />
+          <>
+            <label htmlFor="textInput" className="sr-only">{Label}</label>
+            <input
+              id="textInput"
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}
+              type="text"
+              placeholder={Placeholder}
+              value={inputValue} // Utilise la valeur de l'état
+              onChange={handleInputChange} // Gère le changement
+              className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
+              disabled={disabled}
+            />
+          </>
         )}
         {Type === "TextArea" && (
-          <textarea
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}
-            placeholder={Placeholder}
-            value={inputValue} // Utilise la valeur de l'état
-            onChange={handleInputChange} // Gère le changement
-            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none min-h-32 ${className}`}
-            disabled={disabled}
-          />
+          <>
+            <label htmlFor="textArea" className="sr-only">{Label}</label>
+            <textarea
+              id="textArea"
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}
+              placeholder={Placeholder}
+              value={inputValue} // Utilise la valeur de l'état
+              onChange={handleInputChange} // Gère le changement
+              className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none min-h-32 ${className}`}
+              disabled={disabled}
+            />
+          </>
         )}
         {Type === "Phone" && (
-          <input
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}
-            type="tel"
-            placeholder="+33 6 12 34 56 78"
-            value={inputValue} // Utilise la valeur de l'état
-            onChange={handleInputChange} // Gère le changement
-            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal flex-1 p-3 outline-none ${className}`}
-            disabled={disabled}
-            onKeyPress={handleKeyPress}
-          />
+          <>
+            <label htmlFor="phoneInput" className="sr-only">{Label}</label>
+            <input
+              id="phoneInput"
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}
+              type="tel"
+              placeholder="+33 6 12 34 56 78"
+              value={inputValue} // Utilise la valeur de l'état
+              onChange={handleInputChange} // Gère le changement
+              className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal flex-1 p-3 outline-none ${className}`}
+              disabled={disabled}
+              onKeyPress={handleKeyPress}
+            />
+          </>
         )}
         {Type === "Password" && (
-          <input
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}
-            type="password"
-            placeholder={Placeholder}
-            value={inputValue} // Utilise la valeur de l'état
-            onChange={handleInputChange} // Gère le changement
-            className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
-            disabled={disabled}
-          />
+          <>
+            <label htmlFor="passwordInput" className="sr-only">{Label}</label>
+            <input
+              id="passwordInput"
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}
+              type="password"
+              placeholder={Placeholder}
+              value={inputValue} // Utilise la valeur de l'état
+              onChange={handleInputChange} // Gère le changement
+              className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
+              disabled={disabled}
+            />
+          </>
         )}
       </div>
       <p className="text-black text-sm font-normal flex gap-1 items-center">
