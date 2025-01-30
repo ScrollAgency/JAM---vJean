@@ -1,0 +1,20 @@
+name: jam-staging
+services:
+  app:
+    image: gael29/jam:staging
+    container_name: jam-staging
+    ports:
+      - "29014:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    networks:
+      - jam-network
+    restart: unless-stopped
+
+networks:
+ jam-network:
+    name: jam-network
+    driver: bridge
+    external: true
