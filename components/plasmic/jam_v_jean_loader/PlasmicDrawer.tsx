@@ -132,6 +132,7 @@ export interface DefaultDrawerProps {
   content?: React.ReactNode;
   footer?: React.ReactNode;
   noTrigger?: SingleBooleanChoiceArg<"noTrigger">;
+  className?: string;
 }
 
 const $$ = {};
@@ -219,6 +220,23 @@ function PlasmicDrawer__RenderFunc(props: {
       data-plasmic-override={overrides.ariaDialogTrigger}
       data-plasmic-root={true}
       data-plasmic-for-node={forNode}
+      className={classNames(
+        "__wab_instance",
+        projectcss.root_reset,
+        projectcss.plasmic_default_styles,
+        projectcss.plasmic_mixins,
+        projectcss.plasmic_tokens,
+        plasmic_antd_5_hostless_css.plasmic_tokens,
+        plasmic_library_tailwind_3_4_number_tokens_css.plasmic_tokens,
+        sty.ariaDialogTrigger,
+        {
+          [sty.ariaDialogTriggernoTrigger]: hasVariant(
+            $state,
+            "noTrigger",
+            "noTrigger"
+          )
+        }
+      )}
       dialog={
         <BaseModal
           data-plasmic-name={"ariaModal"}
