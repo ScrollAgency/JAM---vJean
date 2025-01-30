@@ -1,6 +1,7 @@
 import React from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import cn from "classnames";
+import Image from 'next/image';
 
 // Définition des props
 interface JobCardProps extends VariantProps<typeof cardVariant> {
@@ -50,7 +51,7 @@ const JobCard = ({
       <div className="size-full flex p-[12px_8px_8px_8px] flex-col gap-2 items-stretch">
         {/* Logo et en-tête */}
         <div className="flex pr-[20px] items-start gap-[10px] self-stretch">
-          <img
+          <Image
             src={logo}
             alt={`${companyName} logo`}
             className="w-[60px] h-[60px] object-contain"
@@ -64,7 +65,7 @@ const JobCard = ({
         {/* Ville et options */}
         <div className="mt-2 text-sm flex items-center gap-1">
           {customIcons?.mapPin && (
-            <img
+            <Image
               src={customIcons.mapPin}
               alt="Location icon"
               className="w-4 h-4"
@@ -76,14 +77,14 @@ const JobCard = ({
         {/* Pied de page (icônes ou boutons) */}
         <div className="mt-3 flex gap-2">
           {customIcons?.car && (
-            <img
+            <Image
               src={customIcons.car}
               alt="Car icon"
               className="w-5 h-5 text-gray-500"
             />
           )}
           {customIcons?.bus && (
-            <img
+            <Image
               src={customIcons.bus}
               alt="Bus icon"
               className="w-5 h-5 text-gray-500"

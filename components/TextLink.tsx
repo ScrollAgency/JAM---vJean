@@ -12,7 +12,7 @@ interface TextLinkProps {
   disabled?: boolean;
 }
 
-const TextLink = ({ label, size, icon, destructive, uppercase, iconImage, disabled }: TextLinkProps) => {
+const TextLink = ({ label, size, destructive, uppercase, disabled }: TextLinkProps) => {
   const containerVariants = cva("inline-flex items-start rounded-2xl", {
     variants: {
       size: {

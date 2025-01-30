@@ -1,6 +1,7 @@
 import React from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import cn from "classnames";
+import Image from 'next/image';
 
 // Props du composant
 interface JobCardProps extends VariantProps<typeof cardVariant> {
@@ -51,10 +52,12 @@ const JobCard: React.FC<JobCardProps> = ({
     <div className={cn(cardVariant({ state }))}>
       {/* En-tête : Logo + titre */}
       <div className="flex items-center gap-4">
-        <img
+        <Image
           src={logo}
           alt={`${companyName} logo`}
-          className="w-14 h-14 object-contain rounded-md"
+          width={56}
+          height={56}
+          className="object-contain rounded-md"
         />
         <div>
           <h2 className="text-lg font-bold text-gray-900">{title}</h2>
@@ -65,21 +68,21 @@ const JobCard: React.FC<JobCardProps> = ({
       {/* Localisation et transport */}
       <div className="mt-4 flex items-center text-sm text-gray-600 gap-2">
         {customIcons.mapPin && (
-          <img src={customIcons.mapPin} alt="Location icon" className="w-4 h-4" />
+          <Image src={customIcons.mapPin} alt="Location icon" width={16} height={16} />
         )}
         <span>{city}</span>
         <div className="flex items-center gap-1 ml-auto">
           {customIcons.car && (
-            <img src={customIcons.car} alt="Car icon" className="w-4 h-4" />
+            <Image src={customIcons.car} alt="Car icon" width={16} height={16} />
           )}
           {customIcons.bus && (
-            <img src={customIcons.bus} alt="Bus icon" className="w-4 h-4" />
+            <Image src={customIcons.bus} alt="Bus icon" width={16} height={16} />
           )}
           {customIcons.bicycle && (
-            <img src={customIcons.bicycle} alt="Bicycle icon" className="w-4 h-4" />
+            <Image src={customIcons.bicycle} alt="Bicycle icon" width={16} height={16} />
           )}
           {customIcons.walk && (
-            <img src={customIcons.walk} alt="Walk icon" className="w-4 h-4" />
+            <Image src={customIcons.walk} alt="Walk icon" width={16} height={16} />
           )}
         </div>
       </div>

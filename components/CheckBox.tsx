@@ -36,7 +36,6 @@ const Checkbox = ({ checked, type = "Checkbox", disabled }: CheckboxProps) => {
         />
         <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <Icons.check
-            className="size-3.5"
             color={type === "Check circle" ? "#FFFFFF" : "#002400"}
           />
         </span>

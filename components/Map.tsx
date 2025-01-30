@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, } from 'react';
 import mapboxgl from 'mapbox-gl';
 
 interface Business {
@@ -26,7 +26,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     className = '',
     searchAddress = '', // Prop pour la recherche d'adresse
 }) => {
-    const [directions, setDirections] = useState<number | null>(null);
     const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
     const [mapCenter, setMapCenter] = useState<[number, number]>([longitude, latitude]);
     const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -83,19 +82,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         }
     }, [searchAddress]);
 
-    const getDirections = useCallback(async (start: [number, number], end: [number, number], mode: string) => {
-        try {
-            const response = await fetch(
-                `https://api.mapbox.com/directions/v5/mapbox/${mode}/${start[0]},${start[1]};${end[0]},${end[1]}?access_token=${mapboxgl.accessToken}`
-            );
-            const data = await response.json();
-            return data.routes[0].duration;
-        } catch (error) {
-            console.error('Erreur lors de la récupération des directions:', error);
-            return null;
-        }
-    }, []);
-
     useEffect(() => {
         if (!mapContainerRef.current) return;
 
@@ -133,24 +119,13 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
             });
         });
 
-        // Calculer les directions (optionnel)
-        const start: [number, number] = userLocation ? [userLocation.longitude, userLocation.latitude] : mapCenter;
-        const end: [number, number] = [-122.431297, 37.773972];
-
-        getDirections(start, end, 'driving').then((duration) => {
-            if (duration) {
-                console.log('Durée du trajet en voiture:', duration / 60, 'minutes');
-                setDirections(duration / 60);
-            }
-        });
-
         return () => {
             if (mapRef.current) {
                 mapRef.current.remove();
                 mapRef.current = null;
             }
         };
-    }, [mapStyle, latitude, longitude, zoom, businesses, userLocation, getDirections, mapCenter]);
+    }, [mapStyle, latitude, longitude, zoom, businesses, userLocation, mapCenter]);
 
     return (
         <div id="map" ref={mapContainerRef} className={`mapbox-map ${className}`} aria-label="Carte Mapbox" style={{ width: '100%', height: '100%', borderRadius: 16 }}></div>

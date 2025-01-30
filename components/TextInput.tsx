@@ -3,6 +3,7 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import "tailwindcss/tailwind.css";
 import Icons from "@/components/Icons";
+import Image from "next/image";
 
 interface TextInputProps extends PropsWithChildren {
   Type?: "Default" | "Leading Text" | "TextArea" | "Password" | "Phone";
@@ -103,7 +104,7 @@ const TextInput = ({
         )}
         {iconUrl && (
           <span className="pl-[14px]">
-            <img src={iconUrl} alt="icon" className="h-6 w-6" />
+            <Image src={iconUrl} alt="icon" className="h-6 w-6" width={24} height={24} />
           </span>
         )}
         {Type === "Default" && (

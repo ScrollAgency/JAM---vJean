@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
+import Image from "next/image";
 
 type HTMLButtonProps = Pick<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -77,14 +78,14 @@ const Button = ({
       )}
     >
       {icon === "start" && iconImage && (
-        <img src={iconImage} alt="Icon" className="w-5" />
+        <Image src={iconImage} alt="Icon" width={20} height={20} />
       )}
       {icon !== "only" && <span>{label}</span>}
       {icon === "end" && iconImage && (
-        <img src={iconImage} alt="Icon" className="w-5" />
+        <Image src={iconImage} alt="Icon" width={20} height={20} />
       )}
       {icon === "only" && iconImage && (
-        <img src={iconImage} alt="Icon" className="w-5" />
+        <Image src={iconImage} alt="Icon" width={20} height={20} />
       )}
     </button>
   );
