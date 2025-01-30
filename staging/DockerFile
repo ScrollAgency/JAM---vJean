@@ -23,5 +23,5 @@ RUN npm run build
 # Expose le port que l'application utilise
 EXPOSE 3000
 
-# Commande pour démarrer l'application
+# Commande pour démarrer l'application.
 CMD ["npm", "start"]
