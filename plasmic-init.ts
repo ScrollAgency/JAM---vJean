@@ -14,7 +14,7 @@ import {
 import { AuthButton } from "./components/AuthButton";
 import { AuthForm } from "./components/AuthForm";
 import TextInput from "./components/TextInput";
-import Icons from "./components/Icons";
+import Icons from "./components/icons";
 import Button from "./components/Button";
 import CheckBox from "./components/CheckBox";
 import FileUploader from "./components/FileUploader";

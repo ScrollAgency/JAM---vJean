@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useState, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import "tailwindcss/tailwind.css";
-import Icons from "@/components/Icons";
+import Icons from "@/components/icons";
 import Image from "next/image";
 
 interface TextInputProps extends PropsWithChildren {

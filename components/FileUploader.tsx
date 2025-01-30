@@ -1,6 +1,6 @@
 import { cn, fileSize } from "@/lib/utils";
 import React, { useState } from "react";
-import Icons from "./Icons";
+import Icons from "./icons";
 import ProgressBar from "./ProgressBar";
 
 const FileUploader = () => {
