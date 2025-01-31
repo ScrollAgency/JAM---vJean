@@ -1,10 +1,10 @@
-name: jam-staging
+name: jam-production
 services:
   app:
-    image: gael29/jam:staging
-    container_name: jam-staging
+    image: scrollagency/jam:production
+    container_name: jam-production
     ports:
-      - "29001:3000"
+      - "29002:3000"
     env_file:
       - .env
     environment:
