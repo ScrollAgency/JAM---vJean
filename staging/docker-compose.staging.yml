@@ -4,7 +4,7 @@ services:
     image: gael29/jam:staging
     container_name: jam-staging
     ports:
-      - "2901:3000"
+      - "29001:3000"
     env_file:
       - .env
     environment:
