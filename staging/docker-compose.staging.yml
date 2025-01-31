@@ -4,7 +4,7 @@ services:
     image: gael29/jam:staging
     container_name: jam-staging
     ports:
-      - "29017:3000"
+      - "2901:3000"
     env_file:
       - .env
     environment:
@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
 
 networks:
- jam-network:
+  jam-network:
     name: jam-network
     driver: bridge
     external: true
