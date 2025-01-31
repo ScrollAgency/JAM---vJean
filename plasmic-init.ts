@@ -39,7 +39,7 @@ export const PLASMIC = initPlasmicLoader({
     }
   ],
   // Désactiver pour la production afin d'assurer que seules les modifications publiées sont rendues
-  preview: true,
+  preview: false,
 });
 
 // Enregistrement du contexte global Supabase
