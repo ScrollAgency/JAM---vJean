@@ -1,10 +1,10 @@
-name: jam-production
+name: jam-codegen
 services:
   app:
-    image: scrollagency/jam:production
-    container_name: jam-production
+    image: scrollagency/jam:codegen
+    container_name: jam-codegen
     ports:
-      - "29002:3000"
+      - "29003:3000"
     env_file:
       - .env
     environment:

@@ -1,9 +1,9 @@
-name: Deploy to Production
+name: Deploy to Codegen
     
 on:
   push:
     branches:
-      - production
+      - codegen
 
 jobs:
   build-and-deploy:
@@ -50,11 +50,11 @@ jobs:
         with:
           push: true
           context: ./
-          file: ./production/Dockerfile
+          file: ./codegen/Dockerfile
           build-args: |
             NODE_AUTH_TOKEN=${{ secrets.PLASMICLIBRARY_TOKEN }}
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.myapp }}:production
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.myapp }}:codegen
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.myapp }}:${{ github.sha }}
           labels: |
             maintainer=${{ secrets.DOCKERHUB_USERNAME }}
@@ -63,7 +63,7 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.myapp }}:cache
           cache-to: type=inline
 
-      - name: Login to Docker Hub on production Server
+      - name: Login to Docker Hub on codegen Server
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@57.129.138.68 "
             echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
@@ -72,12 +72,12 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
           
-      - name: Deploy to production
+      - name: Deploy to codegen
         run: |
           ssh  -o StrictHostKeyChecking=no -T ubuntu@57.129.138.68 "
-            cd jam/production &&
-            docker compose -f docker-compose.production.yml pull &&
-            docker compose -f docker-compose.production.yml up -d
+            cd jam/codegen &&
+            docker compose -f docker-compose.codegen.yml pull &&
+            docker compose -f docker-compose.codegen.yml up -d
           "
 
     concurrency:
