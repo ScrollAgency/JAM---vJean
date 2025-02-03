@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import React from "react";
-import Icons from "./Icons";
+import Icons from "./icons";
 
 interface CheckboxProps {
   checked?: boolean;
