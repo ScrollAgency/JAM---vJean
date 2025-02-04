@@ -19,8 +19,7 @@ interface JobCardProps extends VariantProps<typeof cardVariant> {
   };
   className?: string; // Ajout du props className
   onClick?: () => void; // Ajout du props onClick
-}
-
+}zzz
 export interface JobCardActions {
   click(): void;
 }
