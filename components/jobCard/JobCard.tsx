@@ -20,7 +20,6 @@ interface JobCardProps extends VariantProps<typeof cardVariant> {
   };
 }
 
-// Variantes de style avec CVA
 const cardVariant = cva(
   "w-[330px] flex flex-col p-4 rounded-2xl bg-white shadow-md relative border border-solid",
   {
