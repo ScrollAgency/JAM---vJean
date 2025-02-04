@@ -80,7 +80,7 @@ PLASMIC.registerComponent(TextInput, {
       description: "Fonction appelée lors du changement de la case.",
       argTypes: [
         {
-          name: "Lieu",
+          name: "VarInput",
           type: "string",
         },
       ],
@@ -112,6 +112,11 @@ PLASMIC.registerComponent(Button, {
     },
     iconImage: "imageUrl",
     label: "string",
+    onClick: {
+      type: "eventHandler",
+      description: "Fonction appelée lors du clic sur le bouton.",
+      argTypes: [],
+    },
   },
   importPath: "./components/Button",
 });

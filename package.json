@@ -1,9 +1,9 @@
 {
-  "name": "tmp-cpa",
+  "name": "jam_vjean_loader",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3020",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,31 +13,31 @@
     "@plasmicapp/loader-nextjs": "^1.0.410",
     "@plasmicapp/loader-react": "^1.0.373",
     "@plasmicapp/react-web": "^0.2.361",
+    "@plasmicpkgs/antd5": "^0.0.262",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.48.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "mapbox-gl": "^3.9.3",
-    "next": "14.2.21",
+    "next": "^14.2.21",
     "plasmic-supabase": "^0.4.1",
-    "react": "^18",
-    "react-dom": "^18",
-    "tailwind": "^2.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "tailwind-cn": "^1.0.2",
-    "tailwind-merge": "^1.14.0"
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@typescript-eslint/eslint-plugin": "^8.22.0",
-    "@typescript-eslint/parser": "^8.22.0",
+    "@types/node": "^20.6.3",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.19.0",
-    "eslint-config-next": "^15.1.6",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "eslint": "^8.50.0",
+    "eslint-config-next": "^13.4.12",
+    "postcss": "^8.4.27",
+    "typescript": "^5.2.2"
   }
 }

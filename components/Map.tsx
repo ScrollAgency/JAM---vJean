@@ -110,11 +110,11 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         businesses.forEach((business) => {
             const { name, address } = business;
             geocodeAddress(address).then((coords) => {
-                if (coords) {
+                if (coords && mapRef.current) {
                     new mapboxgl.Marker()
                         .setLngLat([coords.longitude, coords.latitude])
                         .setPopup(new mapboxgl.Popup().setHTML(`<h3>${name}</h3>`))
-                        .addTo(map);
+                        .addTo(mapRef.current);
                 }
             });
         });

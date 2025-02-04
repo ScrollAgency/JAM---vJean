@@ -3,44 +3,40 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import "tailwindcss/tailwind.css";
 import Icons from "@/components/icons";
-import Image from "next/image";
 
 interface TextInputProps extends PropsWithChildren {
-  Type?: "Default" | "Leading Text" | "TextArea" | "Password" | "Phone";
-  Label?: string;
-  Placeholder?: string;
-  Hint?: string;
-  prefixedText?: string;
-  Destructive?: boolean;
+  type?: "default" | "leading text" | "textarea" | "password" | "phone";
+  label?: string;
+  placeholder?: string;
+  hint?: string;
+  prefixedtext?: string;
+  destructive?: boolean;
   disabled?: boolean;
-  iconUrl?: string;
+  iconurl?: string;
   className?: string;
-  Text?: string; // Valeur initiale du texte (si elle existe)
-  onTextChange?: (value: string) => void; // Ajoutez cette ligne
-}
+  text?: string; 
+  onTextChange?: (value: string) => void; 
 
 const TextInput = ({
-  Placeholder = "Placeholder",
-  Label,
-  Type = "Default",
-  Destructive,
+  placeholder = "placeholder",
+  label,
+  type = "default",
+  destructive,
   disabled,
-  iconUrl,
-  prefixedText,
-  Hint,
+  iconurl,
+  prefixedtext,
+  hint,
   className,
-  Text = "", // Valeur initiale (peut être contrôlée par le parent)
-  onTextChange, // Ajoutez cette ligne
+  text = "", 
+  onTextChange, 
 }: TextInputProps) => {
   const [focus, setFocus] = useState(false);
-  const [inputValue, setInputValue] = useState(Text); // Stocke la valeur de l'input
-
-  // Met à jour l'état lorsque le parent change la valeur
+  const [inputValue, setInputValue] = useState(text); 
+  
   useEffect(() => {
-    setInputValue(Text);
-  }, [Text]);
+    setInputValue(text);
+  }, [text]);
 
-  // Gestion du changement de valeur dans l'input
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = event.target.value;
     setInputValue(value);
@@ -53,7 +49,7 @@ const TextInput = ({
     "flex w-full transition-all bg-white rounded-2xl items-center",
     {
       variants: {
-        Destructive: {
+        destructive: {
           true: "border-1 border-solid border-error-700",
           false: "border-1 border-solid border-pine-500",
         },
@@ -64,12 +60,12 @@ const TextInput = ({
       },
       compoundVariants: [
         {
-          Destructive: true,
+          destructive: true,
           focus: true,
           className: "shadow-[0_0_0_4px_#D92D20]",
         },
         {
-          Destructive: false,
+          destructive: false,
           focus: true,
           className: "border-1 border-solid border-pine-500 shadow-[0_0_0_4px_#E8FFCC]",
         },
@@ -94,78 +90,78 @@ const TextInput = ({
   };
 
   return (
-    <div className="flex flex-col w-full gap-[6px] min-w-[320px]">
-      <label className="text-black text-lg leading-5 font-medium">{Label}</label>
-      <div className={cn(inputVariant({ Destructive, focus }))}>
-        {prefixedText && (
+    <div className="flex flex-col w-full gap-[6px]">
+      <label className="text-black text-lg leading-5 font-medium">{label}</label>
+      <div className={cn(inputVariant({ destructive, focus }))}>
+        {prefixedtext && (
           <span className="text-black text-base font-normal pl-[26px]">
-            {prefixedText}
+            {prefixedtext}
           </span>
         )}
-        {iconUrl && (
+        {iconurl && (
           <span className="pl-[14px]">
-            <Image src={iconUrl} alt="icon" className="h-6 w-6" width={24} height={24} />
+            <img src={iconurl} alt="icon" className="h-6 w-6" />
           </span>
         )}
-        {Type === "Default" && (
+        {type === "default" && (
           <>
-            <label htmlFor="textInput" className="sr-only">{Label}</label>
+            <label htmlFor="textInput" className="sr-only">{label}</label>
             <input
               id="textInput"
               onFocus={() => setFocus(true)}
               onBlur={() => setFocus(false)}
               type="text"
-              placeholder={Placeholder}
-              value={inputValue} // Utilise la valeur de l'état
-              onChange={handleInputChange} // Gère le changement
+              placeholder={placeholder}
+              value={inputValue} 
+              onChange={handleInputChange}
               className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
               disabled={disabled}
             />
           </>
         )}
-        {Type === "TextArea" && (
+        {type === "textarea" && (
           <>
-            <label htmlFor="textArea" className="sr-only">{Label}</label>
+            <label htmlFor="textArea" className="sr-only">{label}</label>
             <textarea
               id="textArea"
               onFocus={() => setFocus(true)}
               onBlur={() => setFocus(false)}
-              placeholder={Placeholder}
-              value={inputValue} // Utilise la valeur de l'état
-              onChange={handleInputChange} // Gère le changement
+              placeholder={placeholder}
+              value={inputValue}
+              onChange={handleInputChange} 
               className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none min-h-32 ${className}`}
               disabled={disabled}
             />
           </>
         )}
-        {Type === "Phone" && (
+        {type === "phone" && (
           <>
-            <label htmlFor="phoneInput" className="sr-only">{Label}</label>
+            <label htmlFor="phoneInput" className="sr-only">{label}</label>
             <input
               id="phoneInput"
               onFocus={() => setFocus(true)}
               onBlur={() => setFocus(false)}
               type="tel"
               placeholder="+33 6 12 34 56 78"
-              value={inputValue} // Utilise la valeur de l'état
-              onChange={handleInputChange} // Gère le changement
+              value={inputValue} 
+              onChange={handleInputChange}
               className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal flex-1 p-3 outline-none ${className}`}
               disabled={disabled}
               onKeyPress={handleKeyPress}
             />
           </>
         )}
-        {Type === "Password" && (
+        {type === "password" && (
           <>
-            <label htmlFor="passwordInput" className="sr-only">{Label}</label>
+            <label htmlFor="passwordInput" className="sr-only">{label}</label>
             <input
               id="passwordInput"
               onFocus={() => setFocus(true)}
               onBlur={() => setFocus(false)}
               type="password"
-              placeholder={Placeholder}
-              value={inputValue} // Utilise la valeur de l'état
-              onChange={handleInputChange} // Gère le changement
+              placeholder={placeholder}
+              value={inputValue} 
+              onChange={handleInputChange} 
               className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
               disabled={disabled}
             />
@@ -173,10 +169,10 @@ const TextInput = ({
         )}
       </div>
       <p className="text-black text-sm font-normal flex gap-1 items-center">
-        {Destructive && <Icons.error />}
-        {Hint && (
-          <span className={`flex-1 text-base ${Destructive && "text-error-700"}`}>
-            {Hint}
+        {destructive && <Icons.error />}
+        {hint && (
+          <span className={`flex-1 text-base ${destructive && "text-error-700"}`}>
+            {hint}
           </span>
         )}
       </p>
