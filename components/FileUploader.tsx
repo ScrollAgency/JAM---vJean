@@ -6,10 +6,9 @@ import ProgressBar from "./ProgressBar";
 const FileUploader = () => {
   const [file, setFile] = useState<File | null>(new File([""], "TestFichier.pdf"));
   const [progress, setProgress] = useState<number>(100);
-  const [error, setError] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
 
-  const handleFileChange = (e: any) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
       setProgress(0);
@@ -29,9 +28,10 @@ const FileUploader = () => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = ".pdf,.doc,.docx,.jpg";
-    input.onchange = handleFileChange;
+    input.onchange = (e) => handleFileChange(e as unknown as React.ChangeEvent<HTMLInputElement>);
     input.click();
   };
+
 
   return (
     <div
@@ -60,23 +60,21 @@ const FileUploader = () => {
           ) : (
             <div className="flex justify-center items-center w-[312px] h-[136px] bg-[#F4F4F4] rounded-2xl transition duration-500">
               <div className="size-full flex p-[34px_24px] justify-center items-start gap-[10px] shrink-0 rounded-2xl border border-solid border-grey-500 bg-white">
-                <Icons.file className="bg-white" />
+                <Icons.file />
                 <div className="flex items-start gap-4 flex-[1_0_0] self-stretch">
                   <div className="flex flex-col items-start gap-1 flex-[1_0_0]">
                     <div className="flex flex-col items-start self-stretch">
                       <p className="text-pine-500 text-sm font-medium">{file.name}</p>
-                      {!error && <p className="text-gray-500 text-[10px] leading-[20px]">{fileSize(file.size)}</p>}
+                      <p className="text-gray-500 text-[10px] leading-[20px]">{fileSize(file.size)}</p>
                     </div>
                     <div className="flex flex-col items-start self-stretch">
                       <ProgressBar progress={progress} />
-                      {error && <p className="text-error-700 text-[10px] leading-[20px]">Une erreur est survenue</p>}
+                      <p className="text-error-700 text-[10px] leading-[20px]">Une erreur est survenue</p>
                     </div>
-                    {error && (
-                      <div className="flex items-center gap-1">
-                        <Icons.folder />
-                        <p className="text-xs text-pine-500 font-semibold">Importer un nouveau fichier</p>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-1">
+                      <Icons.folder />
+                      <p className="text-xs text-pine-500 font-semibold">Importer un nouveau fichier</p>
+                    </div>
                   </div>
                 </div>
               </div>

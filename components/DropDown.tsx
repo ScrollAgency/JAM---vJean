@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import Image from 'next/image';
 
 // Définition de l'interface pour les props
 export interface DropdownProps {
@@ -12,7 +13,9 @@ export interface DropdownProps {
 export default function DropDown(props: DropdownProps) {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     // Assurer que 'options' est bien un tableau d'objets et qu'il y a des données valides
-    const options = Array.isArray(props.options) ? props.options : [];
+    const options = useMemo(() => {
+        return Array.isArray(props.options) ? props.options : [];
+    }, [props.options]);
 
     // Mise à jour du selectedOption chaque fois que props.options change
     useEffect(() => {
@@ -26,14 +29,11 @@ export default function DropDown(props: DropdownProps) {
         <label className={props.className}>
             {props.label}
             {props.iconeUrl && (
-                <img
+                <Image
                     src={props.iconeUrl}
                     alt="icon"
-                    style={{
-                        marginRight: '8px',
-                        width: props.iconSize?.width || '16px', // Taille par défaut de 16px si non spécifiée
-                        height: props.iconSize?.height || '16px', // Taille par défaut de 16px si non spécifiée
-                    }}
+                    width={parseInt(props.iconSize?.width || "16", 10)}
+                    height={parseInt(props.iconSize?.height || "16", 10)}
                 />
             )}
             <select

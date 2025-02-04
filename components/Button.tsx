@@ -46,7 +46,6 @@ const Button = forwardRef<ButtonActions, ButtonProps>(
   ) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    // Expose des actions accessibles via Plasmic
     useImperativeHandle(ref, () => ({
       click() {
         buttonRef.current?.click();
@@ -57,7 +56,6 @@ const Button = forwardRef<ButtonActions, ButtonProps>(
       if (onClick) {
         onClick(event);
       }
-      // Ajoutez ici toute autre logique que vous souhaitez exécuter lors du clic
       console.log("Button clicked");
     };
 
@@ -98,7 +96,6 @@ const Button = forwardRef<ButtonActions, ButtonProps>(
         ],
       }
     );
-
     return (
       <button
         ref={buttonRef}

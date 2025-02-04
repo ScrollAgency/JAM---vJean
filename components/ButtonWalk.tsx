@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Image from 'next/image';
 
 const ButtonWithLogos = () => {
     const [selectedState, setSelectedState] = useState("state1");
@@ -15,7 +16,7 @@ const ButtonWithLogos = () => {
                 className={`p-4 border-2 rounded-full ${selectedState === "state1" ? "border-green-500" : "border-gray-300"
                     }`}
             >
-                <img src="/" alt="Logo 1" className="w-8 h-8" />
+                <Image src="/" alt="Logo 1" width={32} height={32} className="w-8 h-8" />
             </button>
 
             {/* Logo 2 */}
@@ -24,7 +25,7 @@ const ButtonWithLogos = () => {
                 className={`p-4 border-2 rounded-full ${selectedState === "state2" ? "border-green-500" : "border-gray-300"
                     }`}
             >
-                <img src="/logo2.png" alt="Logo 2" className="w-8 h-8" />
+                <Image src="/logo2.png" alt="Logo 2" width={32} height={32} className="w-8 h-8" />
             </button>
 
             {/* Logo 3 */}
@@ -33,7 +34,7 @@ const ButtonWithLogos = () => {
                 className={`p-4 border-2 rounded-full ${selectedState === "state3" ? "border-green-500" : "border-gray-300"
                     }`}
             >
-                <img src="/logo3.png" alt="Logo 3" className="w-8 h-8" />
+                <Image src="/logo3.png" alt="Logo 3" width={32} height={32} className="w-8 h-8" />
             </button>
         </div>
     );

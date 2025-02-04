@@ -20,9 +20,8 @@ const Icons = {
       />
     </svg>
   ),
-  check: ({ className, color }: { className?: string; color?: string }) => (
+  check: ({ color }: { color?: string }) => (
     <svg
-      className={className}
       xmlns="http://www.w3.org/2000/svg"
       width="14"
       height="14"
@@ -57,7 +56,7 @@ const Icons = {
       </svg>
     );
   },
-  file: ({ className }: { className?: string }) => (
+  file: () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
       <g id="ph:paperclip-fill" clip-path="url(#clip0_396_30647)">
         <path

@@ -1,24 +1,27 @@
 import * as React from "react";
 import { CountryCode, countries } from "./countries";
 import { useCountryFlag } from "./useCountryFlag";
+import Image from "next/image";
 
 function CountrySelector() {
   const [selectedCountry, setSelectedCountry] = React.useState<CountryCode>(
     countries[0]
   );
-  interface PhoneInputProps {
-    selectedCountry: CountryCode;
-  }
+  // interface PhoneInputProps {
+  //   selectedCountry: CountryCode;
+  // }
   const flagUrl = useCountryFlag(selectedCountry.code);
 
   return (
     <div className="flex flex-col flex-1 w-full">
       <div className="flex flex-1 gap-1 px-3.5 py-2.5 bg-white rounded-2xl size-full">
         <div className="flex gap-2 justify-center items-center h-full">
-          <img
+          <Image
             src={flagUrl}
             alt={`Flag of ${selectedCountry.name}`}
             className="w-auto h-6"
+            width={24}
+            height={24}
           />
           <select
             aria-label="Select country code"

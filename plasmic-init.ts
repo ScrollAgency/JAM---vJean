@@ -331,7 +331,3 @@ PLASMIC.registerComponent(JobCard, {
   },
   importPath: "./components/jobCard/JobCard"
 });
-
-// PLASMIC.registerComponent(PlasmicSupabaseForm, {
-//   name: "PlasmicSupabaseForm",
-// });
