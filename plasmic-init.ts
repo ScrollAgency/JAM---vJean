@@ -71,6 +71,11 @@ PLASMIC.registerComponent(TextInput, {
     destructive: "boolean",
     disabled: "boolean",
     iconImage: "imageUrl",
+    iconPosition: {
+      type: "choice",
+      options: ["left", "right"],
+      defaultValue: "left",
+    },
     prefixedText: "string",
     hint: "string",
     className: "string",
