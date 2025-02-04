@@ -26,7 +26,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     className = '',
     searchAddress = '', // Prop pour la recherche d'adresse
 }) => {
-    const [directions, setDirections] = useState<number | null>(null);
+    // const [directions, setDirections] = useState<number | null>(null);
     const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
     const [mapCenter, setMapCenter] = useState<[number, number]>([longitude, latitude]);
     const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -34,12 +34,15 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
     // Récupérer la position de l'utilisateur
     useEffect(() => {
+        let isMounted = true;
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    const { latitude, longitude } = position.coords;
-                    setUserLocation({ latitude, longitude });
-                    setMapCenter([longitude, latitude]); // Centrer la carte sur la position de l'utilisateur
+                    if (isMounted) {
+                        const { latitude, longitude } = position.coords;
+                        setUserLocation({ latitude, longitude });
+                        setMapCenter([longitude, latitude]); // Centrer la carte sur la position de l'utilisateur
+                    }
                 },
                 (error) => {
                     console.error('Erreur de géolocalisation:', error);
@@ -48,6 +51,9 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         } else {
             console.error('La géolocalisation n\'est pas supportée par ce navigateur.');
         }
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     // Fonction pour géocoder une adresse ou une ville
@@ -99,7 +105,11 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     useEffect(() => {
         if (!mapContainerRef.current) return;
 
-        mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
+        if (!process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) {
+            console.error('Mapbox access token is not set');
+            return;
+        }
+        mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
@@ -133,16 +143,16 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
             });
         });
 
-        // Calculer les directions (optionnel)
-        const start: [number, number] = userLocation ? [userLocation.longitude, userLocation.latitude] : mapCenter;
-        const end: [number, number] = [-122.431297, 37.773972];
+        // // Calculer les directions (optionnel)
+        // const start: [number, number] = userLocation ? [userLocation.longitude, userLocation.latitude] : mapCenter;
+        // const end: [number, number] = [-122.431297, 37.773972];
 
-        getDirections(start, end, 'driving').then((duration) => {
-            if (duration) {
-                console.log('Durée du trajet en voiture:', duration / 60, 'minutes');
-                setDirections(duration / 60);
-            }
-        });
+        // getDirections(start, end, 'driving').then((duration) => {
+        //     if (duration) {
+        //         console.log('Durée du trajet en voiture:', duration / 60, 'minutes');
+        //         // setDirections(duration / 60);
+        //     }
+        // });
 
         return () => {
             if (mapRef.current) {
