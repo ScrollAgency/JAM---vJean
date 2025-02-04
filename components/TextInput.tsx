@@ -14,8 +14,9 @@ interface TextInputProps extends PropsWithChildren {
   disabled?: boolean;
   iconurl?: string;
   className?: string;
-  text?: string; 
-  onTextChange?: (value: string) => void; 
+  text?: string;
+  onTextChange?: (value: string) => void;
+}
 
 const TextInput = ({
   placeholder = "placeholder",
@@ -27,12 +28,12 @@ const TextInput = ({
   prefixedtext,
   hint,
   className,
-  text = "", 
-  onTextChange, 
+  text = "",
+  onTextChange,
 }: TextInputProps) => {
   const [focus, setFocus] = useState(false);
-  const [inputValue, setInputValue] = useState(text); 
-  
+  const [inputValue, setInputValue] = useState(text);
+
   useEffect(() => {
     setInputValue(text);
   }, [text]);
@@ -112,7 +113,7 @@ const TextInput = ({
               onBlur={() => setFocus(false)}
               type="text"
               placeholder={placeholder}
-              value={inputValue} 
+              value={inputValue}
               onChange={handleInputChange}
               className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
               disabled={disabled}
@@ -128,7 +129,7 @@ const TextInput = ({
               onBlur={() => setFocus(false)}
               placeholder={placeholder}
               value={inputValue}
-              onChange={handleInputChange} 
+              onChange={handleInputChange}
               className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none min-h-32 ${className}`}
               disabled={disabled}
             />
@@ -143,7 +144,7 @@ const TextInput = ({
               onBlur={() => setFocus(false)}
               type="tel"
               placeholder="+33 6 12 34 56 78"
-              value={inputValue} 
+              value={inputValue}
               onChange={handleInputChange}
               className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal flex-1 p-3 outline-none ${className}`}
               disabled={disabled}
@@ -160,8 +161,8 @@ const TextInput = ({
               onBlur={() => setFocus(false)}
               type="password"
               placeholder={placeholder}
-              value={inputValue} 
-              onChange={handleInputChange} 
+              value={inputValue}
+              onChange={handleInputChange}
               className={`bg-transparent placeholder:text-grey-500 placeholder:text-lg text-base font-normal w-full flex-1 p-3 outline-none ${className}`}
               disabled={disabled}
             />
