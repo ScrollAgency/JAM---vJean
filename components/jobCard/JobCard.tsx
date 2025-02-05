@@ -18,7 +18,7 @@ interface JobCardProps extends VariantProps<typeof cardVariant> {
     walk?: string;
   };
   className?: string; // Ajout du props className
-  onClick?: () => void; // Ajout du props onClick
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void; // Ajout du props onClick
 }
 export interface JobCardActions {
   click(): void;

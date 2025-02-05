@@ -129,19 +129,42 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
                 .setPopup(new mapboxgl.Popup().setHTML('<h3>Votre position</h3>'))
                 .addTo(map);
         }
+        // Fonction pour géocoder une adresse
+        const geocodeAddress = async (address: string) => {
+            try {
+                const response = await fetch(
+                    `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${mapboxgl.accessToken}`
+                );
+                const data = await response.json();
+                if (data.features && data.features.length > 0) {
+                    const [longitude, latitude] = data.features[0].center;
+                    return { latitude, longitude };
+                } else {
+                    console.error('Aucun résultat trouvé pour l\'adresse:', address);
+                    return null;
+                }
+            } catch (error) {
+                console.error('Erreur lors du géocodage:', error);
+                return null;
+            }
+        };
 
         // Ajouter des marqueurs pour les entreprises
         businesses.forEach((business) => {
             const { name, address } = business;
             geocodeAddress(address).then((coords) => {
                 if (coords && mapRef.current) {
+                    const { latitude, longitude } = coords;
                     new mapboxgl.Marker()
-                        .setLngLat([coords.longitude, coords.latitude])
+                        .setLngLat([longitude, latitude])
                         .setPopup(new mapboxgl.Popup().setHTML(`<h3>${name}</h3>`))
                         .addTo(mapRef.current);
+                } else {
+                    console.warn(`Aucune coordonnée trouvée pour ${name} à l'adresse ${address}`);
                 }
             });
         });
+
 
         // // Calculer les directions (optionnel)
         // const start: [number, number] = userLocation ? [userLocation.longitude, userLocation.latitude] : mapCenter;

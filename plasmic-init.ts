@@ -29,6 +29,7 @@ import Map from "./components/Map";
 import FooterLink from "./components/Footerlink";
 import JobCard from "./components/jobCard/JobCard";
 import JobCardMap from "./components/JobCardMap";
+import UserTable from "./components/UserTable";
 // import PlasmicSupabaseForm from "./components/PlasmicSupabaseForm";
 
 // Initialisation du loader Plasmic
@@ -362,4 +363,16 @@ PLASMIC.registerComponent(JobCardMap, {
     },
   },
   importPath: "./components/JobCardMap"
+});
+
+// Enregistrement du composant UserTable
+PLASMIC.registerComponent(UserTable, {
+  name: "UserTable",
+  props: {
+    applications: {
+      type: "object",
+      defaultValue: [],
+    },
+  },
+  importPath: "./components/UserTable",
 });
