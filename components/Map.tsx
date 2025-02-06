@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import mapboxgl from 'mapbox-gl';
 
 interface Business {
@@ -88,20 +88,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
                 }
             });
         }
-    }, [searchAddress]);
-
-    const getDirections = useCallback(async (start: [number, number], end: [number, number], mode: string) => {
-        try {
-            const response = await fetch(
-                `https://api.mapbox.com/directions/v5/mapbox/${mode}/${start[0]},${start[1]};${end[0]},${end[1]}?access_token=${mapboxgl.accessToken}`
-            );
-            const data = await response.json();
-            return data.routes[0].duration;
-        } catch (error) {
-            console.error('Erreur lors de la récupération des directions:', error);
-            return null;
-        }
-    }, []);
+    }, [searchAddress, geocodeAddress]);
 
     useEffect(() => {
         if (!mapContainerRef.current || !process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) return;
@@ -144,7 +131,8 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
                 mapRef.current = null;
             }
         };
-    }, [mapStyle, latitude, longitude, zoom, businesses, userLocation, getDirections, mapCenter]);
+
+    }, [mapStyle, latitude, longitude, zoom, businesses, userLocation, geocodeAddress, mapCenter]);
 
     return <div ref={mapContainerRef} className={`mapbox-map ${className}`} style={{ width: '100%', height: '100%', borderRadius: 16 }} />;
 };
