@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useImperativeHandle, forwardRef } from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import cn from "classnames";
 import Image from 'next/image';
@@ -18,18 +18,23 @@ interface JobCardProps extends VariantProps<typeof cardVariant> {
     bicycle?: string;
     walk?: string;
   };
+  className?: string; // Ajout du props className
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void; // Ajout du props onClick
+}
+export interface JobCardActions {
+  click(): void;
 }
 
 const cardVariant = cva(
-  "w-[330px] flex flex-col p-4 rounded-2xl bg-white shadow-md relative border border-solid",
+  "w-[330px] flex flex-col rounded-2xl bg-white shadow-md relative border border-solid",
   {
     variants: {
       state: {
-        default: "border-gray-200",
-        liked: "border-[#FF4D84]",
-        applied: "border-[#002400]",
-        new: "border-[#BAFE68]",
-        lastMin: "border-[#F6165B]",
+        default: "",
+        liked: "",
+        applied: "",
+        new: "",
+        lastMin: "",
       },
     },
     defaultVariants: {
@@ -38,7 +43,7 @@ const cardVariant = cva(
   }
 );
 
-const JobCard: React.FC<JobCardProps> = ({
+const JobCard = forwardRef<JobCardActions, JobCardProps>(({
   state = "default",
   title,
   city,
@@ -46,19 +51,39 @@ const JobCard: React.FC<JobCardProps> = ({
   logo,
   tags = [],
   customIcons = {},
-}) => {
+  className, // Ajout du props className
+  onClick, // Ajout du props onClick
+}, ref) => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useImperativeHandle(ref, () => ({
+    click() {
+      buttonRef.current?.click();
+      console.log("JobCard clicked");
+    },
+  }));
+
+  const handleFavoriteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log("Favorite button clicked");
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (onClick) {
+      onClick(event);
+    }
+    console.log("JobCard clicked");
+  };
+
   return (
-    <div className={cn(cardVariant({ state }))}>
+    <div className={cn(cardVariant({ state }), className)} onClick={handleClick}>
       {/* En-tête : Logo + titre */}
       <div className="flex items-center gap-4">
-        <Image
+        <img
           src={logo}
           alt={`${companyName} logo`}
-          width={56}
-          height={56}
-          className="object-contain rounded-md"
+          className="w-14 h-14 object-contain rounded-md"
         />
-        <div>
+        <div className="text-center">
           <h2 className="text-lg font-bold text-gray-900">{title}</h2>
           <p className="text-sm text-gray-500">{companyName}</p>
         </div>
@@ -103,7 +128,7 @@ const JobCard: React.FC<JobCardProps> = ({
       {/* Étiquette "Nouveau" */}
       {state === "new" && (
         <div
-          className="absolute top-2 left-2 bg-[#BAFE68] text-green-900 text-xs font-bold px-3 py-1 rounded-full uppercase"
+          className="absolute top-1 left-1 bg-[#BAFE68] text-green-900 text-xs font-bold px-3 py-1 rounded-full uppercase"
           role="status"
         >
           Nouveau
@@ -113,14 +138,17 @@ const JobCard: React.FC<JobCardProps> = ({
       {/* Bouton favori */}
       {state === "liked" && (
         <button
-          className="absolute top-2 right-2 w-8 h-8 bg-[#FF4D84] text-white rounded-full flex items-center justify-center"
+          ref={buttonRef}
+          className="absolute top-1 right-1 w-8 h-8 bg-[#FF4D84] text-white rounded-full flex items-center justify-center"
           aria-label="Remove from favorites"
+          onClick={handleFavoriteClick} // Ajouter l'action Plasmic
         >
           ❤
         </button>
       )}
     </div>
   );
-};
+});
 
+JobCard.displayName = "JobCard";
 export default JobCard;

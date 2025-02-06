@@ -28,6 +28,9 @@ import Option from "./components/Option";
 import Map from "./components/Map";
 import FooterLink from "./components/Footerlink";
 import JobCard from "./components/jobCard/JobCard";
+import JobCardMap from "./components/JobCardMap";
+import UserTable from "./components/UserTable";
+import Checkbox from "./components/CheckBox";
 // import PlasmicSupabaseForm from "./components/PlasmicSupabaseForm";
 
 // Initialisation du loader Plasmic
@@ -132,6 +135,30 @@ PLASMIC.registerComponent(CheckBox, {
       required: false,
     },
     disabled: "boolean",
+  },
+  importPath: "./components/CheckBox",
+});
+
+PLASMIC.registerComponent(Checkbox, {
+  name: "Checkbox",
+  props: {
+    checked: "boolean",
+    type: {
+      type: "choice",
+      options: ["Checkbox", "Check circle"],
+      defaultValue: "Checkbox",
+    },
+    disabled: "boolean",
+    onChange: {
+      type: "eventHandler",
+      description: "Fonction appelée lors du changement de la case.",
+      argTypes: [
+        {
+          name: "checked",
+          type: "boolean",
+        },
+      ],
+    },
   },
   importPath: "./components/CheckBox",
 });
@@ -317,6 +344,37 @@ PLASMIC.registerComponent(JobCard, {
       required: false,
     },
     title: "string",
+    className: "string",
+    city: "string",
+    companyName: "string",
+    logo: "imageUrl",
+    onClick: {
+      type: "eventHandler",
+      description: "Fonction appelée lors du clic sur le bouton.",
+      argTypes: [],
+    },
+    tags: {
+      type: "object",
+      defaultValue: [],
+    },
+    customIcons: {
+      type: "object",
+      defaultValue: {},
+    },
+  },
+  importPath: "./components/jobCard/JobCard"
+});
+
+PLASMIC.registerComponent(JobCardMap, {
+  name: "JobCardMap",
+  props: {
+    state: {
+      type: "choice",
+      defaultValue: "default",
+      options: ["default", "liked", "applied", "new", "lastMin"],
+      required: false,
+    },
+    title: "string",
     city: "string",
     companyName: "string",
     logo: "imageUrl",
@@ -329,5 +387,17 @@ PLASMIC.registerComponent(JobCard, {
       defaultValue: {},
     },
   },
-  importPath: "./components/jobCard/JobCard"
+  importPath: "./components/JobCardMap"
+});
+
+// Enregistrement du composant UserTable
+PLASMIC.registerComponent(UserTable, {
+  name: "UserTable",
+  props: {
+    applications: {
+      type: "object",
+      defaultValue: [],
+    },
+  },
+  importPath: "./components/UserTable",
 });
