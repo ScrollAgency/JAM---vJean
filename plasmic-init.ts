@@ -30,6 +30,7 @@ import FooterLink from "./components/Footerlink";
 import JobCard from "./components/jobCard/JobCard";
 import JobCardMap from "./components/JobCardMap";
 import UserTable from "./components/UserTable";
+import Checkbox from "./components/CheckBox";
 // import PlasmicSupabaseForm from "./components/PlasmicSupabaseForm";
 
 // Initialisation du loader Plasmic
@@ -134,6 +135,30 @@ PLASMIC.registerComponent(CheckBox, {
       required: false,
     },
     disabled: "boolean",
+  },
+  importPath: "./components/CheckBox",
+});
+
+PLASMIC.registerComponent(Checkbox, {
+  name: "Checkbox",
+  props: {
+    checked: "boolean",
+    type: {
+      type: "choice",
+      options: ["Checkbox", "Check circle"],
+      defaultValue: "Checkbox",
+    },
+    disabled: "boolean",
+    onChange: {
+      type: "eventHandler",
+      description: "Fonction appelée lors du changement de la case.",
+      argTypes: [
+        {
+          name: "checked",
+          type: "boolean",
+        },
+      ],
+    },
   },
   importPath: "./components/CheckBox",
 });

@@ -45,7 +45,7 @@ const getStatusClass = (status: string) => {
 const JobApplicationTable: React.FC<JobApplicationTableProps> = ({ applications, className }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortConfig, setSortConfig] = useState<{ key: keyof JobApplication, direction: 'asc' | 'desc' } | null>(null);
-    const itemsPerPage = 9;
+    const itemsPerPage = 9; // Number of items per page
 
     const sortedApplications = React.useMemo(() => {
         let sortableApplications = [...applications];
