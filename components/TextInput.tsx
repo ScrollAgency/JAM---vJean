@@ -12,7 +12,7 @@ interface TextInputProps extends PropsWithChildren {
   prefixedtext?: string;
   destructive?: boolean;
   disabled?: boolean;
-  iconurl?: string;
+  iconUrl?: string;
   className?: string;
   text?: string;
   onTextChange?: (value: string) => void;
@@ -24,7 +24,7 @@ const TextInput = ({
   type = "default",
   destructive,
   disabled,
-  iconurl,
+  iconUrl,
   prefixedtext,
   hint,
   className,
@@ -99,9 +99,9 @@ const TextInput = ({
             {prefixedtext}
           </span>
         )}
-        {iconurl && (
+        {iconUrl && (
           <span className="pl-[14px]">
-            <img src={iconurl} alt="icon" className="h-6 w-6" />
+            <img src={iconUrl} alt="icon" className="h-6 w-6" />
           </span>
         )}
         {type === "default" && (

@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef, } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import mapboxgl from 'mapbox-gl';
 
 interface Business {
     name: string;
-    address: string; // Change location to address
+    address: string;
     className?: string;
 }
 
@@ -13,92 +13,96 @@ interface MapboxMapProps {
     longitude?: number;
     zoom?: number;
     businesses?: Business[];
-    className?: string; // Classe pour personnaliser la carte depuis Plasmic
-    searchAddress?: string; // Prop pour la recherche d'adresse
+    className?: string;
+    searchAddress?: string;
 }
 
 const MapboxMap: React.FC<MapboxMapProps> = ({
-    mapStyle = '', // Default map style
+    mapStyle = 'mapbox://styles/mapbox/streets-v11',
     latitude = 37.75,
     longitude = -122.45,
     zoom = 9,
     businesses = [],
     className = '',
-    searchAddress = '', // Prop pour la recherche d'adresse
+    searchAddress = '',
 }) => {
     const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
     const [mapCenter, setMapCenter] = useState<[number, number]>([longitude, latitude]);
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapRef = useRef<mapboxgl.Map | null>(null);
+    const markersRef = useRef<mapboxgl.Marker[]>([]);
 
-    // Récupérer la position de l'utilisateur
     useEffect(() => {
+        if (!process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) {
+            console.error('Mapbox access token is not set');
+            return;
+        }
+        mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+    }, []);
+
+    useEffect(() => {
+        let isMounted = true;
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    const { latitude, longitude } = position.coords;
-                    setUserLocation({ latitude, longitude });
-                    setMapCenter([longitude, latitude]); // Centrer la carte sur la position de l'utilisateur
+                    if (isMounted) {
+                        const { latitude, longitude } = position.coords;
+                        setUserLocation({ latitude, longitude });
+                        setMapCenter([longitude, latitude]);
+                    }
                 },
                 (error) => {
                     console.error('Erreur de géolocalisation:', error);
                 }
             );
-        } else {
-            console.error('La géolocalisation n\'est pas supportée par ce navigateur.');
         }
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
-    // Fonction pour géocoder une adresse ou une ville
-    const geocodeAddress = async (address: string) => {
+    const geocodeAddress = useCallback(async (address: string) => {
         try {
             const response = await fetch(
-                `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-                    address
-                )}.json?access_token=${mapboxgl.accessToken}`
+                `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${mapboxgl.accessToken}`
             );
             const data = await response.json();
-            if (data.features && data.features.length > 0) {
+            if (data.features?.length > 0) {
                 const [longitude, latitude] = data.features[0].center;
                 return { latitude, longitude };
             } else {
-                console.error('Aucun résultat trouvé pour cette adresse.');
+                console.warn(`Aucun résultat trouvé pour l'adresse : ${address}`);
                 return null;
             }
         } catch (error) {
             console.error('Erreur lors du géocodage:', error);
             return null;
         }
-    };
+    }, []);
 
-    // Effet pour déclencher la recherche d'adresse lorsque searchAddress change
     useEffect(() => {
         if (searchAddress.trim()) {
             geocodeAddress(searchAddress).then((coords) => {
                 if (coords && mapRef.current) {
-                    mapRef.current.setCenter([coords.longitude, coords.latitude]); // Centrer la carte sur l'adresse
+                    mapRef.current.flyTo({ center: [coords.longitude, coords.latitude], zoom: 12 });
                 }
             });
         }
-    }, [searchAddress]);
+    }, [searchAddress, geocodeAddress]);
 
     useEffect(() => {
-        if (!mapContainerRef.current) return;
-
-        mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
+        if (!mapContainerRef.current || !process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) return;
 
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
             style: mapStyle,
-            center: mapCenter, // Utiliser mapCenter comme centre initial
+            center: mapCenter,
             zoom: zoom,
         });
 
         mapRef.current = map;
-
         map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-        // Ajouter un marqueur pour la position de l'utilisateur
         if (userLocation) {
             new mapboxgl.Marker({ color: 'blue' })
                 .setLngLat([userLocation.longitude, userLocation.latitude])
@@ -106,30 +110,31 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
                 .addTo(map);
         }
 
-        // Ajouter des marqueurs pour les entreprises
         businesses.forEach((business) => {
-            const { name, address } = business;
-            geocodeAddress(address).then((coords) => {
+            geocodeAddress(business.address).then((coords) => {
                 if (coords && mapRef.current) {
-                    new mapboxgl.Marker()
+                    const marker = new mapboxgl.Marker()
                         .setLngLat([coords.longitude, coords.latitude])
-                        .setPopup(new mapboxgl.Popup().setHTML(`<h3>${name}</h3>`))
+                        .setPopup(new mapboxgl.Popup().setHTML(`<h3>${business.name}</h3>`))
                         .addTo(mapRef.current);
+                    markersRef.current.push(marker);
                 }
             });
         });
 
         return () => {
+            markersRef.current.forEach((marker) => marker.remove());
+            markersRef.current = [];
+
             if (mapRef.current) {
                 mapRef.current.remove();
                 mapRef.current = null;
             }
         };
-    }, [mapStyle, latitude, longitude, zoom, businesses, userLocation, mapCenter]);
 
-    return (
-        <div id="map" ref={mapContainerRef} className={`mapbox-map ${className}`} aria-label="Carte Mapbox" style={{ width: '100%', height: '100%', borderRadius: 16 }}></div>
-    );
+    }, [mapStyle, latitude, longitude, zoom, businesses, userLocation, geocodeAddress, mapCenter]);
+
+    return <div ref={mapContainerRef} className={`mapbox-map ${className}`} style={{ width: '100%', height: '100%', borderRadius: 16 }} />;
 };
 
 export default MapboxMap;
