@@ -33,32 +33,40 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     const markersRef = useRef<mapboxgl.Marker[]>([]);
 
     useEffect(() => {
-        if (!process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) {
-            console.error('Mapbox access token is not set');
-            return;
+        try {
+            if (!process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) {
+                console.error('Mapbox access token is not set');
+                return;
+            }
+            mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+        } catch (error) {
+            console.error('Error in useEffect for setting access token:', error);
         }
-        mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
     }, []);
 
     useEffect(() => {
-        let isMounted = true;
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    if (isMounted) {
-                        const { latitude, longitude } = position.coords;
-                        setUserLocation({ latitude, longitude });
-                        setMapCenter([longitude, latitude]);
+        try {
+            let isMounted = true;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        if (isMounted) {
+                            const { latitude, longitude } = position.coords;
+                            setUserLocation({ latitude, longitude });
+                            setMapCenter([longitude, latitude]);
+                        }
+                    },
+                    (error) => {
+                        console.error('Erreur de géolocalisation:', error);
                     }
-                },
-                (error) => {
-                    console.error('Erreur de géolocalisation:', error);
-                }
-            );
+                );
+            }
+            return () => {
+                isMounted = false;
+            };
+        } catch (error) {
+            console.error('Error in useEffect for geolocation:', error);
         }
-        return () => {
-            isMounted = false;
-        };
     }, []);
 
     const geocodeAddress = useCallback(async (address: string) => {
@@ -81,57 +89,64 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     }, []);
 
     useEffect(() => {
-        if (searchAddress.trim()) {
-            geocodeAddress(searchAddress).then((coords) => {
-                if (coords && mapRef.current) {
-                    mapRef.current.flyTo({ center: [coords.longitude, coords.latitude], zoom: 12 });
-                }
-            });
+        try {
+            if (searchAddress.trim()) {
+                geocodeAddress(searchAddress).then((coords) => {
+                    if (coords && mapRef.current) {
+                        mapRef.current.flyTo({ center: [coords.longitude, coords.latitude], zoom: 12 });
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error in useEffect for searchAddress:', error);
         }
     }, [searchAddress, geocodeAddress]);
 
     useEffect(() => {
-        if (!mapContainerRef.current || !process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) return;
+        try {
+            if (!mapContainerRef.current || !process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) return;
 
-        const map = new mapboxgl.Map({
-            container: mapContainerRef.current,
-            style: mapStyle,
-            center: mapCenter,
-            zoom: zoom,
-        });
-
-        mapRef.current = map;
-        map.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
-        if (userLocation) {
-            new mapboxgl.Marker({ color: 'blue' })
-                .setLngLat([userLocation.longitude, userLocation.latitude])
-                .setPopup(new mapboxgl.Popup().setHTML('<h3>Votre position</h3>'))
-                .addTo(map);
-        }
-
-        businesses.forEach((business) => {
-            geocodeAddress(business.address).then((coords) => {
-                if (coords && mapRef.current) {
-                    const marker = new mapboxgl.Marker()
-                        .setLngLat([coords.longitude, coords.latitude])
-                        .setPopup(new mapboxgl.Popup().setHTML(`<h3>${business.name}</h3>`))
-                        .addTo(mapRef.current);
-                    markersRef.current.push(marker);
-                }
+            const map = new mapboxgl.Map({
+                container: mapContainerRef.current,
+                style: mapStyle,
+                center: mapCenter,
+                zoom: zoom,
             });
-        });
 
-        return () => {
-            markersRef.current.forEach((marker) => marker.remove());
-            markersRef.current = [];
+            mapRef.current = map;
+            map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-            if (mapRef.current) {
-                mapRef.current.remove();
-                mapRef.current = null;
+            if (userLocation) {
+                new mapboxgl.Marker({ color: 'blue' })
+                    .setLngLat([userLocation.longitude, userLocation.latitude])
+                    .setPopup(new mapboxgl.Popup().setHTML('<h3>Votre position</h3>'))
+                    .addTo(map);
             }
-        };
 
+            businesses.forEach((business) => {
+                geocodeAddress(business.address).then((coords) => {
+                    if (coords && mapRef.current) {
+                        const marker = new mapboxgl.Marker()
+                            .setLngLat([coords.longitude, coords.latitude])
+                            .setPopup(new mapboxgl.Popup().setHTML(`<h3>${business.name}</h3>`))
+                            .addTo(mapRef.current);
+                        markersRef.current.push(marker);
+                    }
+                });
+            });
+
+            return () => {
+                markersRef.current.forEach((marker) => marker.remove());
+                markersRef.current = [];
+
+                if (mapRef.current) {
+                    mapRef.current.remove();
+                    mapRef.current = null;
+                }
+            };
+        } catch (error) {
+            console.error('Error in useEffect for map initialization:', error);
+        }
     }, [mapStyle, latitude, longitude, zoom, businesses, userLocation, geocodeAddress, mapCenter]);
 
     return <div ref={mapContainerRef} className={`mapbox-map ${className}`} style={{ width: '100%', height: '100%', borderRadius: 16 }} />;

@@ -4,7 +4,9 @@ export function useCountryFlag(countryCode: string): string {
     const [flagUrl, setFlagUrl] = useState("");
 
     useEffect(() => {
-        setFlagUrl(`https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`);
+        if (countryCode) {
+            setFlagUrl(`https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`);
+        }
     }, [countryCode]);
 
     return flagUrl;

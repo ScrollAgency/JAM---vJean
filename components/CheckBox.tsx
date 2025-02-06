@@ -42,7 +42,6 @@ const Checkbox: React.FC<CheckboxProps> = ({ checked, type = "Checkbox", disable
           checked={checked}
           onChange={handleChange}
         />
-        {type === "Checkbox" && checked && <Icons.check className="absolute inset-0 m-auto" />}
       </label>
     </div>
   );
