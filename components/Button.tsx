@@ -56,7 +56,6 @@ const Button = forwardRef<ButtonActions, ButtonProps>(
       if (onClick) {
         onClick(event);
       }
-      console.log("Button clicked");
     };
 
     const variants = cva(

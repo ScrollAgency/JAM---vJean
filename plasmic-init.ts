@@ -123,7 +123,6 @@ PLASMIC.registerComponent(Button, {
   },
   importPath: "./components/Button",
 });
-
 PLASMIC.registerComponent(CheckBox, {
   name: "CheckBox",
   props: {
@@ -133,20 +132,6 @@ PLASMIC.registerComponent(CheckBox, {
       defaultValue: "Checkbox",
       options: ["Checkbox", "Check circle"],
       required: false,
-    },
-    disabled: "boolean",
-  },
-  importPath: "./components/CheckBox",
-});
-
-PLASMIC.registerComponent(Checkbox, {
-  name: "Checkbox",
-  props: {
-    checked: "boolean",
-    type: {
-      type: "choice",
-      options: ["Checkbox", "Check circle"],
-      defaultValue: "Checkbox",
     },
     disabled: "boolean",
     onChange: {
