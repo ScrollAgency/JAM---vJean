@@ -380,7 +380,7 @@ PLASMIC.registerComponent(JobCardMap, {
   importPath: "./components/JobCardMap"
 });
 
-// Enregistrement du composant UserTable
+// Enregistrement du composant UserTable.
 PLASMIC.registerComponent(UserTable, {
   name: "UserTable",
   props: {
