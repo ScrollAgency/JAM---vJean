@@ -300,6 +300,7 @@ PLASMIC.registerComponent(Map, {
     mapStyle: "string",
     latitude: "number",
     longitude: "number",
+    iconUrl: "imageUrl",
     searchAddress: "string",
     zoom: "number",
     businesses: {
@@ -318,7 +319,6 @@ PLASMIC.registerComponent(FooterLink, {
   },
   importPath: "./components/Footerlink"
 });
-
 PLASMIC.registerComponent(JobCard, {
   name: "JobCard",
   props: {
@@ -336,7 +336,12 @@ PLASMIC.registerComponent(JobCard, {
     onClick: {
       type: "eventHandler",
       description: "Fonction appelée lors du clic sur le bouton.",
-      argTypes: [],
+      argTypes: [
+        {
+          name: "event",
+          type: "object",
+        },
+      ],
     },
     tags: {
       type: "object",

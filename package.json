@@ -21,7 +21,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.3.1",
     "lucide-react": "^0.475.0",
-    "mapbox-gl": "^3.9.3",
+    "mapbox-gl": "^3.9.4",
     "next": "^14.2.21",
     "plasmic-supabase": "^0.4.1",
     "react": "^18.2.0",
