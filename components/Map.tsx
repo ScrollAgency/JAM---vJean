@@ -3,18 +3,18 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 interface BusinessProperties {
-  name: string;
+  title?: string;
   location: string;
-  iconUrl?: string;
-  website?: string;
+  company_logo?: string;
+  company_website?: string;
   annonce?: string;
   tempsDeTrajet?: string;
-  secteurActivite?: string;
-  typeContrat?: string;
-  tempsDeTravail?: string;
-  debutTravail?: string;
-  salaire?: string;
-  modeTravail?: string;
+  sector?: string;
+  contract_type?: string;
+  hours_per_week?: string;
+  start_date?: string;
+  salary?: string;
+  way_of_working?: string;
 }
 
 interface MapboxMapProps {
@@ -30,8 +30,8 @@ interface MapboxMapProps {
 
 const MapboxMap: React.FC<MapboxMapProps> = ({
   mapStyle = 'mapbox://styles/mapbox/streets-v11',
-  latitude = 48.8566, // Paris latitude par défaut
-  longitude = 2.3522, // Paris longitude par défaut
+  latitude = 48.8566,
+  longitude = 2.3522,
   zoom = 9,
   businesses = [],
   className = '',
@@ -45,7 +45,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
   const markersRef = useRef<{ [key: string]: mapboxgl.Marker }>({});
   const userMarkerRef = useRef<mapboxgl.Marker | null>(null);
 
-  // Initialisation du token Mapbox
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN) {
       console.error('Mapbox access token is not set');
@@ -54,7 +53,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   }, []);
 
-  // Récupération de la géolocalisation de l'utilisateur
   useEffect(() => {
     let isMounted = true;
     if (navigator.geolocation) {
@@ -85,7 +83,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     return minSize + (maxSize - minSize) * (zoom - minZoom) / (maxZoom - minZoom);
   }, []);
 
-  // Initialisation de la carte
   useEffect(() => {
     if (!mapContainerRef.current || !mapboxgl.accessToken) return;
 
@@ -103,12 +100,10 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-    // Dès que la carte est chargée, on met à jour l'état
     map.on('load', () => {
       setMapLoaded(true);
       map.setProjection({ name: 'mercator' });
 
-      // Ajuste la taille des marqueurs lors du zoom
       map.on('zoom', () => {
         const currentZoom = map.getZoom();
         const size = calculateMarkerSize(currentZoom);
@@ -128,14 +123,12 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     };
   }, [mapStyle, latitude, longitude, zoom, calculateMarkerSize]);
 
-  // Mise à jour du centre de la carte avec la géolocalisation de l'utilisateur
   useEffect(() => {
     if (userLocation && mapRef.current) {
       mapRef.current.setCenter([userLocation.longitude, userLocation.latitude]);
     }
   }, [userLocation]);
 
-  // Gestion du redimensionnement de la carte
   useEffect(() => {
     const handleResize = () => {
       if (mapRef.current) {
@@ -146,7 +139,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Fonction de géocodage d'une adresse
   const geocodeAddress = useCallback(async (address: string) => {
     try {
       const response = await fetch(
@@ -162,58 +154,73 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     }
   }, []);
 
-  // Mise à jour des marqueurs pour les entreprises
   useEffect(() => {
     const updateBusinessMarkers = async () => {
       if (!mapRef.current || !mapLoaded || !businesses.length) return;
 
-      // Suppression des anciens marqueurs
       Object.values(markersRef.current).forEach((marker) => marker.remove());
       markersRef.current = {};
 
-      // Pour chaque entreprise, géocodage de l'adresse et ajout du marqueur
       for (const business of businesses) {
         const coords = await geocodeAddress(business.location);
         if (coords) {
           const markerElement = document.createElement('div');
           markerElement.className = 'custom-marker';
-          // Utilisation d'une icône spécifique ou d'un fallback par défaut
-          const markerIcon = business.iconUrl || iconUrl || '/default-marker.png';
+          const markerIcon = iconUrl || '/default-marker.png';
           markerElement.style.backgroundImage = `url(${markerIcon})`;
 
-          // Taille initiale basée sur le zoom actuel
           const currentZoom = mapRef.current?.getZoom() || zoom;
           const size = calculateMarkerSize(currentZoom);
           markerElement.style.width = `${size}px`;
           markerElement.style.height = `${size}px`;
           markerElement.style.backgroundSize = 'cover';
 
-          // Création du popup avec le nouveau style
+          let travelTime = 'N/A';
+          if (userLocation) {
+            const userCoords = [userLocation.longitude, userLocation.latitude];
+            const businessCoords = coords;
+            const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${userCoords.join(',')};${businessCoords.join(',')}?access_token=${mapboxgl.accessToken}`;
+
+            try {
+              const response = await fetch(url);
+              const data = await response.json();
+              if (data.routes && data.routes.length > 0) {
+                const duration = data.routes[0].duration; // duration in seconds
+                const minutes = Math.round(duration / 60);
+                travelTime = `${minutes} min`;
+              }
+            } catch (error) {
+              console.error('Erreur de calcul du temps de trajet:', error);
+            }
+          }
+
           const popupHtml = `
             <div class="popup-content">
-              <div class="popup-header">
-                <img src="${business.iconUrl || iconUrl || '/default-marker.png'}" alt="${business.name}" />
-                <h3>${business.name}</h3>
-              </div>
-              ${business.annonce ? `<div class="popup-badge">Annonce</div>` : ''}
-              <p><strong>Adresse:</strong> ${business.location}</p>
-              <p><strong>Website:</strong> <a href="${business.website || '#'}" target="_blank">${business.website || 'N/A'}</a></p>
-              <p><strong>Temps de trajet:</strong> ${business.tempsDeTrajet || 'N/A'}</p>
-              <p><strong>Secteur d'activité:</strong> ${business.secteurActivite || 'N/A'}</p>
-              <p><strong>Type de contrat:</strong> ${business.typeContrat || 'N/A'}</p>
-              <p><strong>Temps de travail:</strong> ${business.tempsDeTravail || 'N/A'}</p>
-              <p><strong>Début travail:</strong> ${business.debutTravail || 'N/A'}</p>
-              <p><strong>Salaire:</strong> ${business.salaire || 'N/A'}</p>
-              <p><strong>Mode de travail:</strong> ${business.modeTravail || 'N/A'}</p>
+            <div class="popup-header">
+              <img src="${business.company_logo || iconUrl || 'https://idwomihieftgogbgivic.supabase.co/storage/v1/object/public/img//64527ea280c2622554fb4698_logo-scroll.svg'}" alt="${business.title}" />
+              <h3>${business.title}</h3>
             </div>
-          `;
+            ${business.annonce ? `<div class="popup-badge">Annonce</div>` : ''}
+            <div class="popup-info">
+              <div><strong>Adresse:</strong> ${business.location}</div>
+              <div><strong>Website:</strong> <a href="${business.company_website || '#'}" target="_blank">${business.company_website || 'N/A'}</a></div>
+              <div><strong>Temps de trajet:</strong> ${travelTime}</div>
+              <div><strong>Secteur d'activité:</strong> ${business.sector || 'N/A'}</div>
+              <div><strong>Type de contrat:</strong> ${business.contract_type || 'N/A'}</div>
+              <div><strong>Temps de travail:</strong> ${business.hours_per_week || 'N/A'}<strong>H par semaine</strong></div>
+              <div><strong>Début travail:</strong> ${business.start_date ? new Date(business.start_date).toLocaleDateString() : 'N/A'}</div>
+              <div><strong>Salaire:</strong> ${business.salary || 'N/A'}</div>
+              <div><strong>Mode de travail:</strong> ${business.way_of_working || 'N/A'}</div>
+            </div>
+            </div>
+            `;
 
           const marker = new mapboxgl.Marker({ element: markerElement })
             .setLngLat(coords)
             .setPopup(new mapboxgl.Popup().setHTML(popupHtml))
             .addTo(mapRef.current);
 
-          markersRef.current[business.name] = marker;
+          markersRef.current[business.title || business.location] = marker;
         }
       }
     };
@@ -221,7 +228,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     updateBusinessMarkers();
   }, [businesses, geocodeAddress, iconUrl, mapLoaded, zoom, calculateMarkerSize]);
 
-  // Ajout ou mise à jour du marqueur utilisateur
   useEffect(() => {
     if (!mapRef.current || !mapLoaded || !userLocation) return;
 
@@ -234,7 +240,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     const userIcon = iconUrl || '/user-icon.png';
     userMarkerElement.style.backgroundImage = `url(${userIcon})`;
 
-    // Taille initiale basée sur le zoom actuel
     const currentZoom = mapRef.current.getZoom();
     const size = calculateMarkerSize(currentZoom);
     userMarkerElement.style.width = `${size}px`;
@@ -248,7 +253,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       .addTo(mapRef.current);
   }, [userLocation, iconUrl, mapLoaded, calculateMarkerSize]);
 
-  // Recherche d'une adresse et recentrage de la carte
   useEffect(() => {
     const handleSearch = async () => {
       if (!searchAddress.trim() || !mapRef.current || !mapLoaded) return;
@@ -325,8 +329,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
           .popup-header img {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
+            object-fit: fit;
           }
           .popup-info {
             display: flex;
