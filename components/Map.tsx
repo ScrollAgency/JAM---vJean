@@ -15,6 +15,7 @@ interface BusinessProperties {
   start_date?: string;
   salary?: string;
   way_of_working?: string;
+  state?: string;
 }
 
 interface MapboxMapProps {
@@ -166,9 +167,27 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         if (coords) {
           const markerElement = document.createElement('div');
           markerElement.className = 'custom-marker';
-          const markerIcon = iconUrl || '/default-marker.png';
+          let markerIcon = iconUrl || '/default-marker.png';
+          switch (business.state) {
+            case 'base':
+              markerIcon = "https://idwomihieftgogbgivic.supabase.co/storage/v1/object/public/img/Marker/State=PinApplied,%20ShowSalary=False.svg";
+              break;
+            case 'liked':
+              markerIcon = "https://idwomihieftgogbgivic.supabase.co/storage/v1/object/public/img/Marker/State=PinLiked,%20ShowSalary=False.svg";
+              break;
+            case 'new':
+              markerIcon = "https://idwomihieftgogbgivic.supabase.co/storage/v1/object/public/img/Marker/State=PinNew,%20ShowSalary=False.svg";
+              break;
+            case 'last_minute':
+              markerIcon = "https://idwomihieftgogbgivic.supabase.co/storage/v1/object/public/img/Marker/State=PinLastMin,%20ShowSalary=False.svg";
+              break;
+            case 'applied':
+              markerIcon = "https://idwomihieftgogbgivic.supabase.co/storage/v1/object/public/img/Marker/State=PinApplied,%20ShowSalary=False.svg";
+              break;
+            default:
+              markerIcon = "https://idwomihieftgogbgivic.supabase.co/storage/v1/object/public/img/Marker/State=PinApplied,%20ShowSalary=False.svg";
+          }
           markerElement.style.backgroundImage = `url(${markerIcon})`;
-
           const currentZoom = mapRef.current?.getZoom() || zoom;
           const size = calculateMarkerSize(currentZoom);
           markerElement.style.width = `${size}px`;
@@ -197,6 +216,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
           const popupHtml = `
             <div class="popup-content">
             <div class="popup-header">
+            <p>${business.state}</p>
               <img src="${business.company_logo || iconUrl || 'https://idwomihieftgogbgivic.supabase.co/storage/v1/object/public/img//64527ea280c2622554fb4698_logo-scroll.svg'}" alt="${business.title}" />
               <h3>${business.title}</h3>
             </div>

@@ -37,12 +37,10 @@ import Checkbox from "./components/CheckBox";
 export const PLASMIC = initPlasmicLoader({
   projects: [
     {
-      id: "f7DE9y7qp46fyCw5nuY8f9",  // ID du projet
-      token: "MbfTgnLngWKW6r2sjjKszD0QR0IEyjlKb6jfrxGaXXvu2ahBO3RaSu8TdfJCVSazD06yVW3tXJeOldNd0kw"  // Token API pour le projet
+      id: process.env.PLASMIC_PROJECT_ID || "",  // ID du projet
+      token: process.env.PLASMIC_TOKEN || ""  // Token API pour le projet
     }
-  ],
-  // Désactiver pour la production afin d'assurer que seules les modifications publiées sont rendues
-  preview: true,
+  ], preview: true,
 });
 
 // Enregistrement du contexte global Supabase
