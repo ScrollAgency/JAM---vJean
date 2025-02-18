@@ -8,7 +8,8 @@ const publicRoutes = [
     '/register',
     '/plasmic-host',
     '/home',
-    '/forget-password'
+    '/forget-password',
+    '/resetpassword/[token]',
 ]
 
 export async function middleware(request: NextRequest) {

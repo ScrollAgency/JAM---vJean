@@ -5,7 +5,6 @@ const nextConfig = {
     domains: ['flagcdn.com'],
   },
   eslint: {
-    // Empêche l'échec du build en cas d'erreurs ESLint
     ignoreDuringBuilds: true,
   },
 };

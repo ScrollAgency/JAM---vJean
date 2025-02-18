@@ -400,3 +400,44 @@ PLASMIC.registerComponent(UserTable, {
   },
   importPath: "./components/UserTable",
 });
+
+//Enregistrement du composant ButtonApple
+PLASMIC.registerComponent(Button, {
+  name: "ButtonApple", // Nom du composant dans Plasmic
+  props: {
+    label: "string",
+    icon: {
+      type: "choice",
+      defaultValue: "none",
+      options: ["start", "end", "only", "none"],
+      required: false,
+    },
+    destructive: "boolean",
+    hierarchy: {
+      type: "choice",
+      defaultValue: "primary",
+      options: ["primary", "secondary"],
+      required: false,
+    },
+    size: {
+      type: "choice",
+      defaultValue: "large",
+      options: ["small", "large"],
+      required: false,
+    },
+    state: {
+      type: "choice",
+      defaultValue: "default",
+      options: ["default", "hover", "focused", "disabled"],
+      required: false,
+    },
+    iconImage: "imageUrl",
+    className: "string",
+    onClick: {
+      type: "eventHandler",
+      description: "Fonction appelée lors du clic sur le bouton.",
+      argTypes: [],
+    },
+  },
+  importPath: "./components/ButtonApple",
+});
