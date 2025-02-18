@@ -246,6 +246,16 @@ PLASMIC.registerComponent(Dropdown, {
       type: "string",  // Le label du select
       defaultValue: "Choisir une option",  // Valeur par défaut du label
     },
+    onChange: {
+      type: "eventHandler",
+      description: "Fonction appelée lors du changement de l'option.",
+      argTypes: [
+        {
+          name: "selectedOption",
+          type: "string",
+        },
+      ],
+    },
     options: {
       type: "object",  // Pour stocker une liste d'options (par exemple un tableau d'objets)
       defaultValue: [
@@ -257,6 +267,7 @@ PLASMIC.registerComponent(Dropdown, {
     children: {
       type: "slot", // Le slot pour accepter des composants enfants (par exemple des options)
       allowedComponents: ["Option"], // Ici, tu peux accepter des composants `Option` comme enfants
+
       defaultValue: [
         {
           type: "component",
