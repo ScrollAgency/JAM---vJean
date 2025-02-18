@@ -9,7 +9,7 @@ const publicRoutes = [
     '/plasmic-host',
     '/home',
     '/forget-password',
-    '/reset-password/[token]',
+    '/reset-password/[token]', // Dynamic route
     '/reset-password',
 ]
 
