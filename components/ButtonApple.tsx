@@ -63,7 +63,7 @@ const ButtonApple = forwardRef<ButtonActions, ButtonProps>(
             },
         }));
 
-        // Function to handle Apple sign-in with Supabase
+        // Function to handle Apple sign-in with Supabase OAuth
         const handleAppleSignIn = async () => {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: "apple",
