@@ -10,10 +10,10 @@ const publicRoutes = [
     '/home',
     '/forget-password',
     '/reset-password',
+    '/reset-password/[recovery_token]',
 ]
 
 export async function middleware(request: NextRequest) {
-
     let supabaseResponse = NextResponse.next({
         request,
     })
@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
                     return request.cookies.getAll()
                 },
                 setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
+                    cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
                     supabaseResponse = NextResponse.next({
                         request,
                     })
@@ -43,19 +43,25 @@ export async function middleware(request: NextRequest) {
         data: { user },
     } = await supabase.auth.getUser()
 
-    if (publicRoutes.includes(request.nextUrl.pathname) !== true && !user) {
-        const url = request.nextUrl.clone()
-        url.pathname = loginPage;
-        return NextResponse.redirect(url)
+    const isPublicRoute = publicRoutes.some(route => {
+        if (route.includes('[recovery_token]')) {
+            const regex = new RegExp(`^${route.replace('[recovery_token]', '(.*)')}$`)
+            return regex.test(request.nextUrl.pathname)
+        }
+        return route === request.nextUrl.pathname
+    })
 
+    if (!isPublicRoute && !user) {
+        const url = request.nextUrl.clone()
+        url.pathname = loginPage
+        return NextResponse.redirect(url)
     } else {
         return supabaseResponse
     }
-
 }
 
 export const config = {
     matcher: [
         '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-    ]
+    ],
 }
