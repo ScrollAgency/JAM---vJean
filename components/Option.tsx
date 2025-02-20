@@ -1,5 +1,4 @@
 // Option.tsx
-
 import React from "react";
 
 interface OptionProps {
